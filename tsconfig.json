@@ -1,0 +1,16 @@
+{
+	"compilerOptions": {
+		"target": "es5",
+		"noImplicitAny": true,
+		"strict": true,
+		"rootDir": "./src",
+		"module": "ESNext",
+		"alwaysStrict": true,
+		"esModuleInterop": true,
+		"moduleResolution":"nodenext",
+		"sourceMap": true
+	},
+	"files": ["src/scripts/index.ts"],
+	"include": ["src/scripts/**/*.ts"],
+	"exclude": ["node_modules", "src/scripts/temp", "src/scripts/**/*.test.ts"]
+}
