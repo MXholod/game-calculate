@@ -1,2 +1,9 @@
 /node_modules/
 /dist
+/src/index.html
+/src/fonts/*
+!/src/fonts/.gitkeep
+/src/images/*
+!/src/images/.gitkeep
+/src/scripts/temp/*
+!/src/scripts/temp/.gitkeep
