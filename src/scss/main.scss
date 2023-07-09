@@ -1,0 +1,68 @@
+@use 'variables' as variables;
+@use 'mixins';
+
+*{ 
+	margin: 0; 
+	padding: 0;
+}
+html, body{
+	@include mixins.custom-font("Eox2", Exo2-Regular);
+	font-size: calc(1vw + 0.6em);
+	box-sizing: border-box;
+	font-family: "Eox2";
+	color: var(--font-color, #000);
+	height:100%;
+}
+.wrapper{
+	background-color: variables.$main-background;
+	min-height:100%;
+	display:flex;
+	flex-direction:column;
+	.header{
+		flex-shrink: 0;
+		h1{
+			@include mixins.custom-font("Mistral", Mistral);
+			font-family: "Mistral";
+			text-align: center;
+		}
+		nav{
+			ul{
+				list-style-type:none;
+				display: flex;
+				justify-content: center;
+				li{
+					margin-left:2em;
+					a{
+						font-size: .7em;
+						text-decoration: none;
+						font-weight: 600;
+					}
+				}
+			}
+		}
+	}
+	.content{
+		flex: 1 0 auto;
+		max-width: 1200px;
+		width: 100%;
+		border: 1px solid #000;
+		margin: 0 auto;
+		display: flex;
+		.content__game{
+			background-color: red;
+			width: 60%;
+		}
+		.content__user-interaction{
+			background-color: green;
+			width: 40%;
+		}
+		.content__result{
+			
+		}
+	}
+	.footer{
+		flex-shrink: 0;
+		font-size: .7em;
+		text-align: center;
+	}
+}

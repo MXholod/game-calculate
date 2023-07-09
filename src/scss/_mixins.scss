@@ -1,0 +1,13 @@
+@mixin custom-font($fontFamily, $fontName){
+	@font-face {
+		font-family: $fontFamily;
+		font-weight: normal;
+		font-style: normal;
+		/*IE9 Compat Modes*/
+		src:url('./../fonts/#{$fontName}.eot');
+		/*IE6-IE8 */
+		src:url('./../fonts/#{$fontName}.eot?#iefix') format('embedded-opentype'), 
+			url('./../fonts/#{$fontName}.woff') format('woff'), 
+			url('./../fonts/#{$fontName}.ttf') format('truetype');
+	}
+}
