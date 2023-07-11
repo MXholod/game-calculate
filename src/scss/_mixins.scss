@@ -11,3 +11,64 @@
 			url('./../fonts/#{$fontName}.ttf') format('truetype');
 	}
 }
+@mixin square-3d-scale($duration:10s,$repeat:1){
+	@keyframes cube-scale{
+		0%{ transform: scale(.1,.1); }
+		100%{ transform: scale(1,1); }
+	}
+	.three-d-block-wrapper{
+		transform: rotateY(0deg) rotateX(0deg) scale(.1,.1);
+		animation: cube-scale $duration $repeat forwards ease-in-out;
+		@include square-3d($duration,$repeat);
+	}
+}
+@mixin square-3d($duration:10s,$repeat:1){
+	@keyframes cube-motion{
+		0%{ transform: rotateY(0deg) rotateX(0deg); }
+		20%{ transform: rotateY(240deg) rotateX(0deg); }
+		40%{ transform: rotateY(0deg) rotateX(0deg); }
+		60%{ transform: rotateY(-240deg) rotateX(0deg); }
+		80%{ transform: rotateY(360deg) rotateX(180deg); }
+		100%{ transform: rotateY(360deg) rotateX(360deg); }
+	}
+	.three-d-block{
+		width: 300px;
+		height: 300px;
+		transform-style: preserve-3d;
+		animation-name: cube-motion;
+		animation-duration: $duration;
+		animation-direction: normal;
+		animation-timing-function: ease-in-out;
+		animation-iteration-count: $repeat;
+		animation-fill-mode: forwards;
+		.three-d-block__side{
+			position: absolute;
+			width: inherit;
+			height: inherit;
+		}
+		.three-d-block_center{
+			background-color: violet;
+			transform: translateZ(150px);
+		}
+		.three-d-block_left{
+			background-color: lime;
+			transform: rotateY(-90deg) translateZ(150px);
+		}
+		.three-d-block_right{
+			background-color: tomato;
+			transform: rotateY(90deg) translateZ(150px);
+		}
+		.three-d-block_bottom{
+			background-color: purple;
+			transform: rotateX(-90deg) translateZ(150px);
+		}
+		.three-d-block_top{
+			background-color: lightgrey;
+			transform: rotateX(90deg) translateZ(150px);
+		}
+		.three-d-block_back{
+			background-color: lightblue;;
+			transform: translateZ(-150px) scaleX(-1);
+		}
+	}
+}

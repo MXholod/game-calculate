@@ -49,12 +49,26 @@ html, body{
 		margin: 0 auto;
 		display: flex;
 		.content__game{
-			background-color: red;
-			width: 60%;
+			background-color: #f6f6f6;
+			flex-basis: 60%;
+			display:flex;
+			justify-content: center;
+			align-items: center;
+			.content__main-square{
+				display:flex;
+				justify-content:center;
+				align-items:center;
+				position:relative;
+				perspective: 500px;
+				width:80%;
+				height: 80%;
+				border: 1px solid #000;
+				@include mixins.square-3d-scale(8s,1);
+			}
 		}
 		.content__user-interaction{
 			background-color: green;
-			width: 40%;
+			flex-basis: 40%;
 		}
 		.content__result{
 			
