@@ -67,11 +67,40 @@ html, body{
 			}
 		}
 		.content__user-interaction{
-			background-color: green;
 			flex-basis: 40%;
-		}
-		.content__result{
-			
+			.widget-game-initial-numbers{
+				padding: 5px;
+				&__title{
+					color:#fff;
+					font-size: .8em;
+				}
+			}
+			.widget-game-current-amount{
+				padding: 5px;
+				&__title{
+					color:#fff;
+					font-size: .8em;
+				}
+			}
+			.widget-game-statistics{
+				padding: 5px;
+				&__title{
+					color:#fff;
+					font-size: .8em;
+				}
+			}
+			.widget-game-on-off{
+				padding: 5px;
+				display: flex;
+				flex-direction: column;
+				&__title{
+					color:#fff;
+					font-size: .8em;
+				}
+				&__buttons{
+					
+				}
+			}
 		}
 	}
 	.footer{
