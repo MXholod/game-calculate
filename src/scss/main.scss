@@ -49,12 +49,13 @@ html, body{
 		margin: 0 auto;
 		display: flex;
 		.content__game{
-			background-color: #f6f6f6;
+			background-color: var(--game-bg);
 			flex-basis: 60%;
 			display:flex;
 			justify-content: center;
 			align-items: center;
 			.content__main-square{
+				background-image: linear-gradient(to top, var(--game-cube-bg-bottom) 5%, var(--game-cube-bg-top) 45%);
 				display:flex;
 				justify-content:center;
 				align-items:center;
@@ -67,30 +68,73 @@ html, body{
 			}
 		}
 		.content__user-interaction{
+			background-color: var(--user-inter-bg);
+			%widget-part{
+				padding: 5px;
+				border: 3px solid #7da6f3;
+				margin: 2%;
+				background-image: linear-gradient(to left bottom, #a3a3e5, #e1a9b2);
+			}
 			flex-basis: 40%;
 			.widget-game-initial-numbers{
-				padding: 5px;
+				@extend %widget-part;
 				&__title{
 					color:#fff;
-					font-size: .8em;
+					font-size: .6em;
+					margin-bottom:1%;
+					span:not(span:first-child){
+						margin-left:1%;
+					}
+					.widget-game-initial-numbers__radios{
+						display:flex;
+						justify-content:space-around;
+						margin-bottom:2%;
+						label{
+							color: #1c1313;
+							width:20%;
+							input[type='radio']{
+								margin:2% 0 0 10%;
+							}
+						}
+					}
+				}
+				&__range{
+					color:#fff;
+					font-size: .6em;
+					span{
+						display: block;
+					}
+					& > span:first-child{
+						display:block;
+					}
+					& > input:nth-of-type(1){
+						margin-left:25%;
+					}
+					& > input:nth-of-type(2){
+						margin-left:5%;
+					}
 				}
 			}
 			.widget-game-current-amount{
-				padding: 5px;
+				@extend %widget-part;
+				color:#fff;
 				&__title{
-					color:#fff;
 					font-size: .8em;
 				}
 			}
 			.widget-game-statistics{
-				padding: 5px;
+				@extend %widget-part;
+				color:#fff;
 				&__title{
-					color:#fff;
 					font-size: .8em;
 				}
+				&__block{
+					font-size: .6em;
+				}
+				
 			}
 			.widget-game-on-off{
-				padding: 5px;
+				@extend %widget-part;
 				display: flex;
 				flex-direction: column;
 				&__title{
