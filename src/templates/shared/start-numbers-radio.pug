@@ -1,0 +1,6 @@
+mixin start-radio-nums(labelName, inputName, isChecked)
+	label #{labelName}
+		if isChecked
+			input(type='radio' name=inputName checked)
+		else
+			input(type='radio' name=inputName)
