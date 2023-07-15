@@ -1,6 +1,14 @@
 $main-background: #f0e9ad;
+$game-background: #5f6268;
+$game-cube-background-top: #aaa3cf;
+$game-cube-background-bottom: #d9cbcb;
+$user-interaction-background: #474748;
 $main-font-color: #615d3a;
 
 :root{
 	--font-color: #{$main-font-color}; 
+	--game-bg: #{$game-background}; 
+	--game-cube-bg-top: #{$game-cube-background-top}; 
+	--game-cube-bg-bottom: #{$game-cube-background-bottom}; 
+	--user-inter-bg: #{$user-interaction-background}; 
 }
