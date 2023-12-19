@@ -69,13 +69,31 @@ html, body{
 		}
 		.content__user-interaction{
 			background-color: var(--user-inter-bg);
+			flex-basis: 40%;
 			%widget-part{
 				padding: 5px;
 				border: 3px solid #7da6f3;
 				margin: 2%;
 				background-image: linear-gradient(to left bottom, #a3a3e5, #e1a9b2);
 			}
-			flex-basis: 40%;
+			.widget-game-timer{
+				@extend %widget-part;
+				background-image: linear-gradient(#7c7c9d, #add9e3);
+				display: flex;
+				flex-direction: column;
+				align-items: center;
+				h2{
+					color: darken(#4e4e7e, 10%);
+					font-size: 1em;
+				}
+				.widget-game-timer__info{
+					display: flex;
+					justify-content: space-between;
+					width:100%;
+					box-sizing: border-box;
+					padding: 0 10% 0 10%;
+				}
+			}
 			.widget-game-initial-numbers{
 				@extend %widget-part;
 				&__title{
@@ -117,9 +135,24 @@ html, body{
 			}
 			.widget-game-current-amount{
 				@extend %widget-part;
+				display: flex;
 				color:#fff;
-				&__title{
+				&__user-res, &__cpu-res{
 					font-size: .8em;
+					display: flex;
+					flex-direction: column;
+				}
+				&__user-res{
+					flex-basis: 60%;
+					input{
+						width:50%;
+					}
+				}
+				&__cpu-res{
+					flex-basis: 40%;
+					input{
+						width:70%;
+					}
 				}
 			}
 			.widget-game-statistics{
