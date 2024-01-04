@@ -4,9 +4,9 @@ div(class='widget-game-initial-numbers')
 		span Initial numbers to start the game.
 		span Choose between (even/odd) or mixed.
 		div(class='widget-game-initial-numbers__radios')
-			+start-radio-nums('Odd', 'init_nums', true)
+			+start-radio-nums('Odd', 'init_nums', false)
 			+start-radio-nums('Even', 'init_nums', false)
-			+start-radio-nums('Mixed', 'init_nums', false)
+			+start-radio-nums('Mixed', 'init_nums', true)
 	div(class='widget-game-initial-numbers__range')
 		span Enter a starting number between 0 and 9999 to start
 		input(type='number' value='0' min='0' max='9999')
