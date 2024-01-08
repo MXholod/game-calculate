@@ -1,4 +1,4 @@
-import { sT, cC, dL, nL, iT, tC } from "./types/game-timer";
+import { sT, dL, nL, iT, tC } from "./types/game-timer";
 import { UserInteraction } from './user-Interaction';
 
 //number = 0; if window.setInterval or ReturnType<typeof setInterval>
@@ -6,7 +6,7 @@ let interval: ReturnType<typeof setInterval>;
 
 export const startTimer:sT = (initLevel: number, widgetTimer:HTMLDivElement):void=>{
 	try{
-		calculateCubesAmount(initLevel, UserInteraction.cubesAmount); // 4,9,16,25,36,...
+		UserInteraction.calculateCubesAmount(initLevel, UserInteraction.cubesAmount); // 4,9,16,25,36,...
 	}catch(e: unknown){
 		if(e instanceof Error) console.log(e.message);
 		UserInteraction.gameLevel = 1;
@@ -18,11 +18,6 @@ export const startTimer:sT = (initLevel: number, widgetTimer:HTMLDivElement):voi
 	interval = setInterval(function(){ 
 		elInfo.children[1].textContent = timeCounter();
 	}, 1000);
-}
-
-const calculateCubesAmount:cC = (currentLevel: number, cubesAmount: number):(void | never)=>{
-	if(currentLevel < 1 || cubesAmount < 4) throw new Error("Can't create cubes");
-	UserInteraction.cubesAmount = (currentLevel + 1) * (currentLevel + 1);
 }
 
 export const displayLevel:dL = (cubeAmount: number):string=>{
@@ -72,7 +67,6 @@ const timeCounter:tC = ():string=>{
 export { 
 	startTimer as testStartTimer,
 	nextLevel as testNextLevel,
-	calculateCubesAmount as testCalculateCubesAmount,
 	displayLevel as testDisplayLevel,
 	initTimer as testInitTimer,
 	timeCounter as testTimeCounter

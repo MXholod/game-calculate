@@ -5,9 +5,6 @@ export interface ITimerBlock{
 //This function sets initial time and level in timer block.
 export type sT = (initLevel: number, widgetTimer:HTMLDivElement)=>void;
 
-//Private function. This function returns the number of cubes for the current level
-export type cC = (currentLevel: number, cubesAmount: number)=>void;
-
 //It writes level into DOM 
 export type dL = (cubeAmount: number)=>string;
 

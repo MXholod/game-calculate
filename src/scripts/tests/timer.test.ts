@@ -3,16 +3,18 @@
 */
 //Above DOCS is for usage 'jsdom' in this test file
 import { 
-	testStartTimer,  
-	testCalculateCubesAmount, 
+	testStartTimer, 
 	testDisplayLevel,
 	testNextLevel,
 	testInitTimer,
 	testTimeCounter
 } from "./../timer";
 import { IUserInteraction } from "./../types/user-interaction";
+import { UserInteraction } from "./../user-Interaction";
 
-const UserInter: IUserInteraction = {
+type IUserInteractionSomeTypes = Pick<IUserInteraction, 'gameLevel' | 'cubesAmount' | 'additionalSecToLevel' | 'totalLevelSeconds'>;
+
+const UserInter:IUserInteractionSomeTypes = {
 	gameLevel: 1,
 	cubesAmount: 4,
 	additionalSecToLevel: 10,
@@ -36,7 +38,7 @@ describe("Tests for the 'Timer' block", ()=>{
 	it("Calculation of the number of all cubes in a square", ()=>{
 		//Create Mock function
 		const mockTestCalculateCubesAmount = jest.fn();
-		mockTestCalculateCubesAmount.mockImplementation(testCalculateCubesAmount);
+		mockTestCalculateCubesAmount.mockImplementation(UserInteraction.calculateCubesAmount);
 		expect(()=>mockTestCalculateCubesAmount(1, 4)).not.toThrow('An error');
 		expect(mockTestCalculateCubesAmount).toHaveBeenCalled();
 		expect(UserInter.cubesAmount).toBeGreaterThanOrEqual(4);
