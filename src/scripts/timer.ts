@@ -1,38 +1,17 @@
-import { sT, dL, nL, iT, tC } from "./types/game-timer";
+import { sT, iT, tC, tS, ITSCallback } from "./types/game-timer";
 import { UserInteraction } from './user-Interaction';
 
 //number = 0; if window.setInterval or ReturnType<typeof setInterval>
-let interval: ReturnType<typeof setInterval>;
+let interval: null | ReturnType<typeof setInterval>;
 
-export const startTimer:sT = (initLevel: number, widgetTimer:HTMLDivElement):void=>{
-	try{
-		UserInteraction.calculateCubesAmount(initLevel, UserInteraction.cubesAmount); // 4,9,16,25,36,...
-	}catch(e: unknown){
-		if(e instanceof Error) console.log(e.message);
-		UserInteraction.gameLevel = 1;
-	}
+export const startTimer:sT = (widgetTimer:HTMLDivElement):void=>{
 	let elInfo = widgetTimer.children[1];
 	//Write data to HTML Timer
-	elInfo.children[0].children[0].textContent = displayLevel(UserInteraction.cubesAmount);
+	elInfo.children[0].children[0].textContent = String(UserInteraction.gameLevel);
 	elInfo.children[1].textContent = initTimer();
 	interval = setInterval(function(){ 
 		elInfo.children[1].textContent = timeCounter();
 	}, 1000);
-}
-
-export const displayLevel:dL = (cubeAmount: number):string=>{
-	if(cubeAmount > 4){
-		return String(UserInteraction.gameLevel);
-	}
-	return '1';
-}
-
-export const nextLevel:nL = ():string=>{
-	if(UserInteraction.cubesAmount > 4){
-		UserInteraction.gameLevel += 1;
-		return String(UserInteraction.gameLevel);
-	}
-	return '1';
 }
 
 const initTimer:iT = ():string=>{
@@ -43,7 +22,7 @@ const initTimer:iT = ():string=>{
 	}else if(UserInteraction.gameLevel >= 6 || UserInteraction.gameLevel <= 8){
 		UserInteraction.totalLevelSeconds = (UserInteraction.gameLevel * addSec) + (addSec * 2);
 		return timeCounter();
-	}else{//Since 6 level
+	}else{//Since 8 level
 		UserInteraction.totalLevelSeconds = (UserInteraction.gameLevel * addSec) + (addSec * 3); 	
 		return timeCounter();
 	}
@@ -51,7 +30,9 @@ const initTimer:iT = ():string=>{
 
 const timeCounter:tC = ():string=>{
 	if(UserInteraction.totalLevelSeconds === 1){
-		clearInterval(interval);
+		clearInterval(interval!);
+		UserInteraction.levelTimeIsUp = false;
+		interval = null;
 		return "00:00";
 	}else if(UserInteraction.totalLevelSeconds < 60){
 		UserInteraction.totalLevelSeconds -= 1;
@@ -62,12 +43,29 @@ const timeCounter:tC = ():string=>{
 		let restSeconds = UserInteraction.totalLevelSeconds % 60;
 		return (restSeconds === 0) ? '0'+minutes+':00' : (restSeconds <= 9) ? '0'+minutes+':0'+restSeconds : '0'+minutes+':'+restSeconds;
 	}
-} 
+}
+export const timerSuspend:tS = (widgetTimer:HTMLDivElement, callback:ITSCallback):boolean=>{
+	//Suspend timer
+	let elInfo = widgetTimer.children[1];
+	clearInterval(interval!);
+	interval = null;
+	if(confirm("Do you really want to stop the game?")){
+		elInfo.children[0].children[0].textContent = "0";
+		elInfo.children[1].textContent = "00:00";
+		return callback.call(UserInteraction,true);
+	}else{
+		//Restart Timer
+		interval = setInterval(function(){ 
+			elInfo.children[1].textContent = timeCounter();
+		}, 1000);
+		return true;
+	}
+	return false;
+}
 //Private functions for testing
 export { 
 	startTimer as testStartTimer,
-	nextLevel as testNextLevel,
-	displayLevel as testDisplayLevel,
 	initTimer as testInitTimer,
-	timeCounter as testTimeCounter
+	timeCounter as testTimeCounter,
+	timerSuspend as testTimerSuspend
 }
