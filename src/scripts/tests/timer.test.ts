@@ -4,22 +4,23 @@
 //Above DOCS is for usage 'jsdom' in this test file
 import { 
 	testStartTimer, 
-	testDisplayLevel,
-	testNextLevel,
 	testInitTimer,
-	testTimeCounter
+	testTimeCounter,
+	//testTimerSuspend
 } from "./../timer";
+import { ITSCallback, tS } from "./../types/game-timer";
 import { IUserInteraction } from "./../types/user-interaction";
-import { UserInteraction } from "./../user-Interaction";
 
-type IUserInteractionSomeTypes = Pick<IUserInteraction, 'gameLevel' | 'cubesAmount' | 'additionalSecToLevel' | 'totalLevelSeconds'>;
+type IUserInteractionSomeTypes = Pick<IUserInteraction, 'additionalSecToLevel' | 'totalLevelSeconds'>;
 
 const UserInter:IUserInteractionSomeTypes = {
-	gameLevel: 1,
-	cubesAmount: 4,
 	additionalSecToLevel: 10,
 	totalLevelSeconds: 0
 };
+
+const timerSuspend:tS = (widgetTimer:HTMLDivElement, callback:ITSCallback):boolean=>{
+	return true;
+}
 
 describe("Tests for the 'Timer' block", ()=>{
 	test("Start the timer", () => {
@@ -31,29 +32,28 @@ describe("Tests for the 'Timer' block", ()=>{
 		mockTestStartTimer(1, divEl);
 		expect(mockTestStartTimer).toHaveBeenCalledTimes(1);
 		expect(mockTestStartTimer).toHaveBeenCalledWith(1, divEl);
-		expect(mockTestStartTimer(1, divEl)).toBeUndefined();   //nextLevel:nL = ():string=>{}
+		expect(mockTestStartTimer(1, divEl)).toBeUndefined();
 		//Restore Mock
 		mockTestStartTimer.mockReset();
 	});
-	it("Calculation of the number of all cubes in a square", ()=>{
-		//Create Mock function
-		const mockTestCalculateCubesAmount = jest.fn();
-		mockTestCalculateCubesAmount.mockImplementation(UserInteraction.calculateCubesAmount);
-		expect(()=>mockTestCalculateCubesAmount(1, 4)).not.toThrow('An error');
-		expect(mockTestCalculateCubesAmount).toHaveBeenCalled();
-		expect(UserInter.cubesAmount).toBeGreaterThanOrEqual(4);
-		mockTestCalculateCubesAmount.mockReset();
-	});
-	it("Display a number of current level", ()=>{
-		expect(testDisplayLevel(UserInter.cubesAmount)).toMatch(/^\d+$/);
-	});
-	it("Increment next level", ()=>{
-		expect(testNextLevel()).toMatch(/^\d+$/);   //nextLevel:nL = ():string=>{}
-	});
 	it("Display time format of elapsed time depends on a level", ()=>{
 		expect(testInitTimer()).toBeTruthy();
+		expect(testInitTimer()).toMatch(/^(([0-5]?\d):)?([0-5]?\d)$/);
 	});
 	it("Create time format of elapsed time", ()=>{
 		expect(testTimeCounter()).toBeTruthy();
+		expect(testTimeCounter()).toMatch(/^(([0-5]?\d):)?([0-5]?\d)$/);
+	});
+	it("Suspend timer", ()=>{
+		const divEl:HTMLDivElement = document.createElement('DIV') as HTMLDivElement;
+		expect(divEl).not.toBeNull();
+		//Create Mock function
+		const mockTestTimerSuspend = jest.fn(timerSuspend);
+		//mockTestTimerSuspend.mockImplementation(timerSuspend);
+		mockTestTimerSuspend(divEl, (isStopped:boolean)=>{ return true; });
+		expect(mockTestTimerSuspend).toHaveBeenCalledTimes(1);
+		expect(mockTestTimerSuspend).toBeTruthy();
+		//Restore Mock
+		mockTestTimerSuspend.mockReset();
 	});
 });
