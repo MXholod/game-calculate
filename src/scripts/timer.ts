@@ -32,6 +32,7 @@ const timeCounter:tC = ():string=>{
 	if(UserInteraction.totalLevelSeconds === 1){
 		clearInterval(interval!);
 		UserInteraction.levelTimeIsUp = false;
+		UserInteraction.turnOnOffUserInteraction(false);
 		interval = null;
 		return "00:00";
 	}else if(UserInteraction.totalLevelSeconds < 60){
