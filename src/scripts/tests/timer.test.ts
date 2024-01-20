@@ -7,6 +7,7 @@ import {
 	testInitTimer,
 	testTimeCounter,
 	//testTimerSuspend
+	testWriteLevelToHtml
 } from "./../timer";
 import { ITSCallback, tS } from "./../types/game-timer";
 import { IUserInteraction } from "./../types/user-interaction";
@@ -21,6 +22,8 @@ const UserInter:IUserInteractionSomeTypes = {
 const timerSuspend:tS = (widgetTimer:HTMLDivElement, callback:ITSCallback):boolean=>{
 	return true;
 }
+
+let timer: (HTMLDivElement | null) = null;
 
 describe("Tests for the 'Timer' block", ()=>{
 	test("Start the timer", () => {
@@ -55,5 +58,29 @@ describe("Tests for the 'Timer' block", ()=>{
 		expect(mockTestTimerSuspend).toBeTruthy();
 		//Restore Mock
 		mockTestTimerSuspend.mockReset();
+	});
+	it("Write the level number into HTML",()=>{
+		const timerWidget:HTMLDivElement = document.createElement('DIV') as HTMLDivElement;
+		const divElChild1:HTMLDivElement = document.createElement('DIV') as HTMLDivElement;
+		const divElChild2:HTMLDivElement = document.createElement('DIV') as HTMLDivElement;
+		const divElChild3:HTMLDivElement = document.createElement('DIV') as HTMLDivElement;
+		const divElChild4:HTMLDivElement = document.createElement('DIV') as HTMLDivElement;
+		divElChild4.textContent = "1";
+		expect(divElChild4).not.toBeNull();
+		expect(divElChild3).not.toBeNull();
+			divElChild3.appendChild(divElChild4);
+		expect(divElChild2).not.toBeNull();
+			divElChild2.appendChild(divElChild3);
+		expect(timerWidget).not.toBeNull();
+			timerWidget.appendChild(divElChild1);
+			timerWidget.appendChild(divElChild2);
+		timer = timerWidget;
+		//Create Mock function
+		const mockTestWriteLevelToHtml = jest.fn(testWriteLevelToHtml);
+		mockTestWriteLevelToHtml(timerWidget);
+		expect(mockTestWriteLevelToHtml).toHaveBeenCalledTimes(1);
+		expect(timer).not.toBeNull();
+		//Restore Mock
+		mockTestWriteLevelToHtml.mockReset();
 	});
 });
