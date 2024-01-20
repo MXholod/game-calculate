@@ -1,13 +1,15 @@
-import { sT, iT, tC, tS, ITSCallback } from "./types/game-timer";
+import { sT, iT, tC, tS, ITSCallback, wLtH } from "./types/game-timer";
 import { UserInteraction } from './user-Interaction';
+import { updateRangeNodes, startNumbers } from './start-numbers';
+
+let timer: (HTMLDivElement | null) = null;
 
 //number = 0; if window.setInterval or ReturnType<typeof setInterval>
 let interval: null | ReturnType<typeof setInterval>;
 
 export const startTimer:sT = (widgetTimer:HTMLDivElement):void=>{
 	let elInfo = widgetTimer.children[1];
-	//Write data to HTML Timer
-	elInfo.children[0].children[0].textContent = String(UserInteraction.gameLevel);
+	//Write time to HTML Timer
 	elInfo.children[1].textContent = initTimer();
 	interval = setInterval(function(){ 
 		elInfo.children[1].textContent = timeCounter();
@@ -34,6 +36,11 @@ const timeCounter:tC = ():string=>{
 		UserInteraction.levelTimeIsUp = false;
 		UserInteraction.turnOnOffUserInteraction(false);
 		interval = null;
+		let { level: curLevInd } = UserInteraction.getLevel();
+		//Set the next level
+		UserInteraction.setLevel(UserInteraction.gameLevel);
+		if(timer) writeLevelToHtml(timer);
+		updateRangeNodes(curLevInd);
 		return "00:00";
 	}else if(UserInteraction.totalLevelSeconds < 60){
 		UserInteraction.totalLevelSeconds -= 1;
@@ -51,7 +58,7 @@ export const timerSuspend:tS = (widgetTimer:HTMLDivElement, callback:ITSCallback
 	clearInterval(interval!);
 	interval = null;
 	if(confirm("Do you really want to stop the game?")){
-		elInfo.children[0].children[0].textContent = "0";
+		elInfo.children[0].children[0].textContent = "1";
 		elInfo.children[1].textContent = "00:00";
 		return callback.call(UserInteraction,true);
 	}else{
@@ -63,10 +70,16 @@ export const timerSuspend:tS = (widgetTimer:HTMLDivElement, callback:ITSCallback
 	}
 	return false;
 }
+export const writeLevelToHtml:wLtH = (widgetTimer:HTMLDivElement):void=>{
+	timer ??= widgetTimer;
+	let elInfo = timer.children[1];
+	elInfo.children[0].children[0].textContent = String(UserInteraction.gameLevel);
+}
 //Private functions for testing
 export { 
 	startTimer as testStartTimer,
 	initTimer as testInitTimer,
 	timeCounter as testTimeCounter,
-	timerSuspend as testTimerSuspend
+	timerSuspend as testTimerSuspend,
+	writeLevelToHtml as testWriteLevelToHtml
 }

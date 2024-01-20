@@ -18,3 +18,5 @@ export interface ITSCallback{
 	(this: IUserInteraction, isStopped:boolean):boolean;
 }
 export type tS = (widgetTimer:HTMLDivElement, callback: ITSCallback)=>boolean;
+//Write a current level into HTML
+export type wLtH = (widgetTimer:HTMLDivElement)=>void;
