@@ -1,4 +1,5 @@
 include ./../shared/start-numbers-radio.pug
+include ./../shared/start-numbers-range.pug
 div(class='widget-game-initial-numbers')
 	div(class='widget-game-initial-numbers__title')
 		span Initial numbers to start the game.
@@ -8,6 +9,12 @@ div(class='widget-game-initial-numbers')
 			+start-radio-nums('Even', 'init_nums', false)
 			+start-radio-nums('Mixed', 'init_nums', true)
 	div(class='widget-game-initial-numbers__range')
-		span Enter a starting number between 0 and 9999 to start
-		input(type='number' value='0' min='0' max='9999')
-		input(type='button' value='Random number')
+		+start-numbers-range(-50, 0, 0, 0, 50, 0)
+		div(class='widget-game-initial-numbers__random')
+			span Generate random numbers
+			div
+				span From:
+				input(type='number' value='0' min='-50' max='0' readonly size='5')
+				span to:
+				input(type='number' value='0' min='0' max='50' readonly size='5')
+				input(type='button' value='Random numbers')
