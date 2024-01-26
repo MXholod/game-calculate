@@ -39,8 +39,8 @@ export const chooseRadio:chooseRadioMode = function(event: Event):void{
 	const div:HTMLDivElement = event.currentTarget! as HTMLDivElement;
 	//Get element with class 'widget-game-initial-numbers__sliders'
 	const div2:HTMLDivElement = <HTMLDivElement>(div?.nextElementSibling?.firstChild);
-	const otput1 = <HTMLOutputElement>div2.children[0]?.children[1];
-	const otput2 = <HTMLOutputElement>div2.children[0]?.children[3];
+	const otput1 = <HTMLOutputElement>div2?.children[0]?.children[1];
+	const otput2 = <HTMLOutputElement>div2?.children[0]?.children[3];
 	let numberMode:string = '';
 	if(currentEl.tagName === "LABEL"){
 		//Stop label behaviour to prevent double behaviour
@@ -69,9 +69,10 @@ export const chooseRadio:chooseRadioMode = function(event: Event):void{
 //The function is called only once when the game starts
 export const rememberRangeNodes: rememberRangeSliderNodes = function(timer:HTMLDivElement):boolean{
 	let blockNumbers: (null | HTMLDivElement);
-	if(timer!.nextSibling!.nodeType === 1){
+	if(timer!.nextSibling?.nodeType === 1){
 		blockNumbers = (timer!.nextSibling) as HTMLDivElement;
 	}else{
+		if(timer!.nextSibling === null) return false;
 		blockNumbers = (timer!.nextSibling!.nextSibling) as HTMLDivElement;
 	}
 	if((blockNumbers.children[0] instanceof HTMLDivElement) && (blockNumbers.children[1] instanceof HTMLDivElement)){
@@ -249,7 +250,6 @@ export const recalculateToMode:recalculateValToMode = ():void=>{
 }
 //Range sliders arrow keys
 export const displayRangeNumsKeyboard:rangeNumsKeyboard = (rangeInput:HTMLInputElement):string=>{
-	//recalculateToMode();
 	return saveInputValues(rangeInput.name, rangeInput.value, true) ?? rangeInput.value;
 }
 export const turnOnOffStartNumbers:turnOnOffStartNums = (onOrOff:boolean):boolean=>{
@@ -314,11 +314,8 @@ export const randomRangeValues = function(randomInputBtn:HTMLInputElement):void{
 	startNumbers.sliderBlockNodes!.rightSlider!.value = startNumbers.rangeNumbers[1];
 };
 export {
-	chooseRadio as testChooseRadio,
 	processRange as testProcessRange,
 	changeMode as testChangeMode,
 	displayRangeNums as testDisplayRangeNums,
-	saveInputValues as testSaveInputValues,
-	recalculateToMode as testRecalculateToMode,
-	displayRangeNumsKeyboard as testDisplayRangeNumsKeyboard
+	saveInputValues as testSaveInputValues
 }
