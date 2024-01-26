@@ -1,0 +1,9 @@
+mixin start-numbers-range(min1, max1, val1, min2, max2, val2)
+	div(class='widget-game-initial-numbers__sliders') Select a range of numbers. Possible game values are from a minimum of -9999 to a maximum of 9999. The current number level range is 0 to 0
+		div
+			span From:
+			output 0
+			span to:
+			output 0
+		input(type='range' min=min1 max=max1 value=val1 name="range1")
+		input(type='range' min=min2 max=max2 value=val2 name="range2")
