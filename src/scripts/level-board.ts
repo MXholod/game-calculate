@@ -27,7 +27,7 @@ export const toggleLevelBoard: toggleLBoard = (timer:HTMLDivElement, move:boolea
 	return true;
 }
 
-const updateLevelBoard:updateLBoard = (levelBoard:HTMLDivElement, currentLevel:curLevel):boolean=>{
+export const updateLevelBoard:updateLBoard = (levelBoard:HTMLDivElement, currentLevel:curLevel):boolean=>{
 	//Get values according to the current level
 	const { level, values: { leftSlider, rightSlider } } = currentLevel;
 	//Get level-board nodes to insert values
