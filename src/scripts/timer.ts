@@ -1,6 +1,7 @@
 import { sT, iT, tC, tS, ITSCallback, wLtH } from "./types/game-timer";
 import { UserInteraction } from './user-Interaction';
 import { updateRangeNodes, startNumbers } from './start-numbers';
+import { toggleLevelBoard } from './level-board';
 
 let timer: (HTMLDivElement | null) = null;
 
@@ -39,7 +40,10 @@ const timeCounter:tC = ():string=>{
 		let { level: curLevInd } = UserInteraction.getLevel();
 		//Set the next level
 		UserInteraction.setLevel(UserInteraction.gameLevel);
-		if(timer) writeLevelToHtml(timer);
+		if(timer){
+			writeLevelToHtml(timer);
+			toggleLevelBoard(timer, false);
+		}
 		updateRangeNodes(curLevInd);
 		return "00:00";
 	}else if(UserInteraction.totalLevelSeconds < 60){
