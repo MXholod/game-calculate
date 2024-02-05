@@ -76,7 +76,7 @@ export const appllyNumsToCube:IAppllyNumsToCube = (cells: HTMLDivElement[], nums
 	}
 	return false;
 }
-//Delete all the children cubes with numbers in the main cube
+//Delete all the child cubes with numbers in the main cube
 export const clearNumsOfCube:clearNumsCube = ():boolean=>{
 	const block:HTMLDivElement = (blocks!.threeB) as HTMLDivElement;
 	const blockNumbers:HTMLDivElement = (block!.firstChild) as HTMLDivElement;
