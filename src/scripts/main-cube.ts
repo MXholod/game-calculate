@@ -60,9 +60,14 @@ export const appllyNumsToCube:IAppllyNumsToCube = (cells: HTMLDivElement[], nums
 		let blockNumbers:(HTMLDivElement | null) = null; 
 		for(let i = 0; i < cells.length; i++){
 			if(cells[i] instanceof HTMLDivElement){
-				cells[i].textContent = nums[i];
-				cells[i].setAttribute("data-cell-value", nums[i]);
+				const [sign, num ] = nums[i].split(" ");
+				cells[i].textContent = num;
+				cells[i].setAttribute("data-cell-sign", sign);
+				cells[i].setAttribute("data-cell-value", num);
 				cells[i].setAttribute("class", `level-cell-${UserInteraction.gameLevel}`);
+					const span:HTMLSpanElement = document.createElement("SPAN") as HTMLSpanElement;
+					span.textContent = sign;
+				cells[i].appendChild(span);
 				const block:HTMLDivElement = (blocks!.threeB) as HTMLDivElement;
 				blockNumbers = (block!.firstChild) as HTMLDivElement;
 				blockNumbers.appendChild(cells[i]);
