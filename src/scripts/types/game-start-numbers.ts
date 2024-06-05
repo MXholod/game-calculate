@@ -1,6 +1,12 @@
 export type ButtonNumberMode = [string, boolean];
 export type RangeNumbers = [string, string];
 
+interface IRadiosElems{
+	mixed: HTMLInputElement | null;
+	even: HTMLInputElement | null;
+	odd: HTMLInputElement | null;
+}
+
 interface ISliderBlockNodes{
 	mainSliderBlock: HTMLDivElement | null;
 	outputFrom: HTMLOutputElement | null;
@@ -15,6 +21,7 @@ interface IRandomNums{
 }
 
 interface IStartNumbersBlock<BtnMode, RangeNums>{
+	radioBtnElems: IRadiosElems;
 	buttonMode: Array<BtnMode>;
 	rangeNumbers: RangeNums;
 	sliderBlockNodes: ISliderBlockNodes;
@@ -44,3 +51,9 @@ export type rangeNumsKeyboard = (rangeInput:HTMLInputElement)=>string;
 export type turnOnOffStartNums = (onOrOff:boolean)=>boolean;
 
 export type resetValsOnEndLevel = ()=>void;
+
+export type randRangeValues = (randomInputBtn:HTMLInputElement)=>void;
+
+export type cacheRadButtons = (gameInitalNumbers:HTMLDivElement)=>void;
+
+export type resetCacheRadButtons = ()=>void;

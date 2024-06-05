@@ -11,13 +11,17 @@ import {
 	recalculateValToMode,
 	rangeNumsKeyboard,
 	turnOnOffStartNums,
-	resetValsOnEndLevel
+	resetValsOnEndLevel,
+	randRangeValues,
+	cacheRadButtons,
+	resetCacheRadButtons
 } from "./types/game-start-numbers";
 import { ILimitLevel, ILimitLevelValues } from "./types/user-interaction";
 import { UserInteraction } from "./user-Interaction";
 
 //Object of the modes
 export const startNumbers:StartNumsBlock = {
+	radioBtnElems: { mixed: null, odd: null, even: null },
 	buttonMode: [ ["Odd", false], ["Even", false], ["Mixed", true] ],
 	rangeNumbers: ['0', '0'],
 	sliderBlockNodes: {
@@ -75,6 +79,8 @@ export const rememberRangeNodes: rememberRangeSliderNodes = function(timer:HTMLD
 		if(timer!.nextSibling === null) return false;
 		blockNumbers = (timer!.nextSibling!.nextSibling) as HTMLDivElement;
 	}
+	//Remember Radio Buttons (Elements)
+	cacheRadioButtons(blockNumbers);
 	if((blockNumbers.children[0] instanceof HTMLDivElement) && (blockNumbers.children[1] instanceof HTMLDivElement)){
 	const slidersBlock:HTMLDivElement = (blockNumbers.children[1].children[0]) as HTMLDivElement;
 		//Select a range of numbers from minimum to maximum
@@ -271,6 +277,9 @@ export const turnOnOffStartNumbers:turnOnOffStartNums = (onOrOff:boolean):boolea
 	return false;
 }
 export const resetValuesOnEndLevel:resetValsOnEndLevel = ():void=>{
+	//Reset radio buttons by default. Set 'Mixed' as checked
+	resetCacheRadioButtons();
+	//Set range numbers to zero
 	startNumbers.rangeNumbers[0] = '0';
 	startNumbers.rangeNumbers[1] = '0';
 	//Reset HTML values
@@ -283,7 +292,7 @@ export const resetValuesOnEndLevel:resetValsOnEndLevel = ():void=>{
 		startNumbers.randomInputs.rightInp.value = '';
 	}
 } 
-export const randomRangeValues = function(randomInputBtn:HTMLInputElement):void{
+export const randomRangeValues:randRangeValues = function(randomInputBtn:HTMLInputElement):void{
 	//If the button input is not clicked skip the logic 
 	if(randomInputBtn.type !== 'button') return;
 	//Random inputs
@@ -313,6 +322,21 @@ export const randomRangeValues = function(randomInputBtn:HTMLInputElement):void{
 	startNumbers.sliderBlockNodes!.leftSlider!.value = startNumbers.rangeNumbers[0];
 	startNumbers.sliderBlockNodes!.rightSlider!.value = startNumbers.rangeNumbers[1];
 };
+export const cacheRadioButtons:cacheRadButtons = function(gameInitalNumbers:HTMLDivElement):void{
+	if(!gameInitalNumbers) return;
+	const blockRadios:HTMLDivElement = (gameInitalNumbers.firstChild?.lastChild as HTMLDivElement);
+	//Cache elements into the object
+	startNumbers.radioBtnElems.odd = (blockRadios?.children[0]?.lastChild as HTMLInputElement);
+	startNumbers.radioBtnElems.even = (blockRadios?.children[1]?.lastChild as HTMLInputElement);
+	startNumbers.radioBtnElems.mixed = (blockRadios?.children[2]?.lastChild as HTMLInputElement);
+}
+export const resetCacheRadioButtons:resetCacheRadButtons = function():void{
+	if(!startNumbers.radioBtnElems.odd || !startNumbers.radioBtnElems.even || !startNumbers.radioBtnElems.mixed) return;
+	//Reset radio buttons by default. Set 'Mixed' as checked
+	startNumbers.radioBtnElems.odd!.checked = false;
+	startNumbers.radioBtnElems.even!.checked = false;
+	startNumbers.radioBtnElems.mixed!.checked = true;
+}
 export {
 	processRange as testProcessRange,
 	changeMode as testChangeMode,
