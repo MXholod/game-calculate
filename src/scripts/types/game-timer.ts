@@ -20,3 +20,5 @@ export interface ITSCallback{
 export type tS = (widgetTimer:HTMLDivElement, callback: ITSCallback)=>boolean;
 //Write a current level into HTML
 export type wLtH = (widgetTimer:HTMLDivElement)=>void;
+//Stop timer. 'interval' type is - null | ReturnType<typeof setInterval>
+export type tStop = ()=>boolean;
