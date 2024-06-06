@@ -1,8 +1,8 @@
-import { sT, iT, tC, tS, ITSCallback, wLtH } from "./types/game-timer";
+import { sT, iT, tC, tS, ITSCallback, wLtH, tStop } from "./types/game-timer";
 import { UserInteraction } from './user-Interaction';
-import { updateRangeNodes, startNumbers } from './start-numbers';
 import { toggleLevelBoard } from './level-board';
-import { backCubeAnimation } from './main-cube';
+import { backCubeAnimation, disallowClickOnCells, clearNumsOfCube } from './main-cube';
+import { isResBtnClicked, resetValuesTodefault } from './user-cpu-amount';
 
 let timer: (HTMLDivElement | null) = null;
 
@@ -10,6 +10,7 @@ let timer: (HTMLDivElement | null) = null;
 let interval: null | ReturnType<typeof setInterval>;
 
 export const startTimer:sT = (widgetTimer:HTMLDivElement):void=>{
+	timer = (widgetTimer instanceof HTMLDivElement) ? widgetTimer : null;
 	let elInfo = widgetTimer.children[1];
 	//Write time to HTML Timer
 	elInfo.children[1].textContent = initTimer();
@@ -34,19 +35,29 @@ const initTimer:iT = ():string=>{
 
 const timeCounter:tC = ():string=>{
 	if(UserInteraction.totalLevelSeconds === 1){
-		clearInterval(interval!);
+		//Stop timer
+		timerStop();
+		//Remove 'click' events on cells
+		//disallowClickOnCells();
 		UserInteraction.levelTimeIsUp = false;
-		interval = null;
-		let { level: curLevInd } = UserInteraction.getLevel();
 		backCubeAnimation(()=>{
-			UserInteraction.turnOnOffUserInteraction(false);
-			//Set the next level
-			UserInteraction.setLevel(UserInteraction.gameLevel);
-			if(timer){
-				writeLevelToHtml(timer);
-				toggleLevelBoard(timer, false);
+			//The 'Result' button was not pressed - "Game over"
+			if(isResBtnClicked()){
+				//Displaying the 'Game over' panel
+				UserInteraction.showHideGamePanel(timer!, "Time is up! Game over.");
+				//Set values by default in User-Interaction
+				UserInteraction.resetGameDataByDefault();
+				//Delete all cells in main cube
+				clearNumsOfCube();
+				//Set to default all numbers from 'start-numbers' widget 
+				UserInteraction.turnOnOffUserInteraction(false);
+				//Set to default all values from 'user-cpu-amount' widget
+				resetValuesTodefault();
+				//Reset to the first level
+				UserInteraction.gameLevel = 1;
+				writeLevelToHtml(timer!);
+				console.log("Button isn't clicked");
 			}
-			updateRangeNodes(curLevInd);
 		});
 		return "00:00";
 	}else if(UserInteraction.totalLevelSeconds < 60){
@@ -60,10 +71,9 @@ const timeCounter:tC = ():string=>{
 	}
 }
 export const timerSuspend:tS = (widgetTimer:HTMLDivElement, callback:ITSCallback):boolean=>{
-	//Suspend timer
+	//Stop timer
+	timerStop();
 	let elInfo = widgetTimer.children[1];
-	clearInterval(interval!);
-	interval = null;
 	if(confirm("Do you really want to stop the game?")){
 		elInfo.children[0].children[0].textContent = "1";
 		elInfo.children[1].textContent = "00:00";
@@ -81,6 +91,14 @@ export const writeLevelToHtml:wLtH = (widgetTimer:HTMLDivElement):void=>{
 	timer ??= widgetTimer;
 	let elInfo = timer.children[1];
 	elInfo.children[0].children[0].textContent = String(UserInteraction.gameLevel);
+}
+export const timerStop:tStop = ():boolean=>{
+	if(interval){
+		clearInterval(interval!);
+		interval = null;
+		return true;
+	}
+	return false;
 }
 //Private functions for testing
 export { 
