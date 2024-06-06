@@ -8,8 +8,10 @@ block variables
 block content
 	section(class='content')
 		section(class='content__game')
+			include ./../widgets/level-board.pug
 			include ./../shared/main_square.pug
 		aside(class='content__user-interaction')
+			include ./../widgets/game-timer.pug
 			include ./../widgets/game-start-numbers.pug
 			include ./../widgets/game-current-amount.pug
 			include ./../widgets/game-statistics.pug
