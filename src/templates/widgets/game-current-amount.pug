@@ -1,7 +1,11 @@
 div(class='widget-game-current-amount')
 	div(class='widget-game-current-amount__user-res')
-		span User's current amount 
-		input(type='text' value='0' maxlength='4' size='5' disabled)
+		span User's current amount
+		label(class='highlight-user')
+			input(type='text' maxlength='10' size='10' placeholder="Your amount" disabled)
+		button(class='widget-game-current-amount__approve highlight-user' disabled) Approve the result
+	div(class='widget-game-current-amount__vs') VS
 	div(class='widget-game-current-amount__cpu-res')
 		span CPU result
-		input(type='text' value='0' maxlength='4' size='5' disabled)
+		label(class='highlight-cpu')
+			input(type='text' value='0' maxlength='10' size='10' disabled)
