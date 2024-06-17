@@ -21,15 +21,20 @@ export const startTimer:sT = (widgetTimer:HTMLDivElement):void=>{
 
 const initTimer:iT = ():string=>{
 	const addSec = UserInteraction.additionalSecToLevel;
-	if(UserInteraction.gameLevel <= 5){
+	if(UserInteraction.gameLevel <= 2){
 		UserInteraction.totalLevelSeconds = (UserInteraction.gameLevel * addSec) + addSec;
 		return timeCounter();
-	}else if(UserInteraction.gameLevel >= 6 || UserInteraction.gameLevel <= 8){
-		UserInteraction.totalLevelSeconds = (UserInteraction.gameLevel * addSec) + (addSec * 2);
+	}else if((UserInteraction.gameLevel >= 3) && (UserInteraction.gameLevel <= 5)){
+		UserInteraction.totalLevelSeconds = (UserInteraction.gameLevel * addSec) + (addSec * 3);
 		return timeCounter();
-	}else{//Since 8 level
-		UserInteraction.totalLevelSeconds = (UserInteraction.gameLevel * addSec) + (addSec * 3); 	
+	}else if((UserInteraction.gameLevel >= 6) && (UserInteraction.gameLevel <= 8)){
+		UserInteraction.totalLevelSeconds = (UserInteraction.gameLevel * addSec) + (addSec * 4);
 		return timeCounter();
+	}else if((UserInteraction.gameLevel === 9) || (UserInteraction.gameLevel === 10)){
+		UserInteraction.totalLevelSeconds = (UserInteraction.gameLevel * addSec) + (addSec * 5);
+		return timeCounter();
+	}else{
+		return "00:00";
 	}
 }
 
@@ -38,7 +43,7 @@ const timeCounter:tC = ():string=>{
 		//Stop timer
 		timerStop();
 		//Remove 'click' events on cells
-		//disallowClickOnCells();
+		disallowClickOnCells();
 		UserInteraction.levelTimeIsUp = false;
 		backCubeAnimation(()=>{
 			//The 'Result' button was not pressed - "Game over"
@@ -56,7 +61,6 @@ const timeCounter:tC = ():string=>{
 				//Reset to the first level
 				UserInteraction.gameLevel = 1;
 				writeLevelToHtml(timer!);
-				console.log("Button isn't clicked");
 			}
 		});
 		return "00:00";
