@@ -7,6 +7,7 @@ import { chooseRadio, rememberRangeNodes, updateRangeNodes, testProcessRange,
 testChangeMode, testSaveInputValues } from "./../start-numbers"; 
 
 const startNumbers:StartNumsBlock = {
+	radioBtnElems: { mixed: null, odd: null, even: null },
 	buttonMode: [ ["Odd", false], ["Even", false], ["Mixed", true] ],
 	rangeNumbers: ['0', '0'],
 	sliderBlockNodes: {
