@@ -1,8 +1,8 @@
 /**
 * @jest-environment jsdom
 */
-import { ISQuareBlock } from './../types/main-cube';
-import { startCubeAnimation, backCubeAnimation, appllyNumsToCube, clearNumsOfCube } from './../main-cube';
+import { ISQuareBlock, cubeCells } from './../types/main-cube';
+import { startCubeAnimation, backCubeAnimation, appllyNumsToCube, clearNumsOfCube, calculateCorrectResult } from './../main-cube';
 //'testStartCubeAnimation'
 const parentTimer:HTMLElement = document.createElement('ASIDE') as HTMLElement; 
 const timer:HTMLDivElement = document.createElement('DIV') as HTMLDivElement; 
@@ -58,5 +58,16 @@ describe("Tests for the 'Main Cube' block",()=>{
 		testClearNumsOfCube();
 		expect(testClearNumsOfCube).toHaveBeenCalled();
 		expect(testClearNumsOfCube()).toBeTruthy();
+	});
+	it("Calculation of the correct result", ()=>{
+		const testCalculateCorrectResult = jest.fn(calculateCorrectResult);
+		const testCubeCells:cubeCells = [
+			{ order:1, sign:'', value:5 },
+			{ order:2, sign:'(-)', value:3 },
+			{ order:3, sign:'(+)', value:8 }
+		];
+		testCalculateCorrectResult(testCubeCells);
+		expect(testCalculateCorrectResult).toHaveBeenCalledTimes(1);
+		expect(testCalculateCorrectResult(testCubeCells)).toBe(10);
 	});
 });
