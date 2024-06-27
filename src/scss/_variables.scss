@@ -6,6 +6,7 @@ $user-interaction-background: #474748;
 $main-font-color: #615d3a;
 
 :root{
+	--game-message: none;
 	--font-color: #{$main-font-color}; 
 	--game-bg: #{$game-background}; 
 	--game-cube-bg-top: #{$game-cube-background-top}; 
