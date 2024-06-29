@@ -1,5 +1,12 @@
+include ./../shared/statistics-table.pug
 div(class='widget-game-statistics')
 	div(class='widget-game-statistics__title')
 		span Game statistics
+		div
+			span Passed levels:
+			input(type='text' readonly='readonly' value='0' size='2' maxlength='2')
 	button(id='openStatistics') Open game statistics
-	div(class='widget-game-statistics__block') Here are some game stats
+	div(class='widget-game-statistics__block') 
+		span Here are some game statistics
+		+table-of-statistics(10)
+		
