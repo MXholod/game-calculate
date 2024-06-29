@@ -1,7 +1,6 @@
 import { ITimerBlock } from "./game-timer";
 import { StartNumsBlock } from "./game-start-numbers";
 import { LevelUserAmount, LevelCpuAmount } from "./game-current-amount";
-import { LevelList, IStatistics } from "./game-statistics";
 import { StartGameButton, StopGameButton } from "./game-start";
 
 export interface ILimitLevelValues{
