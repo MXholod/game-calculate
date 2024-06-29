@@ -1,0 +1,16 @@
+mixin table-of-statistics(amount)
+	- var iStat = 0;
+	div(class='widget-game-statistics__table')
+		div(class='widget-game-statistics__table-header')
+			span Level
+			span Time
+			span User result
+			span CPU result
+			span Success
+		while amount > iStat
+			div(class='widget-game-statistics__row' style='display:none;')
+				div(class='widget-game-statistics__level')= ++iStat
+				div(class='widget-game-statistics__level-time') 
+				div(class='widget-game-statistics__user-res') 
+				div(class='widget-game-statistics__cpu-res') 
+				div(class='widget-game-statistics__is-success') 
