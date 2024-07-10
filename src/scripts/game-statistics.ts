@@ -2,7 +2,16 @@ import { handleStatsBtn } from "./types/game-statistics";
 import { UserInteraction } from "./user-Interaction";
 import { IPreparedLevelData } from "./types/game-core";
 import { getLevelInfoInstance } from "./game-core";
-import { ITableStructure, cacheTableStruct, IButton, btnStateChanging } from './types/game-statistics';
+import { ICurrentLevel, getCurLevelNode, levelsData, ITableStructure, cacheTableStruct, IButton, btnStateChanging, writeDataIntoTable, subsOnData } from './types/game-statistics';
+
+export const currentLevel:ICurrentLevel = {
+	elem: null,
+	value: 0
+};
+
+export const levelDataStatistics:levelsData = [
+	//{ level: 0, levelElapsedTime: 0, userResult: 0, cpuResult: 0, isSuccess: false }
+];
 
 export const buttonState:IButton = {
 	btn: null,
@@ -26,6 +35,13 @@ export const tableStructure:ITableStructure = {
 		{ rowEl: null, visible: false, orderNum: null, time: null, userRes: null, cpuRes: null, isSuccess: null }
 	]
 };
+//Get the node to update the current value
+export const getCurrentLevelNode:getCurLevelNode = (statBtn:HTMLButtonElement):void=>{
+	const inpEl:HTMLInputElement = (statBtn?.parentNode?.firstChild?.lastChild?.lastChild as HTMLInputElement);
+	if(inpEl){
+		currentLevel.elem = inpEl;
+	}
+}
 //Changing button state
 export const buttonStateChanging:btnStateChanging = (btn:HTMLButtonElement):boolean=>{
 	//Save element button. Do this only once
@@ -44,9 +60,9 @@ export const buttonStateChanging:btnStateChanging = (btn:HTMLButtonElement):bool
 }
 //Click on the button to see results
 export const handleStatsButton: handleStatsBtn = function(this:HTMLButtonElement, e: MouseEvent):void{
-	const levelData:IPreparedLevelData[] = getLevelInfoInstance().levelsInfo;
+	const levelsData:IPreparedLevelData[] = getLevelInfoInstance().levelsInfo;
 	//If game in progress and at least one level approved
-	if(UserInteraction.gameInProgress && (levelData.length > 0)){
+	if(UserInteraction.gameInProgress && (levelsData.length > 0)){
 		//Find the table parent element
 		if(this?.nextSibling?.nodeType === 1){
 			tableStructure.parentTableEl = <HTMLDivElement>(this?.nextSibling?.lastChild!);
@@ -54,8 +70,9 @@ export const handleStatsButton: handleStatsBtn = function(this:HTMLButtonElement
 			if(!tableStructure.isCached){ cacheTableStructure(); }
 			//Changing button label and its state
 			buttonStateChanging(this);
-			console.log("You are in the game 1 ", tableStructure.tableRows);
-			
+			//Show or Hide the table of statistics
+			writeDataIntoStatTable();
+			//console.log("You are in the game 1 ", tableStructure.tableRows);
 		}
 	}else{
 		console.log("The game does not continue!");
@@ -86,4 +103,55 @@ export const cacheTableStructure: cacheTableStruct = ():boolean=>{
 		return true;
 	}
 	return false;
+}
+//Write data after click into the statistics table
+export const writeDataIntoStatTable: writeDataIntoTable = ():boolean=>{
+	if(levelDataStatistics.length === 0) return false;
+	//Displaying statistics depends on the button state
+	if(buttonState.stateBtn){//Show statistics
+		levelDataStatistics.forEach((curLevel, i)=>{
+			//If row of a statistics should be visible
+			if(curLevel.level){
+				tableStructure.tableRows[i].visible = true;
+				tableStructure.tableRows[i].rowEl!.style.display = "flex";
+				tableStructure.tableRows[i].orderNum!.textContent = String(curLevel.level);
+				tableStructure.tableRows[i].time!.textContent = String(curLevel.levelElapsedTime);
+				tableStructure.tableRows[i].userRes!.textContent = String(curLevel.userResult);
+				tableStructure.tableRows[i].cpuRes!.textContent = String(curLevel.cpuResult);
+					const isSuccess = curLevel.isSuccess ? "Good" : "Bad";
+				tableStructure.tableRows[i].isSuccess!.textContent = isSuccess;
+			}
+		});
+	}else{//Hide statistics
+		levelDataStatistics.forEach((curLevel, i)=>{
+			//If row of a statistics should be visible
+			if(curLevel.level && tableStructure.tableRows[i].visible){
+				tableStructure.tableRows[i].visible = false;
+				tableStructure.tableRows[i].rowEl!.style.display = "none";
+			}
+		});
+	}
+	return true;
+}
+//This function subscribes on the levels data. It calls in core file
+export const subscribesOnData:subsOnData = (levelsAllData:IPreparedLevelData[]):void=>{
+	//The local array of - { level: 0, levelElapsedTime: 0, userResult: 0, cpuResult: 0, isSuccess: false } 
+	//Rewrite local array with given data of all levels
+	levelsAllData.forEach((curLevel, i)=>{
+		levelDataStatistics[i] = { 	level: curLevel.level, 
+			levelElapsedTime: curLevel.levelElapsedTime, 
+			userResult: curLevel.userResult, 
+			cpuResult: curLevel.cpuResult, 
+			isSuccess: curLevel.isSuccess 
+		};
+	});
+	//Update level's value
+	if(currentLevel.elem){
+		currentLevel.value = levelsAllData.length;
+		currentLevel.elem!.value = String(currentLevel.value);
+	}
+}
+//Clear all the statistics data
+export const clearStatisticsData = ():boolean=>{
+	return true;
 }
