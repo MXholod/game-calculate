@@ -1,3 +1,14 @@
+import { IPreparedLevelData } from './game-core';
+
+export interface ICurrentLevel{
+	elem: (null | HTMLInputElement);
+	value: number;
+}
+export type getCurLevelNode = (statBtn:HTMLButtonElement)=>void;
+
+type levelData = Omit<IPreparedLevelData, 'allCubeCells'>;
+export type levelsData = Array<levelData>;
+
 type btnLabel = "Open game statistics" | "Close game statistics";
 
 export interface IButton{
@@ -32,3 +43,7 @@ export type handleStatsBtn = (this:HTMLButtonElement, e: MouseEvent)=>void;
 export type btnStateChanging = (btn:HTMLButtonElement)=>boolean;
 
 export type cacheTableStruct = ()=>boolean;
+
+export type writeDataIntoTable = ()=>boolean;
+
+export type subsOnData = (levelsAllData:IPreparedLevelData[])=>void;
