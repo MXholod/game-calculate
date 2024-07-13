@@ -2,14 +2,14 @@ import { handleStatsBtn } from "./types/game-statistics";
 import { UserInteraction } from "./user-Interaction";
 import { IPreparedLevelData } from "./types/game-core";
 import { getLevelInfoInstance } from "./game-core";
-import { ICurrentLevel, getCurLevelNode, levelsData, ITableStructure, cacheTableStruct, IButton, btnStateChanging, writeDataIntoTable, subsOnData } from './types/game-statistics';
+import { ICurrentLevel, getCurLevelNode, levelsData, ITableStructure, cacheTableStruct, IButton, btnStateChanging, writeDataIntoTable, subsOnData, clearStatsData } from './types/game-statistics';
 
 export const currentLevel:ICurrentLevel = {
 	elem: null,
 	value: 0
 };
 
-export const levelDataStatistics:levelsData = [
+export let levelDataStatistics:levelsData = [
 	//{ level: 0, levelElapsedTime: 0, userResult: 0, cpuResult: 0, isSuccess: false }
 ];
 
@@ -72,10 +72,9 @@ export const handleStatsButton: handleStatsBtn = function(this:HTMLButtonElement
 			buttonStateChanging(this);
 			//Show or Hide the table of statistics
 			writeDataIntoStatTable();
-			//console.log("You are in the game 1 ", tableStructure.tableRows);
 		}
 	}else{
-		console.log("The game does not continue!");
+		//console.log("The game does not continue!");
 	}
 }
 //Caching all table statistics nodes. It invokes only once.
@@ -104,7 +103,7 @@ export const cacheTableStructure: cacheTableStruct = ():boolean=>{
 	}
 	return false;
 }
-//Write data after click into the statistics table
+//Write data after click, into the statistics table
 export const writeDataIntoStatTable: writeDataIntoTable = ():boolean=>{
 	if(levelDataStatistics.length === 0) return false;
 	//Displaying statistics depends on the button state
@@ -138,20 +137,56 @@ export const subscribesOnData:subsOnData = (levelsAllData:IPreparedLevelData[]):
 	//The local array of - { level: 0, levelElapsedTime: 0, userResult: 0, cpuResult: 0, isSuccess: false } 
 	//Rewrite local array with given data of all levels
 	levelsAllData.forEach((curLevel, i)=>{
-		levelDataStatistics[i] = { 	level: curLevel.level, 
+		levelDataStatistics[i] = { level: curLevel.level, 
 			levelElapsedTime: curLevel.levelElapsedTime, 
 			userResult: curLevel.userResult, 
 			cpuResult: curLevel.cpuResult, 
 			isSuccess: curLevel.isSuccess 
 		};
 	});
-	//Update level's value
+	//Update the level value
 	if(currentLevel.elem){
 		currentLevel.value = levelsAllData.length;
 		currentLevel.elem!.value = String(currentLevel.value);
 	}
+	//Displaying statistics depends on the button state
+	if(buttonState.stateBtn){//Show statistics
+		levelDataStatistics.forEach((curLevel, i)=>{
+			//If row of a statistics should be visible
+			if(curLevel.level){
+				tableStructure.tableRows[i].visible = true;
+				tableStructure.tableRows[i].rowEl!.style.display = "flex";
+				tableStructure.tableRows[i].orderNum!.textContent = String(curLevel.level);
+				tableStructure.tableRows[i].time!.textContent = String(curLevel.levelElapsedTime);
+				tableStructure.tableRows[i].userRes!.textContent = String(curLevel.userResult);
+				tableStructure.tableRows[i].cpuRes!.textContent = String(curLevel.cpuResult);
+					const isSuccess = curLevel.isSuccess ? "Good" : "Bad";
+				tableStructure.tableRows[i].isSuccess!.textContent = isSuccess;
+			}
+		});
+	}
 }
 //Clear all the statistics data
-export const clearStatisticsData = ():boolean=>{
+export const clearStatisticsData:clearStatsData = ():boolean=>{
+	//Set current level by default
+	if(currentLevel.elem){
+		currentLevel.value = 0;
+		currentLevel.elem!.value = String(currentLevel.value);
+	}
+	tableStructure.isCached = false;
+	//Clear all the rows in the table of statistics
+	levelDataStatistics.forEach((curLevel, i)=>{
+		if(tableStructure.tableRows[i].rowEl){
+			tableStructure.tableRows[i].visible = false;
+			tableStructure.tableRows[i].rowEl!.style.display = "none";
+			tableStructure.tableRows[i].orderNum!.textContent = String(curLevel.level);
+			tableStructure.tableRows[i].time!.textContent = "";
+			tableStructure.tableRows[i].userRes!.textContent = "";
+			tableStructure.tableRows[i].cpuRes!.textContent = "";
+			tableStructure.tableRows[i].isSuccess!.textContent = "";
+		}
+	});
+	//Set data of all levels by default
+	levelDataStatistics = [];
 	return true;
 }
