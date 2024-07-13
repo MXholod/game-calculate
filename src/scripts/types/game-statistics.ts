@@ -47,3 +47,5 @@ export type cacheTableStruct = ()=>boolean;
 export type writeDataIntoTable = ()=>boolean;
 
 export type subsOnData = (levelsAllData:IPreparedLevelData[])=>void;
+
+export type clearStatsData = ()=>boolean;
