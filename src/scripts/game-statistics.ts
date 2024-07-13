@@ -1,7 +1,7 @@
 import { handleStatsBtn } from "./types/game-statistics";
 import { UserInteraction } from "./user-Interaction";
 import { IPreparedLevelData } from "./types/game-core";
-import { getLevelInfoInstance } from "./game-core";
+import { getLevelInfoInstance, makeTimeFormat } from "./game-core";
 import { ICurrentLevel, getCurLevelNode, levelsData, ITableStructure, cacheTableStruct, IButton, btnStateChanging, writeDataIntoTable, subsOnData, clearStatsData } from './types/game-statistics';
 
 export const currentLevel:ICurrentLevel = {
@@ -114,7 +114,7 @@ export const writeDataIntoStatTable: writeDataIntoTable = ():boolean=>{
 				tableStructure.tableRows[i].visible = true;
 				tableStructure.tableRows[i].rowEl!.style.display = "flex";
 				tableStructure.tableRows[i].orderNum!.textContent = String(curLevel.level);
-				tableStructure.tableRows[i].time!.textContent = String(curLevel.levelElapsedTime);
+				tableStructure.tableRows[i].time!.textContent = makeTimeFormat(curLevel.levelElapsedTime);
 				tableStructure.tableRows[i].userRes!.textContent = String(curLevel.userResult);
 				tableStructure.tableRows[i].cpuRes!.textContent = String(curLevel.cpuResult);
 					const isSuccess = curLevel.isSuccess ? "Good" : "Bad";
@@ -157,7 +157,7 @@ export const subscribesOnData:subsOnData = (levelsAllData:IPreparedLevelData[]):
 				tableStructure.tableRows[i].visible = true;
 				tableStructure.tableRows[i].rowEl!.style.display = "flex";
 				tableStructure.tableRows[i].orderNum!.textContent = String(curLevel.level);
-				tableStructure.tableRows[i].time!.textContent = String(curLevel.levelElapsedTime);
+				tableStructure.tableRows[i].time!.textContent = makeTimeFormat(curLevel.levelElapsedTime);
 				tableStructure.tableRows[i].userRes!.textContent = String(curLevel.userResult);
 				tableStructure.tableRows[i].cpuRes!.textContent = String(curLevel.cpuResult);
 					const isSuccess = curLevel.isSuccess ? "Good" : "Bad";
