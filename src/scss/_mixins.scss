@@ -23,7 +23,7 @@
 		height: inherit;
 	}
 	.three-d-block_center{
-		background-color: violet;
+		background-image: radial-gradient(circle, rgba(230,221,224,1) 0%, rgba(90,119,147,1) 100%);
 		transform: translateZ($cube-z);
 		display: grid;
 		grid-gap:3px;
@@ -39,23 +39,23 @@
 		@include square-3dcube-cells(11, 11, 10);
 	}
 	.three-d-block_left{
-		background-color: lime;
+		background-image: radial-gradient(circle, rgba(236,210,222,1) 0%, rgba(169,194,223,1) 100%);
 		transform: rotateY(-90deg) translateZ($cube-z);
 	}
 	.three-d-block_right{
-		background-color: tomato;
+		background-image: radial-gradient(circle, rgba(219,205,212,1) 0%, rgba(154,169,187,1) 100%);
 		transform: rotateY(90deg) translateZ($cube-z);
 	}
 	.three-d-block_bottom{
-		background-color: purple;
+		background-image: radial-gradient(circle, rgba(181,177,179,1) 0%, rgba(119,143,171,1) 100%);
 		transform: rotateX(-90deg) translateZ($cube-z);
 	}
 	.three-d-block_top{
-		background-color: lightgrey;
+		background-image: radial-gradient(circle, rgba(224,208,216,1) 0%, rgba(119,127,135,1) 100%);
 		transform: rotateX(90deg) translateZ($cube-z);
 	}
 	.three-d-block_back{
-		background-color: lightblue;;
+		background-image: radial-gradient(circle, rgba(230,221,224,1) 0%, rgba(155,166,176,1) 100%);
 		transform: translateZ($cube-z * (-1)) scaleX(-1);
 	}
 }
