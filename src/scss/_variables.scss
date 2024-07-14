@@ -11,5 +11,11 @@ $main-font-color: #615d3a;
 	--game-bg: #{$game-background}; 
 	--game-cube-bg-top: #{$game-cube-background-top}; 
 	--game-cube-bg-bottom: #{$game-cube-background-bottom}; 
-	--user-inter-bg: #{$user-interaction-background}; 
+	--user-inter-bg: #{$user-interaction-background};
+	--game-start: #e49bff;
+	--game-start-end: #bf55ec;
+	--game-stop: #c738bd;
+	--game-stop-end: #a62f9e;
+	--game-retry: #cb17d8;
+	--game-retry-end: #850f8d;
 }
