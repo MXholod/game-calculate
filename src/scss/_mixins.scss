@@ -1,4 +1,6 @@
 @use "sass:math";
+@use 'sass:color';
+
 @mixin custom-font($fontFamily, $fontName){
 	@font-face {
 		font-family: $fontFamily;
@@ -313,5 +315,19 @@
 				margin-left:5%;
 			}			
 		}
+	}
+}
+@mixin game-button($colorStart, $colorEnd){
+	border-radius:3px;
+	padding: 2px 4px;
+	color: #fff;
+	background-image: linear-gradient(180deg, $colorStart, $colorEnd);
+	&:focus{
+		outline:none;
+	}
+	&:hover, &:active{
+		cursor:pointer;
+		background-image: linear-gradient(360deg, $colorStart, $colorEnd);
+		box-shadow: 0px 0px 2px #000;
 	}
 }
