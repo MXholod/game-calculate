@@ -394,7 +394,18 @@ html, body{
 					font-size: .8em;
 				}
 				&__buttons{
-					
+					display: flex;
+					justify-content: space-between;
+					margin-top: 2%;
+					#play{
+						@include mixins.game-button(var(--game-start), var(--game-start-end));
+					}
+					#stop{
+						@include mixins.game-button(var(--game-stop), var(--game-stop-end));
+					}
+					#retry{
+						@include mixins.game-button(var(--game-retry), var(--game-retry-end));
+					}
 				}
 			}
 		}
