@@ -13,3 +13,4 @@ export type ButtonsState = IButtonsState<IButton>;
 
 export type setBtnState = (btn:HTMLButtonElement)=>void;
 export type changeBtnActivity = (btnName:string, activity:boolean)=>boolean;
+export type playBtnActivity = ()=>boolean;
