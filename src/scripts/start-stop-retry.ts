@@ -1,9 +1,11 @@
-import { ButtonsState, setBtnState, changeBtnActivity } from './types/start-stop-retry';
+import { ButtonsState, setBtnState, changeBtnActivity, playBtnActivity } from './types/start-stop-retry';
+import { startNumbers } from './start-numbers';
+import { UserInteraction } from './user-Interaction';
 
 export const buttonState:ButtonsState = {
 	startButton: {
 		button: null,
-		activity: true
+		activity: false
 	},
 	stopButton: {
 		button: null,
@@ -49,9 +51,20 @@ export const changeButtonActivity:changeBtnActivity = (btnName:string, activity:
 		default: return false;
 	}
 }
+//Setting the play button activity depending on the selected numbers
+export const playButtonActivity:playBtnActivity = ():boolean=>{
+	const [leftNum, rightNum] = startNumbers.rangeNumbers;
+	if(!leftNum || !rightNum) return false;
+	if(UserInteraction.checkLevelInitialNumbers(leftNum, rightNum)){
+		changeButtonActivity('play', true);
+	}else{
+		changeButtonActivity('play', false);
+	}
+	return true;
+}
 //Set buttons by default
 export const setButtonsByDefault = ():void=>{
-	changeButtonActivity("play", true);
+	changeButtonActivity("play", false);
 	changeButtonActivity("stop", false);
 	changeButtonActivity("retry", false);
 }
