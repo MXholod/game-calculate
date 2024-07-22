@@ -66,13 +66,15 @@ export const UserInteraction:IUserInteraction = {
 			this?.turnOnOffUserInteraction(true);
 			return true;
 		}
-		console.log("Can't start playing ",leftNum, " ", rightNum);
+		//console.log("Can't start playing ",leftNum, " ", rightNum);
 		return false;
 	},
 	stopGame: function(timer:HTMLDivElement):boolean{
 		if(this?.levelTimeIsUp)
 		timerSuspend(timer, function(isStopped: boolean):boolean{
 			if(isStopped){
+				//Setting the 'stop' button as inactive, to prevent repeated click 
+				changeButtonActivity('stop', false);
 				backCubeAnimation(()=>{
 					this.resetGameDataByDefault();
 					//Clear the main cube
@@ -132,6 +134,8 @@ export const UserInteraction:IUserInteraction = {
 		return true;
 	},
 	resultApprovedGoNextLevel: function(timer:HTMLDivElement):void{
+		//Setting the 'stop' button as inactive, to prevent repeated click 
+		changeButtonActivity('stop', false);
 		backCubeAnimation(()=>{
 			this!.levelTimeIsUp = false;
 			//Release all buttons and fields
