@@ -118,8 +118,6 @@ function run():void{
 				UserInteraction.gameInProgress = true;
 				//Subscribers for data levels
 				getLevelInfoInstance().subscribe(subscribesOnData);
-				//Setting the 'play' button as active
-				changeButtonActivity('play', true);
 				//Setting the 'retry' button as inactive
 				changeButtonActivity('retry', false);
 			}
