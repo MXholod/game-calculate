@@ -1,8 +1,9 @@
-import { sT, iT, tC, tS, ITSCallback, wLtH, tStop } from "./types/game-timer";
+import { sT, iT, tC, tS, ITSCallback, wLtH, tStop } from './types/game-timer';
 import { UserInteraction } from './user-Interaction';
 import { toggleLevelBoard } from './level-board';
 import { backCubeAnimation, disallowClickOnCells, clearNumsOfCube } from './main-cube';
 import { isResBtnClicked, resetValuesTodefault } from './user-cpu-amount';
+import { changeButtonActivity } from './start-stop-retry';
 
 let timer: (HTMLDivElement | null) = null;
 
@@ -45,6 +46,8 @@ const timeCounter:tC = ():string=>{
 		//Remove 'click' events on cells
 		disallowClickOnCells();
 		UserInteraction.levelTimeIsUp = false;
+		//Setting the 'stop' button as inactive, to prevent repeated click 
+		changeButtonActivity('stop', false);
 		backCubeAnimation(()=>{
 			//The 'Result' button was not pressed - "Game over"
 			if(isResBtnClicked()){
@@ -61,6 +64,8 @@ const timeCounter:tC = ():string=>{
 				//Reset to the first level
 				UserInteraction.gameLevel = 1;
 				writeLevelToHtml(timer!);
+				//Setting the 'retry' button as active, to allow a new game to be restarted 
+				changeButtonActivity('retry', true);
 			}
 		});
 		return "00:00";
