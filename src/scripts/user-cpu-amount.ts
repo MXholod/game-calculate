@@ -3,6 +3,7 @@ import { IUserCpuBlock, IUserCpuState, mainCube, allowUserInputAmount, onUserInp
 import { UserInteraction } from './user-Interaction';
 import { timerStop } from './timer';
 import { preparedData } from './types/game-core';
+import { changeStatsBtnActivity } from './game-statistics';
 //Cached DOM nodes 
 export const UserCpuBlock:IUserCpuBlock = {
 	userLabel: null,
@@ -112,6 +113,8 @@ export const handleButton:onApproveBtn = function(this:HTMLButtonElement, e: Eve
 		getLevelInfoInstance().prepareLevelData(PreparedLevelData);
 		//Loop in Observer
 		getLevelInfoInstance().notifyAll();
+		//Enable the 'statistics' button
+		changeStatsBtnActivity(false);
 	}
 }
 //Was the result button clicked
