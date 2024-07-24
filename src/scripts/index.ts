@@ -2,7 +2,7 @@
 import { UserInteraction } from './user-Interaction';
 import { chooseRadio, displayRangeNums, recalculateToMode, displayRangeNumsKeyboard, randomRangeValues } from './start-numbers';
 import { handleUserInput, handleButton } from './user-cpu-amount';
-import { getCurrentLevelNode, handleStatsButton, subscribesOnData } from './game-statistics';
+import { setStatsBtnNode, changeStatsBtnActivity, getCurrentLevelNode, handleStatsButton, subscribesOnData } from './game-statistics';
 import { getLevelInfoInstance } from './game-core';
 import { setButtonToState, playButtonActivity, changeButtonActivity } from './start-stop-retry';
 
@@ -95,6 +95,8 @@ function run():void{
 	}
 	//Game statistics
 	const statsBtn:HTMLButtonElement = document.querySelector('#openStatistics')!;
+	setStatsBtnNode(statsBtn);
+	changeStatsBtnActivity(true);
 	statsBtn.addEventListener('click', handleStatsButton); 
 	getCurrentLevelNode(statsBtn);
 	//Cube animation
