@@ -38,6 +38,10 @@ export interface ITableStructure{
 	tableRows: tableRows;
 }
 
+export type setStatisticsBtnNode = (btn:HTMLButtonElement)=>boolean;
+
+export type changeStatisticsBtnActivity = (state:boolean)=>void;
+
 export type handleStatsBtn = (this:HTMLButtonElement, e: MouseEvent)=>void;
 
 export type btnStateChanging = (btn:HTMLButtonElement)=>boolean;
