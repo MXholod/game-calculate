@@ -2,7 +2,7 @@ import { handleStatsBtn } from "./types/game-statistics";
 import { UserInteraction } from "./user-Interaction";
 import { IPreparedLevelData } from "./types/game-core";
 import { getLevelInfoInstance, makeTimeFormat } from "./game-core";
-import { ICurrentLevel, getCurLevelNode, levelsData, ITableStructure, cacheTableStruct, IButton, btnStateChanging, writeDataIntoTable, subsOnData, clearStatsData } from './types/game-statistics';
+import { setStatisticsBtnNode, changeStatisticsBtnActivity, ICurrentLevel, getCurLevelNode, levelsData, ITableStructure, cacheTableStruct, IButton, btnStateChanging, writeDataIntoTable, subsOnData, clearStatsData } from './types/game-statistics';
 
 export const currentLevel:ICurrentLevel = {
 	elem: null,
@@ -35,6 +35,20 @@ export const tableStructure:ITableStructure = {
 		{ rowEl: null, visible: false, orderNum: null, time: null, userRes: null, cpuRes: null, isSuccess: null }
 	]
 };
+//Set 'statistics' button node
+export const setStatsBtnNode:setStatisticsBtnNode = (btn:HTMLButtonElement):boolean=>{
+	if((buttonState.btn === null) && (btn !== null)){
+		buttonState.btn = btn;
+		return true;
+	}
+	return false;
+}
+//Change 'statistics' button as disabled/enabled
+export const changeStatsBtnActivity:changeStatisticsBtnActivity = (state:boolean):void=>{
+	if(buttonState.btn !== null){
+		buttonState.btn.disabled = state;
+	}
+}
 //Get the node to update the current value
 export const getCurrentLevelNode:getCurLevelNode = (statBtn:HTMLButtonElement):void=>{
 	const inpEl:HTMLInputElement = (statBtn?.parentNode?.firstChild?.lastChild?.lastChild as HTMLInputElement);
@@ -132,7 +146,7 @@ export const writeDataIntoStatTable: writeDataIntoTable = ():boolean=>{
 	}
 	return true;
 }
-//This function subscribes on the levels data. It calls in core file
+//This function subscribes on the levels data. It calls in user-Interaction file
 export const subscribesOnData:subsOnData = (levelsAllData:IPreparedLevelData[]):void=>{
 	//The local array of - { level: 0, levelElapsedTime: 0, userResult: 0, cpuResult: 0, isSuccess: false } 
 	//Rewrite local array with given data of all levels
@@ -186,6 +200,10 @@ export const clearStatisticsData:clearStatsData = ():boolean=>{
 			tableStructure.tableRows[i].isSuccess!.textContent = "";
 		}
 	});
+	//Set 'statistics' button state before 'Retry' all the levels
+	buttonState.stateBtn = false;
+	buttonState.labelBtn = "Open game statistics";
+	changeStatsBtnActivity(true);
 	//Set data of all levels by default
 	levelDataStatistics = [];
 	return true;
