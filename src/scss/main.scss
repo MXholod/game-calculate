@@ -415,6 +415,46 @@ html, body{
 			}
 		}
 	}
+	/* Page of the game guide and result */
+	.guide-result{
+		background: url("./../assets/images/result-guide-navigation.jpg") top left/cover no-repeat;
+		flex-direction: column;
+		.content__navigation{
+			border-bottom: 3px solid #FB773C;
+			height: 10vh;
+			
+			.content__navigation_guide{
+				
+			}
+			.content__navigation_result{
+				
+			}
+		}
+		.content__panels{
+			position:relative;
+			overflow:hidden;
+			width: 1200px;
+			height:70vh;
+			.content__guide{
+				position:absolute;
+				background-color: #FFDE4D;
+				top:0;
+				left:0;
+				right:0;
+				bottom:0;
+				z-index:0;
+			}
+			.content__result{
+				position:absolute;
+				background-color: #FFB22C;
+				top:0;
+				left:0;
+				right:0;
+				bottom:0;
+				z-index:0;
+			}
+		}
+	}
 	.footer{
 		flex-shrink: 0;
 		font-size: .7em;
