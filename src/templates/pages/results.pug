@@ -1,11 +1,15 @@
 extends ./../layouts/main
 
 block variables
-	- var title = "Results"
+	- var title = "Game guide and results"
 	- var cssPath = "./../css/main.min.css"
 	- var jsPath = "./../js/main.min.js"
 
 block content
-	section(class='content')
-		section(class='content__result')
-			p Results page
+	section(class='content guide-result')
+		nav(class='content__navigation')
+			button(class='content__navigation_guide') Game guide
+			button(class='content__navigation_result') Game result
+		section(class='content__panels')
+			include ./../widgets/page-game-guide.pug
+			include ./../widgets/page-game-result.pug
