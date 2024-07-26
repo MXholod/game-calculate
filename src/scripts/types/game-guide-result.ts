@@ -1,0 +1,1 @@
+export type changePanelsOnPage = (this:HTMLButtonElement, e:MouseEvent)=>void;
