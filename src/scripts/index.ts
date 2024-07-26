@@ -97,7 +97,9 @@ function run():void{
 	const statsBtn:HTMLButtonElement = document.querySelector('#openStatistics')!;
 	setStatsBtnNode(statsBtn);
 	changeStatsBtnActivity(true);
-	statsBtn.addEventListener('click', handleStatsButton); 
+	if(statsBtn !== null){
+		statsBtn.addEventListener('click', handleStatsButton); 	
+	}
 	getCurrentLevelNode(statsBtn);
 	//Cube animation
 	const cubeColl:HTMLCollection = document.getElementsByClassName('three-d-block')!;
