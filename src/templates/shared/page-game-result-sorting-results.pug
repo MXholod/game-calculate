@@ -1,0 +1,11 @@
+mixin sorting-results(btnNameDefault)
+	if btnNameDefault !== "" && btnNameDefault === "remainTime"
+		label Sort by success
+			input(type="radio" name="dataSort")
+		label Sort by remain time
+			input(type="radio" name="dataSort" checked="checked")
+	if btnNameDefault !== "" && btnNameDefault === "success"	
+		label Sort by success
+			input(type="radio" name="dataSort" checked="checked")
+		label Sort by remain time
+			input(type="radio" name="dataSort")
