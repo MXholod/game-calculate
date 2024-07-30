@@ -1,2 +1,16 @@
+include ./../shared/page-game-result-sorting-results.pug
 section(class='content__result')
-	p Results page
+	h3 Game results page
+	div(class='no-results')
+		p There are no results
+	div(class='block-results')
+		div(class='block-results_sorting')
+			+sorting-results("success")
+		header(class='block-header_levels')
+			span Level
+			span Sequence of numbers
+			span Remain time
+			span User result
+			span CPU result
+			span Progress
+		div(class='block-data_levels')
