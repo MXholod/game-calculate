@@ -422,12 +422,31 @@ html, body{
 		.content__navigation{
 			border-bottom: 3px solid #FB773C;
 			height: 10vh;
-			
-			.content__navigation_guide{
-				
+			padding-left:5%;
+			%button-base{
+				font-size: .8em;
+				border: 3px solid #FB773C;
+				border-bottom: none;
+				cursor: pointer;
+				&:hover, &:active{
+					border-bottom: none;
+				}
 			}
 			.content__navigation_result{
+				height:70%;
+				padding:0 2%;
+				margin:1.9% 0 0 0;
+				background-color: #FFB22C;
+				@extend %button-base;
 				
+			}
+			.content__navigation_guide{
+				height:70%;
+				padding:0 2%;
+				margin:1.9% 0 0 1%;
+				font-size: .8em;
+				background-color: #FFDE4D;
+				@extend %button-base;
 			}
 		}
 		.content__panels{
@@ -435,18 +454,18 @@ html, body{
 			overflow:hidden;
 			width: 1200px;
 			height:70vh;
-			.content__guide{
+			.content__result{
 				position:absolute;
-				background-color: #FFDE4D;
+				background-color: #FFB22C;
 				top:0;
 				left:0;
 				right:0;
 				bottom:0;
 				z-index:0;
 			}
-			.content__result{
+			.content__guide{
 				position:absolute;
-				background-color: #FFB22C;
+				background-color: #FFDE4D;
 				top:0;
 				left:0;
 				right:0;
