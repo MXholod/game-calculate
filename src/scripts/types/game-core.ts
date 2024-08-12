@@ -29,6 +29,7 @@ export interface IPreparedLevelData{
 	userResult: number;
 	cpuResult: number;
 	isSuccess: boolean;
+	dateTime: number;
 }
 //Get all types except of 'level'
 export type preparedData = Omit<IPreparedLevelData, "level">;
