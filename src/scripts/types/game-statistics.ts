@@ -6,7 +6,7 @@ export interface ICurrentLevel{
 }
 export type getCurLevelNode = (statBtn:HTMLButtonElement)=>void;
 
-type levelData = Omit<IPreparedLevelData, 'allCubeCells'>;
+type levelData = Omit<IPreparedLevelData, 'allCubeCells' | 'dateTime'>;
 export type levelsData = Array<levelData>;
 
 type btnLabel = "Open game statistics" | "Close game statistics";
