@@ -17,6 +17,7 @@ export interface ILimitLevel<T>{
 export type LimitLevels = Array<ILimitLevel<ILimitLevelValues>>;
 
 export interface IUserInteraction {
+	gameIdDateTime: number;
 	gameLevel: number;
 	limitLevels: LimitLevels;
 	cubesAmount: number;
