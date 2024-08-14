@@ -6,6 +6,7 @@ import { setStatsBtnNode, changeStatsBtnActivity, getCurrentLevelNode, handleSta
 import { getLevelInfoInstance } from './game-core';
 import { setButtonToState, playButtonActivity, changeButtonActivity } from './start-stop-retry';
 import { changePanels } from './game-guide-result';
+import { subscribesOnDataResult } from './game-guide-result';
 
 window.addEventListener('load',function(){
 	run();
@@ -123,6 +124,7 @@ function run():void{
 				UserInteraction.gameInProgress = true;
 				//Subscribers for data levels
 				getLevelInfoInstance().subscribe(subscribesOnData);
+				getLevelInfoInstance().subscribe(subscribesOnDataResult);
 				//Setting the 'retry' button as inactive
 				changeButtonActivity('retry', false);
 			}
