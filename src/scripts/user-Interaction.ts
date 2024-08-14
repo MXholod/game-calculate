@@ -9,6 +9,7 @@ import { subscribesOnData, clearStatisticsData } from './game-statistics';
 import { setButtonsByDefault, changeButtonActivity } from './start-stop-retry';
 
 export const UserInteraction:IUserInteraction = {
+	gameIdDateTime: 0,
 	gameLevel: 1,
 	limitLevels: [
 		{level: 1, isActive: false, values: { leftSlider: [-50,0], rightSlider: [0,50] } },
@@ -171,6 +172,7 @@ export const UserInteraction:IUserInteraction = {
 	//Reset the game data to default values
 	resetGameDataByDefault: function():boolean{
 		if(this!.gameInProgress === true){
+			this!.gameIdDateTime = 0;
 			this!.gameLevel = 1;
 			this!.gameInProgress = false;
 			this!.levelTimeIsUp = false;
