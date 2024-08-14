@@ -22,7 +22,8 @@ const PreparedLevelData:preparedData = {
 	levelElapsedTime: 0,
 	userResult: 0,
 	cpuResult: 0,
-	isSuccess: false
+	isSuccess: false,
+	dateTime: 0
 };
 //This function invokes when all cells are opened and accepts CPU value to store it here.
 export const allowUserAmount:allowUserInputAmount = (mainCube:HTMLDivElement, mainCubeData:mainCube):boolean=>{
@@ -106,6 +107,14 @@ export const handleButton:onApproveBtn = function(this:HTMLButtonElement, e: Eve
 		UserInteraction.resultApprovedGoNextLevel(timer);
 		//Prepare level data. Save to the Observer
 		PreparedLevelData.levelElapsedTime = UserInteraction.totalLevelSeconds;
+		//Create 'id' from the time stamp for all levels of the game
+		if((UserInteraction.gameIdDateTime === 0) && (UserInteraction.gameLevel === 1) && UserInteraction.gameInProgress){
+			UserInteraction.gameIdDateTime = Date.now();
+			PreparedLevelData.dateTime = UserInteraction.gameIdDateTime;
+		}else{
+			PreparedLevelData.dateTime = UserInteraction.gameIdDateTime;
+		}
+		//Compare 'user' and 'CPU' results
 		if(PreparedLevelData.userResult === PreparedLevelData.cpuResult){
 			PreparedLevelData.isSuccess = true;
 		}
