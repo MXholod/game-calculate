@@ -7,6 +7,7 @@ import { calculateCubesAmount, updateMainCubeWithElems, getLevelInfoInstance } f
 import { resetValuesTodefault } from './user-cpu-amount';
 import { subscribesOnData, clearStatisticsData } from './game-statistics';
 import { setButtonsByDefault, changeButtonActivity } from './start-stop-retry';
+import { subscribesOnDataResult } from './game-guide-result';
 
 export const UserInteraction:IUserInteraction = {
 	gameIdDateTime: 0,
@@ -37,6 +38,7 @@ export const UserInteraction:IUserInteraction = {
 			this!.gameInProgress = true;
 			//Subscribers for data levels
 			getLevelInfoInstance().subscribe(subscribesOnData);
+			getLevelInfoInstance().subscribe(subscribesOnDataResult);
 			//Set start, stop, retry buttons by default
 			setButtonsByDefault();
 			return true;
