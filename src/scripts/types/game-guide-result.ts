@@ -15,3 +15,5 @@ export type changePanelsOnPage = (this:HTMLButtonElement, e:MouseEvent)=>void;
 export type subsOnData = (levelsAllData:IPreparedLevelData[])=>void;
 
 export type getDataFromStorage = ()=>stateLevelsData;
+
+export type setDataToStorage = (levels: stateLevelsData)=>boolean;
