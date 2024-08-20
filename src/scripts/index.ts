@@ -5,7 +5,7 @@ import { handleUserInput, handleButton } from './user-cpu-amount';
 import { setStatsBtnNode, changeStatsBtnActivity, getCurrentLevelNode, handleStatsButton, subscribesOnData } from './game-statistics';
 import { getLevelInfoInstance } from './game-core';
 import { setButtonToState, playButtonActivity, changeButtonActivity } from './start-stop-retry';
-import { changePanels } from './game-guide-result';
+import { changePanels, resultOnInit } from './game-guide-result';
 import { subscribesOnDataResult } from './game-guide-result';
 
 window.addEventListener('load',function(){
@@ -133,7 +133,10 @@ function run():void{
 	if(timer){
 		UserInteraction.initBeforeGame(timer);
 	}
-	//The game guide and result page
+	//Display the game guide and result page if the data already exists
+	const resultsPanel:HTMLElement = (document.querySelector('.content__result')! as HTMLElement);
+	resultOnInit(resultsPanel);
+	//The game guide button and result page button
 	const navGuideBtn:HTMLButtonElement = (document.querySelector('.content__navigation_guide')! as HTMLButtonElement);
 	const navResultBtn:HTMLButtonElement = document.querySelector('.content__navigation_result')! as HTMLButtonElement;
 	if((navGuideBtn !== null) && (navResultBtn !== null)){
