@@ -1,4 +1,4 @@
-import { resultOnInitData, stateLevelsData, changePanelsOnPage, subsOnData, getDataFromStorage } from './types/game-guide-result';
+import { resultOnInitData, stateLevelsData, changePanelsOnPage, subsOnData, getDataFromStorage, setDataToStorage } from './types/game-guide-result';
 import { IPreparedLevelData } from "./types/game-core";
 
 //The array of data of all levels
@@ -54,4 +54,16 @@ export const getFromStorage:getDataFromStorage = ():stateLevelsData=>{
 		return levels;
 	}
 	return [];
+}
+//Set data to storage
+export const setToStorage:setDataToStorage = (levels: stateLevelsData):boolean=>{
+	if(levels.length === 0){ 
+		return false; 
+	}else{
+		//Serialize to JSON
+		const levelsJson = JSON.stringify(levels);
+		//Save new data to localStorage
+		window.localStorage.setItem('levels', levelsJson);
+	}
+	return true;
 }
