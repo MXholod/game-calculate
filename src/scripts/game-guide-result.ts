@@ -1,7 +1,7 @@
-import { resultOnInitData, stateLevelsData, changePanelsOnPage, subsOnData, getDataFromStorage, setDataToStorage } from './types/game-guide-result';
+import { levelsPack, ILevelsPackData, stateLevelsData, resultOnInitData, changePanelsOnPage, subsOnData, getDataFromStorage, setDataToStorage, packLevelsToStructure, IUniqueKeys } from './types/game-guide-result';
 import { IPreparedLevelData } from "./types/game-core";
 
-//The array of data of all levels
+//The array of levels: { level: 0, levelElapsedTime: 0, userResult: 0, cpuResult: 0, isSuccess: false,dateTime:0 } 
 export let stateLevels:stateLevelsData = [];
 
 //If data is in the localStorage the panel with data is showed otherwise the panel with no results is showed
@@ -40,10 +40,17 @@ export const changePanels:changePanelsOnPage = function(this:HTMLButtonElement, 
 	}
 }
 //This function subscribes on the levels data. It calls in user-Interaction file
-export const subscribesOnDataResult:subsOnData = (levelsAllData:IPreparedLevelData[]):void=>{
-	//The local array of - { level: 0, levelElapsedTime: 0, userResult: 0, cpuResult: 0, isSuccess: false } 
-	if(levelsAllData.length > 0){
-		console.log("All levels in results: ",levelsAllData);
+export const subscribesOnDataResult:subsOnData = (levelsAllData:levelsPack):void=>{
+	//If levels already exist
+	if((stateLevels.length > 0) && (levelsAllData.length > 0)){
+		const allNewLevels = packLevels(levelsAllData);
+		console.log(allNewLevels);
+		//Merge 'allNewLevels' with 'stateLevels'
+		//Save to the LocalStorage
+	}else{//There is no level. Very first level comes.
+		//Simply assigning a new level to the table of the statistics
+		stateLevels = packLevels(levelsAllData);
+		//Save to the LocalStorage
 	}
 }
 //Get data from storage
@@ -66,4 +73,27 @@ export const setToStorage:setDataToStorage = (levels: stateLevelsData):boolean=>
 		window.localStorage.setItem('levels', levelsJson);
 	}
 	return true;
+}
+//Packing levels into a set
+export const packLevels:packLevelsToStructure = function(levels:levelsPack):stateLevelsData{
+	const packedLevels:stateLevelsData = [];
+	const uniqueKeys:IUniqueKeys = {};
+	//Find unique 'dateTime' properties
+	for(let i = 0; levels.length > i; i++){
+		uniqueKeys[levels[i].dateTime] = levels[i].dateTime;
+	}
+	//Get an array of unique keys
+	const uKeysArr = Object.keys(uniqueKeys).map((el)=>uniqueKeys[Number(el)]);
+	//Make the new structure for the data
+	for(let i = 0; uKeysArr.length > i; i++){
+		const packedLevel:ILevelsPackData = {};
+			packedLevel[uKeysArr[i]] = [];
+		for(let j = 0; levels.length > j; j++){
+			if(uKeysArr[i] === levels[j].dateTime){
+				packedLevel[uKeysArr[i]].push(levels[j]);
+			}
+		}
+		packedLevels.push(packedLevel);
+	}
+	return packedLevels;
 }
