@@ -17,3 +17,9 @@ export type subsOnData = (levelsAllData:IPreparedLevelData[])=>void;
 export type getDataFromStorage = ()=>stateLevelsData;
 
 export type setDataToStorage = (levels: stateLevelsData)=>boolean;
+
+export type packLevelsToStructure = (levels:levelsPack)=>stateLevelsData;
+
+export interface IUniqueKeys{
+	[key:number]:number;
+};
