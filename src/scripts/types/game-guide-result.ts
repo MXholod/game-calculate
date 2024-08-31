@@ -23,3 +23,9 @@ export type packLevelsToStructure = (levels:levelsPack)=>stateLevelsData;
 export interface IUniqueKeys{
 	[key:number]:number;
 };
+
+export type mergeStateLevelsStructure = (stateLevels:stateLevelsData, newLevels:stateLevelsData)=>boolean;
+
+export interface IMapKeys{
+	[key:string]:string;
+};
