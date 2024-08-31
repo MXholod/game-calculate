@@ -9,11 +9,17 @@ export const resultOnInit:resultOnInitData = (panelResult:HTMLElement):boolean=>
 	if(!panelResult) return false;
 	const noResultBlock = (panelResult!.children[1] as HTMLDivElement);
 	const resultBlock = (panelResult!.children[2] as HTMLDivElement);
-	if(getFromStorage().length === 0){
+	//Get all data from the LocalStorage
+	const stateLocalStorage = getFromStorage();
+	if(stateLocalStorage.length === 0){
+		//Display panel with no-results
 		noResultBlock.style.display = "block";
 		resultBlock.style.display = "none";
 		return false;
 	}else{
+		//Merge LocalStorage with state
+		mergeStateLevels(stateLevels, stateLocalStorage);
+		//Display panel with results
 		noResultBlock.style.display = "none";
 		resultBlock.style.display = "block";
 		return true;
@@ -41,18 +47,26 @@ export const changePanels:changePanelsOnPage = function(this:HTMLButtonElement, 
 }
 //This function subscribes on the levels data. It calls in user-Interaction file
 export const subscribesOnDataResult:subsOnData = (levelsAllData:levelsPack):void=>{
+	const stateLocalStorage = getFromStorage();
+	if(stateLocalStorage.length !== 0){
+		//Merge LocalStorage with state
+		mergeStateLevels(stateLevels, stateLocalStorage);
+	}
 	//If levels already exist
 	if((stateLevels.length > 0) && (levelsAllData.length > 0)){
 		//Pack levels
 		const allNewLevels = packLevels(levelsAllData);
 		//Merge new levels with state
 		const isMerged = mergeStateLevels(stateLevels, allNewLevels);
-		console.log("Is merged ",stateLevels);
-		//Save to the LocalStorage
+		if(isMerged){
+			//Save to the LocalStorage
+			setToStorage(stateLevels);
+		}
 	}else{//There is no level in the 'stateLevels'. Very first time level comes.
 		//Simply assigning a new level to the state
 		stateLevels = packLevels(levelsAllData);
 		//Save to the LocalStorage
+		setToStorage(stateLevels);
 	}
 }
 //Get data from storage
