@@ -1,4 +1,4 @@
-import { levelsPack, ILevelsPackData, stateLevelsData, resultOnInitData, changePanelsOnPage, subsOnData, getDataFromStorage, setDataToStorage, packLevelsToStructure, IUniqueKeys } from './types/game-guide-result';
+import { levelsPack, ILevelsPackData, stateLevelsData, resultOnInitData, changePanelsOnPage, subsOnData, getDataFromStorage, setDataToStorage, packLevelsToStructure, IUniqueKeys, mergeStateLevelsStructure, IMapKeys } from './types/game-guide-result';
 import { IPreparedLevelData } from "./types/game-core";
 
 //The array of levels: { level: 0, levelElapsedTime: 0, userResult: 0, cpuResult: 0, isSuccess: false,dateTime:0 } 
@@ -43,12 +43,14 @@ export const changePanels:changePanelsOnPage = function(this:HTMLButtonElement, 
 export const subscribesOnDataResult:subsOnData = (levelsAllData:levelsPack):void=>{
 	//If levels already exist
 	if((stateLevels.length > 0) && (levelsAllData.length > 0)){
+		//Pack levels
 		const allNewLevels = packLevels(levelsAllData);
-		console.log(allNewLevels);
-		//Merge 'allNewLevels' with 'stateLevels'
+		//Merge new levels with state
+		const isMerged = mergeStateLevels(stateLevels, allNewLevels);
+		console.log("Is merged ",stateLevels);
 		//Save to the LocalStorage
-	}else{//There is no level. Very first level comes.
-		//Simply assigning a new level to the table of the statistics
+	}else{//There is no level in the 'stateLevels'. Very first time level comes.
+		//Simply assigning a new level to the state
 		stateLevels = packLevels(levelsAllData);
 		//Save to the LocalStorage
 	}
@@ -97,3 +99,33 @@ export const packLevels:packLevelsToStructure = function(levels:levelsPack):stat
 	}
 	return packedLevels;
 }
+//Merging the array (state) with the array (new levels)
+export const mergeStateLevels:mergeStateLevelsStructure = function(stateLevels, newLevels):boolean{
+	if(newLevels.length === 0) return false;
+	//Temporary store all keys from the state 
+	const keyMap:IMapKeys = {};
+	//Iterate state
+	for(let i = 0; stateLevels.length > i; i++){
+		//Iterate new levels
+		for(let j = 0; newLevels.length > j; j++){
+			//Get a key of the current new level
+			let newLevelKey = Object.keys(newLevels[j])[0];
+			//If the new level is already in the state. Update existing ones
+			if(stateLevels[i].hasOwnProperty(newLevelKey)){
+				stateLevels[i][Number(newLevelKey)] = newLevels[j][Number(newLevelKey)];
+			}
+		}
+		//Save all keys from the state to the map
+		let stateLevelKey = Object.keys(stateLevels[i])[0];
+		keyMap[stateLevelKey] = stateLevelKey;
+	}
+	//Compare new levels with map (state keys)
+	for(let i = 0; newLevels.length > i; i++){
+		let newLevelKey = Object.keys(newLevels[i])[0];
+		//If new level's key doesn't exist in map, add this level to the state 
+		if(!(newLevelKey in keyMap)){
+			stateLevels.push(newLevels[i]);
+		}	
+	}
+	return true;
+} 
