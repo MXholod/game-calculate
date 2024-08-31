@@ -18,6 +18,8 @@ export type getDataFromStorage = ()=>stateLevelsData;
 
 export type setDataToStorage = (levels: stateLevelsData)=>boolean;
 
+export type clearDataFromStorage = ()=>boolean;
+
 export type packLevelsToStructure = (levels:levelsPack)=>stateLevelsData;
 
 export interface IUniqueKeys{
@@ -29,3 +31,5 @@ export type mergeStateLevelsStructure = (stateLevels:stateLevelsData, newLevels:
 export interface IMapKeys{
 	[key:string]:string;
 };
+
+export type handleClearDataButton = (this:HTMLButtonElement, e:MouseEvent)=>void;
