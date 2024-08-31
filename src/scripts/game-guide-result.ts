@@ -1,15 +1,24 @@
-import { levelsPack, ILevelsPackData, stateLevelsData, resultOnInitData, changePanelsOnPage, subsOnData, getDataFromStorage, setDataToStorage, packLevelsToStructure, IUniqueKeys, mergeStateLevelsStructure, IMapKeys } from './types/game-guide-result';
+import { levelsPack, ILevelsPackData, stateLevelsData, resultOnInitData, changePanelsOnPage, subsOnData, getDataFromStorage, setDataToStorage, clearDataFromStorage, packLevelsToStructure, IUniqueKeys, mergeStateLevelsStructure, IMapKeys, handleClearDataButton } from './types/game-guide-result';
 import { IPreparedLevelData } from "./types/game-core";
 
 //The array of levels: { level: 0, levelElapsedTime: 0, userResult: 0, cpuResult: 0, isSuccess: false,dateTime:0 } 
 export let stateLevels:stateLevelsData = [];
+//Clear button element
+let clearStorageButton:(null | HTMLButtonElement) = null; 
+let noResultBlock:(null | HTMLDivElement) = null; 
+let resultBlock:(null | HTMLDivElement) = null; 
 
 //If data is in the localStorage the panel with data is showed otherwise the panel with no results is showed
 export const resultOnInit:resultOnInitData = (panelResult:HTMLElement):boolean=>{
 	if(!panelResult) return false;
-	
-	const noResultBlock = (panelResult!.children[1] as HTMLDivElement);
-	const resultBlock = (panelResult!.children[2] as HTMLDivElement);
+	if(clearStorageButton === null){
+		//Found clear data button element
+		clearStorageButton = <HTMLButtonElement>(panelResult.children[2]?.firstChild?.lastChild);
+		clearStorageButton.addEventListener("click", clearDataButton);
+	}
+	//Get results and no-results panels
+	noResultBlock = (panelResult!.children[1] as HTMLDivElement);
+	resultBlock = (panelResult!.children[2] as HTMLDivElement);
 	const preloader = (panelResult!.nextSibling as HTMLElement);
 	//Removing the preloader
 	let tPreloader:ReturnType<typeof setTimeout> = setTimeout(function(){
@@ -99,6 +108,12 @@ export const setToStorage:setDataToStorage = (levels: stateLevelsData):boolean=>
 	}
 	return true;
 }
+//Clear all the data, locally and from the storage
+export const clearStorage:clearDataFromStorage = ():boolean=>{
+	//Clear data in localStorage
+	window.localStorage.clear();
+	return true;
+}
 //Packing levels into a set
 export const packLevels:packLevelsToStructure = function(levels:levelsPack):stateLevelsData{
 	const packedLevels:stateLevelsData = [];
@@ -151,4 +166,20 @@ export const mergeStateLevels:mergeStateLevelsStructure = function(stateLevels, 
 		}	
 	}
 	return true;
-} 
+}
+//This is a handler of the button that clears all the data
+export const clearDataButton:handleClearDataButton = function(this:HTMLButtonElement, e:MouseEvent):void{
+	const willDelete = window.confirm("Do you really want to delete all data?");
+	if(willDelete){
+		//Clear LocalStorage
+		clearStorage();
+		//Clear the array of levels
+		stateLevels = [];
+		//Display no result panel
+		if((noResultBlock !== null) && (resultBlock !== null)){
+			//Display panel with no-results
+			noResultBlock.style.display = "block";
+			resultBlock.style.display = "none";
+		}
+	}
+}
