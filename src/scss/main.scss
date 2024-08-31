@@ -530,6 +530,57 @@ html, body{
 				z-index:0;
 				padding: 1vw;
 			}
+			.content__preloader{
+				position:absolute;
+				background-color: rgba(0,0,0,0.97);
+				top:0;
+				left:0;
+				right:0;
+				bottom:0;
+				z-index:1;
+				padding: 1vw;
+				& > div{
+					width: 150px;
+					height: 40px;
+					position: relative;
+					top: 50%;
+					left: 50%;
+					transform: translate(-75px, -25px);
+					display: flex;
+					align-items: center;
+					justify-content: space-around;
+					@keyframes preloader{
+						0%{
+							align-self: flex-end;
+						}
+						50%{
+							align-self: center;
+						}
+						75%{
+							align-self: flex-start;
+						}
+						100%{
+							align-self: center;
+						}
+					}
+					& > span{
+						width: 25px;
+						height: 25px;
+						border: 1px solid #000;
+						border-radius: 50%;
+						background-color: #FFB22C; 
+					}
+					& > span:nth-of-type(1){
+						animation: preloader 1s linear .5s infinite normal none;
+					}
+					& > span:nth-of-type(2){
+						animation: preloader 1s linear .6s infinite normal none;
+					}
+					& > span:nth-of-type(3){
+						animation: preloader 1s linear .7s infinite normal none;
+					}
+				}
+			}
 		}
 	}
 	.footer{
