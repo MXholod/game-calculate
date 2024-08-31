@@ -7,8 +7,17 @@ export let stateLevels:stateLevelsData = [];
 //If data is in the localStorage the panel with data is showed otherwise the panel with no results is showed
 export const resultOnInit:resultOnInitData = (panelResult:HTMLElement):boolean=>{
 	if(!panelResult) return false;
+	
 	const noResultBlock = (panelResult!.children[1] as HTMLDivElement);
 	const resultBlock = (panelResult!.children[2] as HTMLDivElement);
+	const preloader = (panelResult!.nextSibling as HTMLElement);
+	//Removing the preloader
+	let tPreloader:ReturnType<typeof setTimeout> = setTimeout(function(){
+		if(preloader){
+			preloader.style.display = "none";
+			clearTimeout(tPreloader);
+		}
+	},3000);
 	//Get all data from the LocalStorage
 	const stateLocalStorage = getFromStorage();
 	if(stateLocalStorage.length === 0){
