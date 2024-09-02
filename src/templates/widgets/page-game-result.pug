@@ -1,4 +1,5 @@
 include ./../shared/page-game-result-sorting-results.pug
+include ./../shared/page-game-result-levels-list.pug
 section(class='content__result')
 	h3 Game results page
 	div(class='no-results')
@@ -7,11 +8,12 @@ section(class='content__result')
 		div(class='block-results_sorting')
 			+sorting-results("success")
 			button(class='block-results_clear-data') Clear all data 
-		header(class='block-header_levels')
+		header(class='block-header_games')
 			span Level
 			span Sequence of numbers
 			span Remain time
 			span User result
 			span CPU result
 			span Progress
-		div(class='block-data_levels')
+		div(class='block-data_games')
+			+level-list(10, 10)
