@@ -1,0 +1,32 @@
+mixin level-list(gameAmount, levels)
+	- var iGame = 0;
+		while gameAmount > iGame
+			div(class='block-data__game')
+				header(class='block-data__header')
+					span(class='block-data__order')= ++iGame
+					div(class='block-data__date')
+						h3 Date:
+						time 2021-02-18 18:23:47
+					div(class='block-data__passed-levels')
+						h3 Passed levels:
+						span 3
+				section(class='block-data__levels')
+					- var iLevel = 0;
+					while levels > iLevel
+						div(class='block-data__level')
+							h3= ++iLevel
+						div(class='block-data__user-result')
+							h3 User result
+							span 12
+						div(class='block-data__cpu-result')
+							h3 CPU result
+							span 15
+						div(class='block-data__progress')
+							h3 Progress
+							span Bad
+						div(class='block-data__remaining-time')
+							h3 Remaining time
+							time 18:23
+						div(class='block-data__nums-sequence')
+							h3 Sequence of numbers
+							div -75 - 60 - 10 + 5 	
