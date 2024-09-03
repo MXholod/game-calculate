@@ -9,11 +9,13 @@ section(class='content__result')
 			+sorting-results("success")
 			button(class='block-results_clear-data') Clear all data 
 		header(class='block-header_games')
-			span Level
-			span Sequence of numbers
-			span Remain time
-			span User result
-			span CPU result
-			span Progress
+			h3 The structure of each level with the example of provided information
+			div
+				span Level
+				span User result
+				span CPU result
+				span Progress
+				span Remaining time
+				span Sequence of numbers
 		div(class='block-data_games')
 			+level-list(10, 10)
