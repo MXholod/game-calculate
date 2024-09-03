@@ -512,7 +512,7 @@ html, body{
 							}
 						}
 					}
-					.block-header_levels{
+					.block-header_games{
 						display:flex;
 						flex-direction:row;
 						justify-content: space-between;
@@ -526,8 +526,92 @@ html, body{
 							text-align:center;
 						}
 					}
-					.block-data_levels{
-						
+					.block-data_games{
+						overflow-y: scroll;
+						height: 45vh;
+						/*Single game block*/
+						.block-data__game{
+							display: flex;
+							flex-direction: column;
+							font-size: .7em;
+							margin: 15px 0 0;
+							/*Game header*/
+							.block-data__header{
+								display: flex;
+								justify-content: space-between;
+								color:#fff;
+								height: 20px;
+								font-size: .7em;
+								.block-data__order{
+									display: none;
+								}
+								.block-data__date{
+									display: flex;
+									justify-content: space-around;
+									flex-basis: 20%;
+									background-color: purple;
+									h3:first-child{ font-size: 1em;; }
+								}
+								.block-data__passed-levels{
+									display: flex;
+									justify-content: space-around;
+									flex-basis: 20%;
+									background-color: violet;
+									h3:first-child{ font-size: 1em;; }
+								}
+							}
+							/*Game levels with information for each level*/
+							.block-data__levels{
+								display: grid;
+								grid-template: repeat(2, 1fr) / repeat(5, 1fr);
+								grid-row-gap: 3px;
+								grid-column-gap: 3px;
+								$fontSize: .7em;
+								border: 1px solid #000;
+								grid-auto-rows: 40px;
+								.block-data__level{
+									h3:first-child{ font-size: $fontSize; }
+									padding-top: 3%;
+									background-color: lightgreen;
+								}
+								.block-data__user-result{
+									background-color: lightblue;
+									h3:first-child{ font-size: $fontSize; }
+									span{
+										font-size: $fontSize;
+									}
+								}
+								.block-data__cpu-result{
+									background-color: lightgrey;
+									h3:first-child{ font-size: $fontSize; }
+									span{
+										font-size: $fontSize;
+									}
+								}
+								.block-data__progress{
+									background-color: tomato;
+									h3:first-child{ font-size: $fontSize; }
+									span{
+										font-size: $fontSize;
+									}
+								}
+								.block-data__remaining-time{
+									background-color: pink;
+									h3:first-child{ font-size: $fontSize; }
+									time{
+										font-size: $fontSize;
+									}
+								}
+								.block-data__nums-sequence{
+									h3:first-child{ font-size: $fontSize; }
+									grid-column: 1 / span 5;
+									div{
+										font-size: $fontSize;
+									}
+									background-color: violet;
+								}
+							}
+						}
 					}
 				}
 			}
