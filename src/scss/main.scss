@@ -479,7 +479,7 @@ html, body{
 					display:none;
 					.block-results_sorting{
 						font-size:.8em;
-						padding: .5% 0 1% 0;
+						padding: .5% 0 .5% 0;
 						label:hover{
 							cursor:pointer;
 						}
@@ -513,17 +513,36 @@ html, body{
 						}
 					}
 					.block-header_games{
-						display:flex;
-						flex-direction:row;
-						justify-content: space-between;
-						background-color:#E7E8D8;
+						background-color: #e7cfa5;
 						border: 1px solid #000;
-						span{
-							border-right:1px solid #000;
-							font-size:.7em;
-							font-weight:bold;
-							flex-basis: 15%;
-							text-align:center;
+						margin-bottom: 4px;
+						h3{
+							text-align: center;
+							font-size: .6em;
+							border-bottom: 1px solid #000;
+							background-color: #d3bd52;
+						}
+						& > div{
+							display: grid;
+							grid-template: repeat(2, 1fr) / repeat(5, 1fr);
+							grid-row-gap: 3px;
+							grid-column-gap: 3px;
+							span{
+								border-right: 1px solid #000;
+								border-bottom: 1px solid #000;
+								font-size: .6em;
+								font-weight: bold;
+								flex-basis: 15%;
+								text-align:center;
+							}
+							span:nth-child(5){
+								border-right: none;
+							}
+							span:last-child{
+								grid-column: 1 / span 5;
+								border-right: none;
+								border-bottom: none;
+							}
 						}
 					}
 					.block-data_games{
