@@ -1,11 +1,22 @@
 mixin sorting-results(btnNameDefault)
-	if btnNameDefault !== "" && btnNameDefault === "remainTime"
+	if btnNameDefault !== "" && btnNameDefault === "byDate"
+		label Sort by date
+			input(type="radio" name="dataSort" checked="checked")
 		label Sort by success
 			input(type="radio" name="dataSort")
 		label Sort by remain time
-			input(type="radio" name="dataSort" checked="checked")
+			input(type="radio" name="dataSort")
 	if btnNameDefault !== "" && btnNameDefault === "success"	
+		label Sort by date
+			input(type="radio" name="dataSort")
 		label Sort by success
 			input(type="radio" name="dataSort" checked="checked")
 		label Sort by remain time
 			input(type="radio" name="dataSort")
+	if btnNameDefault !== "" && btnNameDefault === "remainTime"
+		label Sort by date
+			input(type="radio" name="dataSort")
+		label Sort by success
+			input(type="radio" name="dataSort")
+		label Sort by remain time
+			input(type="radio" name="dataSort" checked="checked")
