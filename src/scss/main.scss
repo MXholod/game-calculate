@@ -480,25 +480,18 @@ html, body{
 					.block-results_sorting{
 						font-size:.8em;
 						padding: .5% 0 .5% 0;
+						label{
+							margin:0% 0% 0% 5%;
+							font-size: .8em;
+							display:inline-block;
+							width:15%;
+							input[type="radio"]{
+								position:relative;
+								left: 10px;
+							}
+						}
 						label:hover{
 							cursor:pointer;
-						}
-						label:first-child{
-							margin:0 10% 0 5%;
-							display:inline-block;
-							width:20%;
-							input[type="radio"]{
-								position:relative;
-								left: 10px;
-							}
-						}
-						label:nth-child(2){
-							display:inline-block;
-							width:20%;
-							input[type="radio"]{
-								position:relative;
-								left: 10px;
-							}
 						}
 						button:last-child{
 							background-color: lighten(#C7253E, 10%);
