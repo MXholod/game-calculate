@@ -1,4 +1,4 @@
-import { levelsPack, ILevelsPackData, stateLevelsData, resultOnInitData, changePanelsOnPage, subsOnData, getDataFromStorage, setDataToStorage, clearDataFromStorage, packLevelsToStructure, IUniqueKeys, mergeStateLevelsStructure, IMapKeys, handleClearDataButton } from './types/game-guide-result';
+import { levelsPack, ILevelsPackData, stateLevelsData, resultOnInitData, changePanelsOnPage, subsOnData, getDataFromStorage, setDataToStorage, clearDataFromStorage, packLevelsToStructure, IUniqueKeys, mergeStateLevelsStructure, IMapKeys, handleClearDataButton, displayGamesWithLevelsData, createDateFormat } from './types/game-guide-result';
 import { IPreparedLevelData } from "./types/game-core";
 
 //The array of levels: { level: 0, levelElapsedTime: 0, userResult: 0, cpuResult: 0, isSuccess: false,dateTime:0 } 
@@ -7,6 +7,7 @@ export let stateLevels:stateLevelsData = [];
 let clearStorageButton:(null | HTMLButtonElement) = null; 
 let noResultBlock:(null | HTMLDivElement) = null; 
 let resultBlock:(null | HTMLDivElement) = null; 
+let gamesContainer:(null | HTMLDivElement) = null; 
 
 //If data is in the localStorage the panel with data is showed otherwise the panel with no results is showed
 export const resultOnInit:resultOnInitData = (panelResult:HTMLElement):boolean=>{
@@ -19,7 +20,10 @@ export const resultOnInit:resultOnInitData = (panelResult:HTMLElement):boolean=>
 	//Get results and no-results panels
 	noResultBlock = (panelResult!.children[1] as HTMLDivElement);
 	resultBlock = (panelResult!.children[2] as HTMLDivElement);
+	//Get the preloader element
 	const preloader = (panelResult!.nextSibling as HTMLElement);
+	//Get the container of all the games
+	gamesContainer = (resultBlock?.lastChild) as HTMLDivElement;
 	//Removing the preloader
 	let tPreloader:ReturnType<typeof setTimeout> = setTimeout(function(){
 		if(preloader){
@@ -40,6 +44,8 @@ export const resultOnInit:resultOnInitData = (panelResult:HTMLElement):boolean=>
 		//Display panel with results
 		noResultBlock.style.display = "none";
 		resultBlock.style.display = "block";
+		//Displaying data of the games
+		displayGamesWithLevels(stateLevels);
 		return true;
 	}
 }
@@ -182,4 +188,47 @@ export const clearDataButton:handleClearDataButton = function(this:HTMLButtonEle
 			resultBlock.style.display = "none";
 		}
 	}
+}
+//Displaying games with the levels in template
+export const displayGamesWithLevels:displayGamesWithLevelsData = (games:stateLevelsData):void=>{
+	if(gamesContainer !== null){
+		//Get all children rows that display game data
+		const gameRows:HTMLCollection = gamesContainer.children;
+		//If there are HTML rows to display game data
+		if(gameRows.length > 0){
+			//If there is data to display in rows
+			if(games.length > 0){
+				//Go through the children rows and insert data
+				for(let i = 0; games.length > i; i++){
+					//Display game rows according to the data
+					const gameRow = <HTMLDivElement>gameRows[i];
+					gameRow.style.display = "flex";
+					//Get the header of the row. Here is the date is displayed
+					const headerRow = <HTMLElement>gameRow.firstChild;
+					const timeElement = <HTMLElement>headerRow?.children[1]?.lastChild;
+					const passedLevelsElement = <HTMLElement>headerRow?.children[2]?.lastChild;
+					//Get the section with levels of the game.
+					const sectionRow = <HTMLElement>gameRow.lastChild;
+					//Get the data of the current level
+					const currentLevelKey = Object.keys(games[i])[0];
+					const levelData:levelsPack = games[i][Number(currentLevelKey)];
+					//Set the date and time in the header of the game
+					timeElement.textContent = dateFormat(currentLevelKey);
+					//Set an amount of passed levels
+					passedLevelsElement.textContent = String(levelData.length); 
+				}
+			}
+		}
+	}
+}
+//Date format creation
+export const dateFormat:createDateFormat = (timeStamp:string):string=>{
+	const dt = new Date(Number(timeStamp));
+	const date = (dt.getDate() <= 9) ? '0'+dt.getDate() : dt.getDate();
+	const month = (dt.getMonth() + 1 <= 9) ? '0'+(dt.getMonth() + 1) : dt.getMonth() + 1;
+	const hours = dt.getHours() <= 9 ? '0'+dt.getHours() : dt.getHours();
+	const minutes = dt.getMinutes() <= 9 ? '0'+dt.getMinutes() : dt.getMinutes();
+	const seconds = dt.getSeconds() <= 9 ? '0'+dt.getSeconds() : dt.getSeconds();
+	const dateTime = `${dt.getFullYear()}-${month}-${date}  ${hours}:${minutes}:${seconds}`;
+	return dateTime;
 }
