@@ -543,7 +543,7 @@ html, body{
 						height: 45vh;
 						/*Single game block*/
 						.block-data__game{
-							display: flex;
+							display: none;
 							flex-direction: column;
 							font-size: .7em;
 							margin: 15px 0 0;
@@ -554,6 +554,10 @@ html, body{
 								color:#fff;
 								height: 20px;
 								font-size: .7em;
+								background-color: #DBB5B5;
+								&:hover, &:active{
+									cursor: pointer;
+								}
 								.block-data__order{
 									display: none;
 								}
@@ -561,20 +565,20 @@ html, body{
 									display: flex;
 									justify-content: space-around;
 									flex-basis: 20%;
-									background-color: purple;
+									background-color: #987070;
 									h3:first-child{ font-size: 1em;; }
 								}
 								.block-data__passed-levels{
 									display: flex;
 									justify-content: space-around;
 									flex-basis: 20%;
-									background-color: violet;
+									background-color: #C39898;
 									h3:first-child{ font-size: 1em;; }
 								}
 							}
 							/*Game levels with information for each level*/
 							.block-data__levels{
-								display: grid;
+								display: none;
 								grid-template: repeat(2, 1fr) / repeat(5, 1fr);
 								grid-row-gap: 3px;
 								grid-column-gap: 3px;
@@ -582,11 +586,13 @@ html, body{
 								border: 1px solid #000;
 								grid-auto-rows: 40px;
 								.block-data__level{
+									display: none;
 									h3:first-child{ font-size: $fontSize; }
 									padding-top: 3%;
 									background-color: lightgreen;
 								}
 								.block-data__user-result{
+									display: none;
 									background-color: lightblue;
 									h3:first-child{ font-size: $fontSize; }
 									span{
@@ -595,6 +601,7 @@ html, body{
 								}
 								.block-data__cpu-result{
 									background-color: lightgrey;
+									display: none;
 									h3:first-child{ font-size: $fontSize; }
 									span{
 										font-size: $fontSize;
@@ -602,6 +609,7 @@ html, body{
 								}
 								.block-data__progress{
 									background-color: tomato;
+									display: none;
 									h3:first-child{ font-size: $fontSize; }
 									span{
 										font-size: $fontSize;
@@ -609,6 +617,7 @@ html, body{
 								}
 								.block-data__remaining-time{
 									background-color: pink;
+									display: none;
 									h3:first-child{ font-size: $fontSize; }
 									time{
 										font-size: $fontSize;
@@ -616,6 +625,7 @@ html, body{
 								}
 								.block-data__nums-sequence{
 									h3:first-child{ font-size: $fontSize; }
+									display: none;
 									grid-column: 1 / span 5;
 									div{
 										font-size: $fontSize;
