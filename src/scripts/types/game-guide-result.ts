@@ -33,3 +33,7 @@ export interface IMapKeys{
 };
 
 export type handleClearDataButton = (this:HTMLButtonElement, e:MouseEvent)=>void;
+
+export type displayGamesWithLevelsData = (games:stateLevelsData)=>void;
+
+export type createDateFormat = (timeStamp:string)=>string;
