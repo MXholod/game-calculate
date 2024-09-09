@@ -1,4 +1,4 @@
-import { levelsPack, ILevelsPackData, stateLevelsData, resultOnInitData, changePanelsOnPage, subsOnData, getDataFromStorage, setDataToStorage, clearDataFromStorage, packLevelsToStructure, IUniqueKeys, mergeStateLevelsStructure, IMapKeys, handleClearDataButton, displayGamesWithLevelsData, createDateFormat } from './types/game-guide-result';
+import { levelsPack, ILevelsPackData, stateLevelsData, resultOnInitData, changePanelsOnPage, subsOnData, getDataFromStorage, setDataToStorage, clearDataFromStorage, packLevelsToStructure, IUniqueKeys, mergeStateLevelsStructure, IMapKeys, handleClearDataButton, displayGamesWithLevelsData, createDateFormat, IExpandedGameBlock, expandGameBlockHandler } from './types/game-guide-result';
 import { IPreparedLevelData } from "./types/game-core";
 
 //The array of levels: { level: 0, levelElapsedTime: 0, userResult: 0, cpuResult: 0, isSuccess: false,dateTime:0 } 
@@ -7,7 +7,13 @@ export let stateLevels:stateLevelsData = [];
 let clearStorageButton:(null | HTMLButtonElement) = null; 
 let noResultBlock:(null | HTMLDivElement) = null; 
 let resultBlock:(null | HTMLDivElement) = null; 
-let gamesContainer:(null | HTMLDivElement) = null; 
+let gamesContainer:(null | HTMLDivElement) = null;
+//This object stores the currently expanded game block 
+const expandedBlock:IExpandedGameBlock = {
+	isExpanded: false,
+	selectedElement: null,
+	selectedNumElement: 0
+};
 
 //If data is in the localStorage the panel with data is showed otherwise the panel with no results is showed
 export const resultOnInit:resultOnInitData = (panelResult:HTMLElement):boolean=>{
@@ -16,6 +22,9 @@ export const resultOnInit:resultOnInitData = (panelResult:HTMLElement):boolean=>
 		//Found clear data button element
 		clearStorageButton = <HTMLButtonElement>(panelResult.children[2]?.firstChild?.lastChild);
 		clearStorageButton.addEventListener("click", clearDataButton);
+		//Find and subscribe on the element that contains all the games
+		const blockGames = <HTMLDivElement>(panelResult?.children[2]?.children[2]);
+		blockGames.addEventListener("click", expandGameBlock);
 	}
 	//Get results and no-results panels
 	noResultBlock = (panelResult!.children[1] as HTMLDivElement);
@@ -232,3 +241,44 @@ export const dateFormat:createDateFormat = (timeStamp:string):string=>{
 	const dateTime = `${dt.getFullYear()}-${month}-${date}  ${hours}:${minutes}:${seconds}`;
 	return dateTime;
 }
+//Expand the game block when you click on it
+export const expandGameBlock:expandGameBlockHandler = function(this:HTMLDivElement, e:MouseEvent):void{
+	//Find element 'Header' of the selected game
+	const gameHeader = (e.target as HTMLElement).closest('.block-data__header');
+	if((gameHeader !== null) && (gameHeader.tagName === 'HEADER')){
+		//Getting the row number
+		const rowNumber = (gameHeader.firstChild as HTMLSpanElement)?.firstChild?.nodeValue;
+		//First time click
+		if((expandedBlock.selectedNumElement === 0)){
+			//Write game block information 
+			expandedBlock.isExpanded = true;
+			expandedBlock.selectedElement = <HTMLElement>(gameHeader.nextSibling);
+			expandedBlock.selectedNumElement = Number(rowNumber);
+			//Expand first time
+			if(!expandedBlock.selectedElement?.classList.contains('block-data__levels_expanded')){
+				expandedBlock.selectedElement?.classList.add('block-data__levels_expanded');
+			}
+		}else if(expandedBlock.selectedNumElement !== Number(rowNumber)){//Another row selected
+			//Roll up previous. Remove class that expands the block
+			if(expandedBlock.selectedElement?.classList.contains('block-data__levels_expanded')){
+				expandedBlock.selectedElement?.classList.remove('block-data__levels_expanded');
+			}
+			//Overwrite the old block with a new one
+			expandedBlock.selectedElement = <HTMLElement>(gameHeader.nextSibling);
+			if(!expandedBlock.selectedElement?.classList.contains('block-data__levels_expanded')){
+				expandedBlock.selectedElement?.classList.add('block-data__levels_expanded');
+			}
+			//Rewrite game block information
+			expandedBlock.isExpanded = true;
+			expandedBlock.selectedNumElement = Number(rowNumber);
+		}else if(expandedBlock.selectedNumElement === Number(rowNumber)){//The same row selected
+			//Toggle 'isExpanded' value 
+			expandedBlock.isExpanded = (expandedBlock.isExpanded) ? false : true;
+			if(expandedBlock.selectedElement?.classList.contains('block-data__levels_expanded')){
+				expandedBlock.selectedElement?.classList.remove('block-data__levels_expanded');
+			}else{
+				expandedBlock.selectedElement?.classList.add('block-data__levels_expanded');
+			}
+		}
+	}
+} 
