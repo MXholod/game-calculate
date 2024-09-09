@@ -37,3 +37,11 @@ export type handleClearDataButton = (this:HTMLButtonElement, e:MouseEvent)=>void
 export type displayGamesWithLevelsData = (games:stateLevelsData)=>void;
 
 export type createDateFormat = (timeStamp:string)=>string;
+
+export interface IExpandedGameBlock{
+	isExpanded: boolean;
+	selectedElement: (null | HTMLElement);
+	selectedNumElement: number;
+}
+
+export type expandGameBlockHandler = (this:HTMLDivElement, e:MouseEvent)=>void;
