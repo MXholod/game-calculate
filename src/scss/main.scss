@@ -586,13 +586,13 @@ html, body{
 								border: 1px solid #000;
 								grid-auto-rows: 40px;
 								.block-data__level{
-									display: none;
+									/*display: none;*/
 									h3:first-child{ font-size: $fontSize; }
 									padding-top: 3%;
 									background-color: lightgreen;
 								}
 								.block-data__user-result{
-									display: none;
+									/*display: none;*/
 									background-color: lightblue;
 									h3:first-child{ font-size: $fontSize; }
 									span{
@@ -601,7 +601,7 @@ html, body{
 								}
 								.block-data__cpu-result{
 									background-color: lightgrey;
-									display: none;
+									/*display: none;*/
 									h3:first-child{ font-size: $fontSize; }
 									span{
 										font-size: $fontSize;
@@ -609,7 +609,7 @@ html, body{
 								}
 								.block-data__progress{
 									background-color: tomato;
-									display: none;
+									/*display: none;*/
 									h3:first-child{ font-size: $fontSize; }
 									span{
 										font-size: $fontSize;
@@ -617,7 +617,7 @@ html, body{
 								}
 								.block-data__remaining-time{
 									background-color: pink;
-									display: none;
+									/*display: none;*/
 									h3:first-child{ font-size: $fontSize; }
 									time{
 										font-size: $fontSize;
@@ -625,13 +625,16 @@ html, body{
 								}
 								.block-data__nums-sequence{
 									h3:first-child{ font-size: $fontSize; }
-									display: none;
+									/*display: none;*/
 									grid-column: 1 / span 5;
 									div{
 										font-size: $fontSize;
 									}
 									background-color: violet;
 								}
+							}
+							.block-data__levels_expanded{
+								display: grid;
 							}
 						}
 					}
