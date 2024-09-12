@@ -1,5 +1,6 @@
 import { levelsPack, ILevelsPackData, stateLevelsData, resultOnInitData, changePanelsOnPage, subsOnData, getDataFromStorage, setDataToStorage, clearDataFromStorage, packLevelsToStructure, IUniqueKeys, mergeStateLevelsStructure, IMapKeys, handleClearDataButton, displayGamesWithLevelsData, createDateFormat, IExpandedGameBlock, expandGameBlockHandler } from './types/game-guide-result';
 import { IPreparedLevelData } from "./types/game-core";
+import { ICell } from './types/main-cube';
 
 //The array of levels: { level: 0, levelElapsedTime: 0, userResult: 0, cpuResult: 0, isSuccess: false,dateTime:0 } 
 export let stateLevels:stateLevelsData = [];
@@ -225,6 +226,53 @@ export const displayGamesWithLevels:displayGamesWithLevelsData = (games:stateLev
 					timeElement.textContent = dateFormat(currentLevelKey);
 					//Set an amount of passed levels
 					passedLevelsElement.textContent = String(levelData.length); 
+					//Go through the levels of the current game
+					for(let j = 0, levelPortion = 0; levelData.length > j; j++, levelPortion+=6){
+						//Level
+						const level = <HTMLDivElement>(sectionRow.children[levelPortion]);
+						level.style.display = "block";
+						(level.firstChild as HTMLHeadingElement).textContent = String(levelData[j].level);
+						//User result
+						const userResult = <HTMLDivElement>(sectionRow.children[levelPortion+1]);
+						userResult.style.display = "block";
+						(userResult.lastChild as HTMLSpanElement).textContent = String(levelData[j].userResult);
+						//CPU result
+						const cpuResult = <HTMLDivElement>(sectionRow.children[levelPortion+2]);
+						cpuResult.style.display = "block";
+						(cpuResult.lastChild as HTMLSpanElement).textContent = String(levelData[j].cpuResult);
+						//Progress
+						const progress = <HTMLDivElement>(sectionRow.children[levelPortion+3]);
+						progress.style.display = "block";
+						const resSuccess = Boolean(levelData[j].isSuccess) ? "Good!" : "Bad :(";
+						(progress.lastChild as HTMLSpanElement).textContent = resSuccess;
+						//Remaining time
+						const remainingTime = <HTMLDivElement>(sectionRow.children[levelPortion+4]);
+						remainingTime.style.display = "block";
+						(remainingTime.lastChild as HTMLElement).textContent = String(levelData[j].levelElapsedTime);
+						//Sequence of numbers
+						const numSequence = <HTMLDivElement>(sectionRow.children[levelPortion+5]);
+						numSequence.style.display = "flex";
+						levelData[j].allCubeCells.sort(function<T extends ICell>(o1:T, o2:T):number{
+							if(o1?.order !== undefined && o2?.order !== undefined){
+								return o1.order - o2.order;
+							}else if(o1?.order !== undefined){
+								return -1;
+							}else if(o2?.order !== undefined){
+								return 1;
+							}else{
+								return 0;
+							}
+						});
+						let sequence = levelData[j].allCubeCells.map(function(level, ind){
+							++ind;
+							if(ind === level.order){
+								return level.sign.slice(1,2)+' '+level.value;
+							}
+						}).join(' ');
+						//Concatenation of a sequence of numbers with a sum at the end
+						sequence = `${sequence} = ${(levelData[j].cpuResult)}`;
+						(numSequence.lastChild as HTMLDivElement).textContent = sequence;
+					}
 				}
 			}
 		}
