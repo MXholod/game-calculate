@@ -45,3 +45,7 @@ export interface IExpandedGameBlock{
 }
 
 export type expandGameBlockHandler = (this:HTMLDivElement, e:MouseEvent)=>void;
+
+export interface IButtons{
+	(this:HTMLDivElement, e:MouseEvent):void;
+}
