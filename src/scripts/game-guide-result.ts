@@ -1,4 +1,4 @@
-import { levelsPack, ILevelsPackData, stateLevelsData, resultOnInitData, changePanelsOnPage, subsOnData, getDataFromStorage, setDataToStorage, clearDataFromStorage, packLevelsToStructure, IUniqueKeys, mergeStateLevelsStructure, IMapKeys, handleClearDataButton, displayGamesWithLevelsData, createDateFormat, IExpandedGameBlock, expandGameBlockHandler } from './types/game-guide-result';
+import { levelsPack, ILevelsPackData, stateLevelsData, resultOnInitData, changePanelsOnPage, subsOnData, getDataFromStorage, setDataToStorage, clearDataFromStorage, packLevelsToStructure, IUniqueKeys, mergeStateLevelsStructure, IMapKeys, handleClearDataButton, displayGamesWithLevelsData, createDateFormat, IExpandedGameBlock, expandGameBlockHandler, IButtons } from './types/game-guide-result';
 import { IPreparedLevelData } from "./types/game-core";
 import { ICell } from './types/main-cube';
 
@@ -34,6 +34,9 @@ export const resultOnInit:resultOnInitData = (panelResult:HTMLElement):boolean=>
 	const preloader = (panelResult!.nextSibling as HTMLElement);
 	//Get the container of all the games
 	gamesContainer = (resultBlock?.lastChild) as HTMLDivElement;
+	//Subscribe on sort buttons container
+	const sortButtonsContainer = <HTMLDivElement>(resultBlock.firstChild);
+	sortButtonsContainer.addEventListener("mousedown", sortButtons);
 	//Removing the preloader
 	let tPreloader:ReturnType<typeof setTimeout> = setTimeout(function(){
 		if(preloader){
@@ -329,4 +332,28 @@ export const expandGameBlock:expandGameBlockHandler = function(this:HTMLDivEleme
 			}
 		}
 	}
-} 
+}
+//Sort buttons
+export const sortButtons:IButtons = function(this:HTMLDivElement, e:MouseEvent):void{
+	const elem = <HTMLElement>(e.target);
+	let labelValue:(string | null) = '';
+	if(elem.tagName === "LABEL"){
+		const labelEL = <HTMLLabelElement>elem;
+		labelValue = labelEL?.firstChild?.nodeValue as string;
+	}else if(elem.tagName === "INPUT"){
+		const inputEL = <HTMLInputElement>elem;
+		labelValue = inputEL?.previousSibling?.nodeValue as string;
+	}
+	const lastSpaceInd = labelValue.lastIndexOf(' ');
+	const sortWord = labelValue.slice((lastSpaceInd + 1)); //'date' | 'success' | 'time' 
+	switch(sortWord){
+		case 'date': console.log("Sort by ",sortWord); 
+			break;
+		case 'success': console.log("Sort by ",sortWord); 
+			break;
+		case 'time': console.log("Sort by ",sortWord); 
+			break;
+		default: console.log("The sort word is unknown");
+	}
+	
+}
