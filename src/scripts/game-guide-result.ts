@@ -1,4 +1,4 @@
-import { levelsPack, ILevelsPackData, stateLevelsData, resultOnInitData, changePanelsOnPage, subsOnData, getDataFromStorage, setDataToStorage, clearDataFromStorage, packLevelsToStructure, IUniqueKeys, mergeStateLevelsStructure, IMapKeys, handleClearDataButton, displayGamesWithLevelsData, createDateFormat, IExpandedGameBlock, expandGameBlockHandler, IButtons } from './types/game-guide-result';
+import { levelsPack, ILevelsPackData, stateLevelsData, resultOnInitData, changePanelsOnPage, subsOnData, getDataFromStorage, setDataToStorage, clearDataFromStorage, packLevelsToStructure, IUniqueKeys, mergeStateLevelsStructure, IMapKeys, handleClearDataButton, displayGamesWithLevelsData, createDateFormat, IExpandedGameBlock, expandGameBlockHandler, IButtons, sortingLogicData, ITimeStampSuccess, IGamesByLevels, ITimeStampRemainingTime, IGamesSortedByTime } from './types/game-guide-result';
 import { IPreparedLevelData } from "./types/game-core";
 import { ICell } from './types/main-cube';
 
@@ -57,6 +57,8 @@ export const resultOnInit:resultOnInitData = (panelResult:HTMLElement):boolean=>
 		//Display panel with results
 		noResultBlock.style.display = "none";
 		resultBlock.style.display = "block";
+		//Sorting by 'date' by default
+		stateLevels = sortingLogic(stateLevels, 'date');
 		//Displaying data of the games
 		displayGamesWithLevels(stateLevels);
 		return true;
@@ -347,13 +349,115 @@ export const sortButtons:IButtons = function(this:HTMLDivElement, e:MouseEvent):
 	const lastSpaceInd = labelValue.lastIndexOf(' ');
 	const sortWord = labelValue.slice((lastSpaceInd + 1)); //'date' | 'success' | 'time' 
 	switch(sortWord){
-		case 'date': console.log("Sort by ",sortWord); 
+		case 'date': stateLevels = sortingLogic(stateLevels, sortWord); 
 			break;
-		case 'success': console.log("Sort by ",sortWord); 
+		case 'success': stateLevels = sortingLogic(stateLevels, sortWord); 
 			break;
-		case 'time': console.log("Sort by ",sortWord); 
+		case 'time': stateLevels = sortingLogic(stateLevels, sortWord); 
 			break;
 		default: console.log("The sort word is unknown");
 	}
-	
+	//Rewrite sorted data in HTML
+	displayGamesWithLevels(stateLevels);
+}
+//Performing sorting
+export const sortingLogic:sortingLogicData = (data:stateLevelsData, sortBy:string):stateLevelsData=>{
+	//Array of results
+	let newData:stateLevelsData = [];
+	//Sort by 'date' (This is the default)
+	if(sortBy === 'date'){ 
+		newData = data.sort(function(o1,o2){
+			let timeStampKey1 = Number(Object.keys(o1)[0]);
+			let timeStampKey2 = Number(Object.keys(o2)[0]);
+			if(o1[timeStampKey1] !== undefined && o2[timeStampKey2] !== undefined){
+				return o2[timeStampKey2][0].dateTime - o1[timeStampKey1][0].dateTime;
+			}else if(o1[timeStampKey1][0].dateTime !== undefined){
+				return -1;
+			}	
+			else if(o2[timeStampKey2][0].dateTime !== undefined){
+				return 1;
+			}else{
+				return 0;
+			}
+		});
+	}else if(sortBy === 'success'){
+		//Get all time stamps, which are the keys and count all success results of the levels as a value
+		const allGamesSuccess:ITimeStampSuccess = {}; 
+		data.forEach(function(game){
+			const timeStampKey = Number(Object.keys(game)[0])
+			const gameLevels = game[timeStampKey];
+			if(!isNaN(timeStampKey)){
+				for(let i = 0; gameLevels.length > i; i++){
+					const successAmount = (gameLevels[i].isSuccess) ? 1 : 0;
+					//First level
+					if(typeof allGamesSuccess[timeStampKey] === 'undefined'){
+						allGamesSuccess[timeStampKey] = successAmount;
+					}else{//All other game levels
+						allGamesSuccess[timeStampKey] = (successAmount + allGamesSuccess[timeStampKey]);
+					}
+				}
+			}
+		});
+		//Sorting the object by values
+		const sortedBySuccess = Object.entries(allGamesSuccess).sort(([,a],[,b])=>b-a);
+		const allGamesSorted:ITimeStampSuccess = sortedBySuccess.reduce((r, [k, v]) => ({ ...r, [k]: v }), {});
+		//or this way: Object.fromEntries(Object.entries(allGamesSuccess).sort(([,a],[,b]) => a-b));
+		//Create new array of data according to the order
+		for(let key in allGamesSorted){
+			for(let i = 0; data.length > i; i++){
+				let timeStampKey = Object.keys(data[i])[0];
+				if(key === timeStampKey){
+					newData.push(data[i]);
+				}
+			}
+		}
+	}else if(sortBy === 'time'){
+		//Get all time stamps, which are the keys and count all remaining time of the levels as a value
+		const gamesByLevelsAmount:IGamesByLevels = {};
+		data.forEach(function(game){
+			const timeStampKey = Number(Object.keys(game)[0]);
+			//If a game is present
+			if(game[timeStampKey] !== undefined){
+				const totalSeconds = (game[timeStampKey] as levelsPack).reduce((acc, level, ind)=>{
+					return acc += level.levelElapsedTime;
+				},0);
+				const currentGame:ITimeStampRemainingTime = {
+					timeStamp: timeStampKey,
+					allLevelsTime: totalSeconds
+				};
+				//First time. Initialization with an array 
+				if(gamesByLevelsAmount[(game[timeStampKey].length)] === undefined){
+					gamesByLevelsAmount[(game[timeStampKey].length)] = [];
+					gamesByLevelsAmount[(game[timeStampKey].length)].push(currentGame);
+				}else{
+					gamesByLevelsAmount[(game[timeStampKey].length)].push(currentGame);
+				}
+			}
+		});
+		//Sorting the object by values
+		for(let prop in gamesByLevelsAmount){
+			gamesByLevelsAmount[prop].sort(function(game1, game2){
+				return game1.allLevelsTime - game2.allLevelsTime;
+			});
+		}
+		//Transfer from arrays to object
+		const sortedLevels:IGamesSortedByTime = {};
+		for(let prop in gamesByLevelsAmount){
+			for(let i = 0; gamesByLevelsAmount[prop].length > i; i++){
+				//console.log("Game ",gamesByLevelsAmount[prop][i]);
+				sortedLevels[(gamesByLevelsAmount[prop][i].timeStamp)] = gamesByLevelsAmount[prop][i].allLevelsTime;
+			}
+		}
+		//Preparing sorted data by the sum of remaining time 
+		for(let prop in sortedLevels){
+			for(let i = 0; data.length > i; i++){
+				const timeStampKey = Object.keys(data[i])[0];
+				//newData - array
+				if(prop === timeStampKey){
+					newData.push(data[i]); 	
+				}
+			}
+		}
+	}
+	return newData;
 }
