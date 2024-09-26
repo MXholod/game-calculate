@@ -481,7 +481,7 @@ html, body{
 						font-size:.8em;
 						padding: .5% 0 .5% 0;
 						label{
-							margin:0% 0% 0% 5%;
+							margin:0% 0% 0% 4%;
 							font-size: .8em;
 							display:inline-block;
 							width:15%;
@@ -489,6 +489,9 @@ html, body{
 								position:relative;
 								left: 10px;
 							}
+						}
+						label:nth-child(3){
+							width: 20%;
 						}
 						label:hover, label input:hover{
 							cursor:pointer;
