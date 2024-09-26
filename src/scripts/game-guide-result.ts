@@ -211,6 +211,11 @@ export const displayGamesWithLevels:displayGamesWithLevelsData = (games:stateLev
 		const gameRows:HTMLCollection = gamesContainer.children;
 		//If there are HTML rows to display game data
 		if(gameRows.length > 0){
+			//Reset all rows (games) to 'display:none'
+			for(let i = 0; gameRows.length > i; i++){
+				const gameRow = <HTMLDivElement>gameRows[i];
+				gameRow.style.display = "none";
+			}
 			//If there is data to display in rows
 			if(games.length > 0){
 				//Go through the children rows and insert data
@@ -231,6 +236,11 @@ export const displayGamesWithLevels:displayGamesWithLevelsData = (games:stateLev
 					timeElement.textContent = dateFormat(currentLevelKey);
 					//Set an amount of passed levels
 					passedLevelsElement.textContent = String(levelData.length); 
+					//Reset the levels of the current game
+					for(let i = 0; sectionRow.children.length > i; i++){
+						const levelCell = <HTMLElement>sectionRow.children[i];
+						levelCell.style.display = "none";
+					}
 					//Go through the levels of the current game
 					for(let j = 0, levelPortion = 0; levelData.length > j; j++, levelPortion+=6){
 						//Level
@@ -249,7 +259,13 @@ export const displayGamesWithLevels:displayGamesWithLevelsData = (games:stateLev
 						const progress = <HTMLDivElement>(sectionRow.children[levelPortion+3]);
 						progress.style.display = "block";
 						const resSuccess = Boolean(levelData[j].isSuccess) ? "Good!" : "Bad :(";
-						(progress.lastChild as HTMLSpanElement).textContent = resSuccess;
+						const resSpanEl = (progress.lastChild as HTMLSpanElement);
+						resSpanEl.textContent = resSuccess;
+						if(resSuccess === "Good!"){
+							resSpanEl.style.color = "rgb(52 169 52)";
+						}else{
+							resSpanEl.style.color = "rgb(189 47 47)";
+						}
 						//Remaining time
 						const remainingTime = <HTMLDivElement>(sectionRow.children[levelPortion+4]);
 						remainingTime.style.display = "block";
