@@ -49,3 +49,20 @@ export type expandGameBlockHandler = (this:HTMLDivElement, e:MouseEvent)=>void;
 export interface IButtons{
 	(this:HTMLDivElement, e:MouseEvent):void;
 }
+
+export type sortingLogicData = (data:stateLevelsData, sortBy:string)=>stateLevelsData;
+
+export interface ITimeStampSuccess{
+	[key:number]: number;  // timestamp: successAmount
+}
+
+export interface ITimeStampRemainingTime{
+	timeStamp: number;
+	allLevelsTime: number;
+}
+export interface IGamesByLevels{
+	[key:number]: ITimeStampRemainingTime[]; // levelOrder: []
+}
+export interface IGamesSortedByTime extends ITimeStampSuccess{
+	
+}
