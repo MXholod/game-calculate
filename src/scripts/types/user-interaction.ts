@@ -30,11 +30,12 @@ export interface IUserInteraction {
 	startGame: (timer:HTMLDivElement)=>boolean;
 	stopGame: (timer:HTMLDivElement)=>boolean;
 	getLevel: ()=>ILimitLevel<ILimitLevelValues>;
-	setLevel: (level: number)=>boolean;
+	setLevel: (level:number)=>boolean;
 	resultApprovedGoNextLevel: (timer:HTMLDivElement)=>void;
 	turnOnOffUserInteraction: (onOff:boolean)=>void;
 	checkLevelInitialNumbers: (leftN:string, rightN:string)=>boolean;
 	resetGameDataByDefault: ()=>boolean;
-	showHideGamePanel: (timer: HTMLDivElement, text: string)=>boolean;
+	showHideGamePanel: (timer:HTMLDivElement, text:string)=>boolean;
+	lastLevelCompletion: (timer:HTMLDivElement, text:string, lastLevel:number)=>boolean;
 }
 
