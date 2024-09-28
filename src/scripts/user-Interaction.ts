@@ -224,5 +224,19 @@ export const UserInteraction:IUserInteraction = {
 			content.style.setProperty('--game-message', 'none');
 		},3000);
 		return true;
+	},
+	//Completion of the last level
+	lastLevelCompletion: function(timer: HTMLDivElement, text: string, lastLevel:number):boolean{
+		if(this.gameLevel === lastLevel){
+			//Set game data to default
+			this.resetGameDataByDefault();
+			//Displaying an information panel with a text about the completion of the game  
+			this.showHideGamePanel(timer, text);
+			//Subscribers for data levels
+			getLevelInfoInstance().subscribe(subscribesOnData);
+			getLevelInfoInstance().subscribe(subscribesOnDataResult);
+			return true;
+		}
+		return false;
 	}
 }
