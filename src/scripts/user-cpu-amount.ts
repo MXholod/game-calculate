@@ -4,6 +4,10 @@ import { UserInteraction } from './user-Interaction';
 import { timerStop } from './timer';
 import { preparedData } from './types/game-core';
 import { changeStatsBtnActivity } from './game-statistics';
+import { clearNumsOfCube, backCubeAnimation } from './main-cube';
+import { updateRangeNodes } from './start-numbers';
+import { setButtonsByDefault } from './start-stop-retry';
+import { writeLevelToHtml } from './timer';
 //Cached DOM nodes 
 export const UserCpuBlock:IUserCpuBlock = {
 	userLabel: null,
@@ -103,8 +107,7 @@ export const handleButton:onApproveBtn = function(this:HTMLButtonElement, e: Eve
 		const asideElem:HTMLElement = UserCpuBlock?.userLabel?.parentNode?.parentNode?.parentNode as HTMLElement;
 		const timer:HTMLDivElement = asideElem?.firstChild as HTMLDivElement;
 		timer!.children[1]!.children[1]!.textContent = "00:00";
-		//Reset level values. Go the animation back.
-		UserInteraction.resultApprovedGoNextLevel(timer);
+		
 		//Prepare level data. Save to the Observer
 		PreparedLevelData.levelElapsedTime = UserInteraction.totalLevelSeconds;
 		//Create 'id' from the time stamp for all levels of the game
@@ -124,6 +127,27 @@ export const handleButton:onApproveBtn = function(this:HTMLButtonElement, e: Eve
 		getLevelInfoInstance().notifyAll();
 		//Enable the 'statistics' button
 		changeStatsBtnActivity(false);
+		//If it's the last level, it's game over
+		if(UserInteraction.lastLevelCompletion(timer, "Congratulations! You've passed all levels!", 10)){
+			backCubeAnimation(()=>{
+				//Clear the main cube
+				clearNumsOfCube();
+				updateRangeNodes(0);
+				//Set buttons to default: 'start','stop','retry' game
+				setButtonsByDefault();
+				//Disable user's buttons
+				UserInteraction.turnOnOffUserInteraction(false);
+				//To be able to start the game again
+				UserInteraction.gameInProgress = true;
+				//Until now, the level number has become 1
+				writeLevelToHtml(timer!);
+			});
+			console.log("The game is over");//The game is over
+		}else{
+			//Reset level values. Go the animation back.
+			UserInteraction.resultApprovedGoNextLevel(timer);
+			console.log("The game continues");//The game continues
+		}
 	}
 }
 //Was the result button clicked
