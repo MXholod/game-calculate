@@ -480,6 +480,7 @@ html, body{
 					.block-results_sorting{
 						font-size:.8em;
 						padding: .5% 0 .5% 0;
+						display: flex;
 						label{
 							margin:0% 0% 0% 4%;
 							font-size: .8em;
@@ -496,13 +497,86 @@ html, body{
 						label:hover, label input:hover{
 							cursor:pointer;
 						}
-						button:last-child{
+						.pagination-block{
+							border: 1px solid #000;
+							border-radius: 5px;
+							max-width: 180px;
+							width: 100%;
+							padding: 2px;
+							margin-left: 5%;
+							background-color: #E8B86D;
+							.pagination-block__start-end{
+								display: flex;
+								justify-content: space-evenly;
+								padding: 4px 0;
+								& button{
+									padding: 2px 4px;
+									background-color: #C7B7A3;
+									border: 1px solid #503C3C;
+									font-weight: bold;
+									&:hover, &:active{
+										background-color: #BBAB8C;
+										cursor: pointer;
+									}
+								}
+							}
+							.pagination-block__pages{
+								display: flex; 
+								justify-content: space-between;
+								align-items: center;
+								&::before, &::after{
+									content: "";
+									display: block;
+									width: 0px;
+									height: 0px;
+									border-top: 15px solid transparent;
+									border-bottom: 15px solid transparent;
+								}
+								&::before{
+									border-left: 5px solid transparent;
+									border-right: 20px solid #987070;	
+								}
+								&::after{
+									border-left: 20px solid #987070;
+									border-right: 5px solid transparent;
+								}
+								&:hover::before, &:active::before{
+									cursor: pointer;
+								}
+								&:hover::after, &:active::after{
+									cursor: pointer;
+								}
+								span{
+									box-sizing: border-box;
+									border: 1px solid #000;
+									width: 25px;
+									height: 25px;
+									padding: 2px 0px 2px;
+									font-size: 14px;
+									font-weight: bold;
+									text-align: center;
+									background-color: #FFD09B;
+									&:hover, &:active{
+										cursor: pointer;
+										background-color: #BBAB8C;
+									}
+									&:nth-child(2){
+										display: none;
+									}
+									&:nth-child(3){
+										display: none;
+									}
+								}
+							}
+						}
+						& > button:last-child{
 							background-color: lighten(#C7253E, 10%);
 							padding: 5px 8px;
 							border-radius: 5px;
 							font-size: .6em;
 							text-transform: uppercase;
-							margin-left: 20%;
+							margin-left: 5%;
+							align-self: flex-start;
 							&:hover, &:active{
 								cursor: pointer;
 							}
