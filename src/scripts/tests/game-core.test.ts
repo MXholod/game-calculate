@@ -53,7 +53,8 @@ describe("Tests for the 'Core game'", ()=>{
 			levelElapsedTime: 57,
 			userResult: 34,
 			cpuResult: 34,
-			isSuccess: true
+			isSuccess: true,
+			dateTime: Date.now()
 		} 
 		const prepDataMethod = jest.spyOn(observer, 'prepareLevelData');
 		observer.prepareLevelData(prepData);
