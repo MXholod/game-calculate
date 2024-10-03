@@ -371,7 +371,7 @@ export const sortButtons:IButtons = function(this:HTMLDivElement, e:MouseEvent):
 			break;
 		case 'time': stateLevels = sortingLogic(stateLevels, sortWord); 
 			break;
-		default: console.log("The sort word is unknown");
+		default: stateLevels = sortingLogic(stateLevels, 'date'); //"The sort word is unknown"
 	}
 	//Rewrite sorted data in HTML
 	displayGamesWithLevels(stateLevels);
