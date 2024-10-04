@@ -1,8 +1,11 @@
 div(class="pagination-block")
 	div(class="pagination-block__start-end")
-		button To the start
-		button To the end
+		button(data-btn="start") To the start
+		button(data-btn="end") To the end
 	div(class="pagination-block__pages")
-		span 1
-		span 2
-		span 3
+		span(data-btn="arrow-left")
+		div
+			span(data-btn="cell-1") 1
+			span(data-btn="cell-2") 2
+			span(data-btn="cell-3") 3
+		span(data-btn="arrow-right")
