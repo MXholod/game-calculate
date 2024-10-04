@@ -7,6 +7,7 @@ import { getLevelInfoInstance } from './game-core';
 import { setButtonToState, playButtonActivity, changeButtonActivity } from './start-stop-retry';
 import { changePanels, resultOnInit } from './game-guide-result';
 import { subscribesOnDataResult } from './game-guide-result';
+import { activatePagination } from './pagination-results';
 
 window.addEventListener('load',function(){
 	run();
@@ -143,4 +144,7 @@ function run():void{
 		navGuideBtn.addEventListener('click', changePanels, false);
 		navResultBtn.addEventListener('click', changePanels, false);
 	}
+	//Get the main HTML block of the pagination
+	const paginationBlock:HTMLDivElement = (document.querySelector('.pagination-block')! as HTMLDivElement);
+	activatePagination(paginationBlock);
 }
