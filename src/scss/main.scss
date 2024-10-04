@@ -524,47 +524,51 @@ html, body{
 								display: flex; 
 								justify-content: space-between;
 								align-items: center;
-								&::before, &::after{
-									content: "";
+								& > span:first-child, & > span:last-child{
 									display: block;
 									width: 0px;
 									height: 0px;
 									border-top: 15px solid transparent;
 									border-bottom: 15px solid transparent;
 								}
-								&::before{
+								& > span:first-child{
 									border-left: 5px solid transparent;
-									border-right: 20px solid #987070;	
+									border-right: 20px solid #987070;								
 								}
-								&::after{
+								& > span:last-child{
 									border-left: 20px solid #987070;
 									border-right: 5px solid transparent;
 								}
-								&:hover::before, &:active::before{
+								& > span:first-child:hover, & > span:last-child:hover{
 									cursor: pointer;
 								}
-								&:hover::after, &:active::after{
+								& > span:first-child:active, & > span:last-child:active{
 									cursor: pointer;
 								}
-								span{
-									box-sizing: border-box;
-									border: 1px solid #000;
-									width: 25px;
-									height: 25px;
-									padding: 2px 0px 2px;
-									font-size: 14px;
-									font-weight: bold;
-									text-align: center;
-									background-color: #FFD09B;
-									&:hover, &:active{
-										cursor: pointer;
-										background-color: #BBAB8C;
-									}
-									&:nth-child(2){
-										display: none;
-									}
-									&:nth-child(3){
-										display: none;
+								& > div{
+									display: flex;
+									justify-content: space-around;
+									width: 100%;
+									span{
+										box-sizing: border-box;
+										border: 1px solid #000;
+										width: 25px;
+										height: 25px;
+										padding: 2px 0px 2px;
+										font-size: 14px;
+										font-weight: bold;
+										text-align: center;
+										background-color: #FFD09B;
+										&:hover, &:active{
+											cursor: pointer;
+											background-color: #BBAB8C;
+										}
+										&:nth-child(2){
+											display: block;
+										}
+										&:nth-child(3){
+											display: block;
+										}
 									}
 								}
 							}
