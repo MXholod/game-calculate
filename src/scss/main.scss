@@ -575,6 +575,11 @@ html, body{
 										&:nth-child(3){
 											display: none;
 										}
+										&.current{
+											background-color: #BBAB8C;
+											color: #000;
+											box-shadow: 0px 0px 2px #000;
+										}
 									}
 								}
 							}
