@@ -1,6 +1,7 @@
 import { levelsPack, ILevelsPackData, stateLevelsData, resultOnInitData, changePanelsOnPage, subsOnData, getDataFromStorage, setDataToStorage, clearDataFromStorage, packLevelsToStructure, IUniqueKeys, mergeStateLevelsStructure, IMapKeys, handleClearDataButton, displayGamesWithLevelsData, createDateFormat, IExpandedGameBlock, expandGameBlockHandler, IButtons, sortingLogicData, ITimeStampSuccess, IGamesByLevels, ITimeStampRemainingTime, IGamesSortedByTime } from './types/game-guide-result';
 import { IPreparedLevelData } from "./types/game-core";
 import { ICell } from './types/main-cube';
+import { getInstance } from './pagination-results';
 
 //The array of levels: { level: 0, levelElapsedTime: 0, userResult: 0, cpuResult: 0, isSuccess: false,dateTime:0 } 
 export let stateLevels:stateLevelsData = [];
@@ -59,6 +60,8 @@ export const resultOnInit:resultOnInitData = (panelResult:HTMLElement):boolean=>
 		resultBlock.style.display = "block";
 		//Sorting by 'date' by default
 		stateLevels = sortingLogic(stateLevels, 'date');
+		//Preparation of the pagination block
+		getInstance().preparePaginationBlock<ILevelsPackData>(stateLevels, 10);
 		//Displaying data of the games
 		displayGamesWithLevels(stateLevels);
 		return true;
