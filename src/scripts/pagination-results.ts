@@ -1,4 +1,4 @@
-import { IPagination, actPagination } from './types/pagination-results';
+import { IPagination, Controls, actPagination } from './types/pagination-results';
 
 class Pagination implements IPagination{
 	private static instance:Pagination | null = null;
@@ -9,11 +9,12 @@ class Pagination implements IPagination{
 	public applyPaginationBlockEvents(paginationBlock: HTMLDivElement):void{
 		this.paginationHtmlBlock = paginationBlock;
 		if(this.paginationHtmlBlock !== null){
-			this.paginationHtmlBlock.addEventListener("click", function(e:MouseEvent){
+			this.paginationHtmlBlock.addEventListener("click", function(this:Pagination, e:MouseEvent){
 				//Current element (interaction item) in the pagination block
 				const elementControl = e.target as HTMLElement;
-				console.log("Selected control ",elementControl?.dataset?.btn);
-			});
+				//Passing the value of a control's attribute as an Enum type 
+				this.detectPressedControl(elementControl?.dataset?.btn as Controls);
+			}.bind(this));
 		}
 	}
 	public static getInstance():Pagination | null{
@@ -22,6 +23,27 @@ class Pagination implements IPagination{
 			return Pagination.instance;
 		}
 		return Pagination.instance;
+	}
+	public detectPressedControl(controlName: Controls):boolean{
+		//No logic should be used if the length of the list is zero
+		if(this.listLength === 0) return false;
+		switch(controlName){
+			case Controls.start : console.log("Clicked on Start");
+				break;
+			case 'end' : console.log("Clicked on End");
+				break;
+			case Controls.arrowLeft : console.log("Clicked on Arrow-Left");
+				break;
+			case 'arrow-right' : console.log("Clicked on Arrow-Right");
+				break;
+			case 'cell-1' : console.log("Clicked on Cell 1");
+				break;
+			case 'cell-2' : console.log("Clicked on Cell 2");
+				break;
+			case Controls.cell3 : console.log("Clicked on Cell 3");
+				break;
+		}
+		return true;
 	}
 };
 //This function is called in the 'index.js' file
