@@ -134,6 +134,9 @@ function run():void{
 	if(timer){
 		UserInteraction.initBeforeGame(timer);
 	}
+	//Get the main HTML block of the pagination
+	const paginationBlock:HTMLDivElement = (document.querySelector('.pagination-block')! as HTMLDivElement);
+	activatePagination(paginationBlock);
 	//Display the game guide and result page if the data already exists
 	const resultsPanel:HTMLElement = (document.querySelector('.content__result')! as HTMLElement);
 	resultOnInit(resultsPanel);
@@ -144,7 +147,4 @@ function run():void{
 		navGuideBtn.addEventListener('click', changePanels, false);
 		navResultBtn.addEventListener('click', changePanels, false);
 	}
-	//Get the main HTML block of the pagination
-	const paginationBlock:HTMLDivElement = (document.querySelector('.pagination-block')! as HTMLDivElement);
-	activatePagination(paginationBlock);
 }
