@@ -13,4 +13,6 @@ export interface IPagination{
 	detectPressedControl(controlName: Controls):boolean;
 }
 
+export type getClassInstance = ()=>IPagination;
+
 export type actPagination = (paginationHtmlBlock: HTMLDivElement)=>void;
