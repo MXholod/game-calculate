@@ -1,9 +1,12 @@
 import { IPagination, Controls, getClassInstance, actPagination } from './types/pagination-results';
+import { ILevelsPackData } from './types/game-guide-result';
 
 class Pagination implements IPagination{
 	private static instance:Pagination | null = null;
 	private paginationHtmlBlock: HTMLDivElement | null = null;
+	private data:any[] = [];
 	private listLength: number = 0;
+	private pagePortion: number = 0;
 	private constructor(){}
 	//Add 'click' event to the parent element to delegate this event to its children
 	public applyPaginationBlockEvents(paginationBlock: HTMLDivElement):void{
@@ -24,6 +27,7 @@ class Pagination implements IPagination{
 		}
 		return Pagination.instance;
 	}
+	//This function checks an attribute value of the pressed control and then run a function
 	public detectPressedControl(controlName: Controls):boolean{
 		//No logic should be used if the length of the list is zero
 		if(this.listLength === 0) return false;
@@ -44,6 +48,29 @@ class Pagination implements IPagination{
 				break;
 		}
 		return true;
+	}
+	//Show cells hidden by default if there is more data, assign some basic properties
+	public preparePaginationBlock<T>(dataArr: T[], pagePortion: number):void{
+		if(!!dataArr.length){
+			//Save the data length, page portion and data itself into the class properties
+			this.listLength = dataArr.length;
+			this.pagePortion = pagePortion;
+			this.data = dataArr;
+			//Find cells 2 and 3 in the block controls of the pagination
+			if(this.paginationHtmlBlock !== null){
+				const controlsBlock = this.paginationHtmlBlock?.lastChild as HTMLDivElement;
+				const cells = controlsBlock.children[1] as HTMLDivElement;
+				const cell2 = cells.children[1] as HTMLSpanElement; 
+				const cell3 = cells.children[2] as HTMLSpanElement; 
+				//Show cells corresponding to the amount of data
+				if(this.listLength >= 10 && this.listLength <= 20){//Show second cell
+					cell2.style.display = "block";
+				}else if(this.listLength > 20){//Show second and third cell
+					cell2.style.display = "block";
+					cell3.style.display = "block";
+				}
+			}
+		}
 	}
 };
 //Returns an instance of a class from this module
