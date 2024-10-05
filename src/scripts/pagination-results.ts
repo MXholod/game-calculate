@@ -1,4 +1,4 @@
-import { IPagination, Controls, actPagination } from './types/pagination-results';
+import { IPagination, Controls, getClassInstance, actPagination } from './types/pagination-results';
 
 class Pagination implements IPagination{
 	private static instance:Pagination | null = null;
@@ -17,7 +17,7 @@ class Pagination implements IPagination{
 			}.bind(this));
 		}
 	}
-	public static getInstance():Pagination | null{
+	public static getInstance():Pagination{
 		if(Pagination.instance === null){
 			Pagination.instance = new Pagination();
 			return Pagination.instance;
@@ -46,10 +46,11 @@ class Pagination implements IPagination{
 		return true;
 	}
 };
+//Returns an instance of a class from this module
+export const getInstance:getClassInstance = ():IPagination=>{
+	return Pagination.getInstance();
+}
 //This function is called in the 'index.js' file
 export const activatePagination:actPagination = function(paginationHtmlBlock: HTMLDivElement):void{
-	const paginationBlock = Pagination.getInstance();
-	if(paginationBlock !== null){
-		paginationBlock.applyPaginationBlockEvents(paginationHtmlBlock);
-	}
+	getInstance().applyPaginationBlockEvents(paginationHtmlBlock);
 };
