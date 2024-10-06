@@ -7,6 +7,7 @@ class Pagination implements IPagination{
 	private data:any[] = [];
 	private listLength: number = 0;
 	private pagePortion: number = 0;
+	private cells:{ [key:string]: HTMLSpanElement } = {};
 	private constructor(){}
 	//Add 'click' event to the parent element to delegate this event to its children
 	public applyPaginationBlockEvents(paginationBlock: HTMLDivElement):void{
@@ -60,8 +61,14 @@ class Pagination implements IPagination{
 			if(this.paginationHtmlBlock !== null){
 				const controlsBlock = this.paginationHtmlBlock?.lastChild as HTMLDivElement;
 				const cells = controlsBlock.children[1] as HTMLDivElement;
+				const cell1 = cells.children[0] as HTMLSpanElement;
+				cell1.className = "current";
 				const cell2 = cells.children[1] as HTMLSpanElement; 
-				const cell3 = cells.children[2] as HTMLSpanElement; 
+				const cell3 = cells.children[2] as HTMLSpanElement;
+				//Save three page buttons
+				this.cells['cell1'] = cell1;
+				this.cells['cell2'] = cell2;
+				this.cells['cell3'] = cell3;
 				//Show cells corresponding to the amount of data
 				if(this.listLength >= 10 && this.listLength <= 20){//Show second cell
 					cell2.style.display = "block";
