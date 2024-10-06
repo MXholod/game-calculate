@@ -7,6 +7,8 @@ class Pagination implements IPagination{
 	private data:any[] = [];
 	private listLength: number = 0;
 	private pagePortion: number = 0;
+	private totalPages: number = 0;
+	private currentPage: number = 1;
 	private cells:{ [key:string]: HTMLSpanElement } = {};
 	private constructor(){}
 	//Add 'click' event to the parent element to delegate this event to its children
@@ -59,6 +61,17 @@ class Pagination implements IPagination{
 				this.listLength = dataArr.length;
 				this.pagePortion = pagePortion;
 				this.data = dataArr;
+				//Calculating total pages
+				if(this.pagePortion > this.listLength){
+					this.totalPages = 1;
+				}else{
+					if((this.listLength % this.pagePortion) !== 0){//We have an extra page
+						let pages = (this.listLength / this.pagePortion);
+						this.totalPages = Math.floor(pages) + 1;
+					}else{//Division equals zero. No extra pages
+						this.totalPages = (this.listLength / this.pagePortion);
+					}
+				}
 				//Get three cells and mark the first as a current
 				const controlsBlock = this.paginationHtmlBlock?.lastChild as HTMLDivElement;
 				const cells = controlsBlock.children[1] as HTMLDivElement;
