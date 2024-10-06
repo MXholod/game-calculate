@@ -53,12 +53,13 @@ class Pagination implements IPagination{
 	//Show cells hidden by default if there is more data, assign some basic properties
 	public preparePaginationBlock<T>(dataArr: T[], pagePortion: number):void{
 		if(!!dataArr.length){
-			//Save the data length, page portion and data itself into the class properties
-			this.listLength = dataArr.length;
-			this.pagePortion = pagePortion;
-			this.data = dataArr;
 			//Find cells 2 and 3 in the block controls of the pagination
-			if(this.paginationHtmlBlock !== null){
+			if(this.paginationHtmlBlock !== null && pagePortion !== 0){
+				//Save the data length, page portion and data itself into the class properties
+				this.listLength = dataArr.length;
+				this.pagePortion = pagePortion;
+				this.data = dataArr;
+				//Get three cells and mark the first as a current
 				const controlsBlock = this.paginationHtmlBlock?.lastChild as HTMLDivElement;
 				const cells = controlsBlock.children[1] as HTMLDivElement;
 				const cell1 = cells.children[0] as HTMLSpanElement;
@@ -70,9 +71,9 @@ class Pagination implements IPagination{
 				this.cells['cell2'] = cell2;
 				this.cells['cell3'] = cell3;
 				//Show cells corresponding to the amount of data
-				if(this.listLength >= 10 && this.listLength <= 20){//Show second cell
+				if(this.listLength >= this.pagePortion && this.listLength <= (this.pagePortion * 2)){//Show second cell
 					cell2.style.display = "block";
-				}else if(this.listLength > 20){//Show second and third cell
+				}else if(this.listLength > (this.pagePortion * 2)){//Show second and third cell
 					cell2.style.display = "block";
 					cell3.style.display = "block";
 				}
