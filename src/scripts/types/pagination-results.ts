@@ -10,7 +10,7 @@ export enum Controls{
 
 export interface IPagination{
 	applyPaginationBlockEvents(paginationBlock: HTMLDivElement):void;
-	detectPressedControl(controlName: Controls):boolean;
+	detectPressedControl(controlName: Controls, pageNumber: number):boolean;
 	preparePaginationBlock<T>(dataArr: T[], pagePortion: number):void;
 }
 
