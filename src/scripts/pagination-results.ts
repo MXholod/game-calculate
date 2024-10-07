@@ -18,8 +18,20 @@ class Pagination implements IPagination{
 			this.paginationHtmlBlock.addEventListener("click", function(this:Pagination, e:MouseEvent){
 				//Current element (interaction item) in the pagination block
 				const elementControl = e.target as HTMLElement;
-				//Passing the value of a control's attribute as an Enum type 
-				this.detectPressedControl(elementControl?.dataset?.btn as Controls);
+				let pageNumber: number = 0;
+				//Identifying three buttons (span - cells) that are responsible for a specific page
+				if(elementControl instanceof HTMLSpanElement){
+					const attrValue = elementControl?.dataset?.btn;
+					//If the button clicked is a span element with one of the following attribute values
+					if((attrValue === 'cell-1') || (attrValue === 'cell-2') || (attrValue === 'cell-3')){
+						//Getting a page number from the cell value
+						if(elementControl?.firstChild?.nodeValue !== undefined){
+							pageNumber = <number>(elementControl?.firstChild?.nodeValue as unknown);
+						}
+					}
+				}
+				//Passing the value of a control's attribute as an Enum type
+				this.detectPressedControl(elementControl?.dataset?.btn as Controls, pageNumber);
 			}.bind(this));
 		}
 	}
@@ -31,7 +43,7 @@ class Pagination implements IPagination{
 		return Pagination.instance;
 	}
 	//This function checks an attribute value of the pressed control and then run a function
-	public detectPressedControl(controlName: Controls):boolean{
+	public detectPressedControl(controlName: Controls, pageNumber: number):boolean{
 		//No logic should be used if the length of the list is zero
 		if(this.listLength === 0) return false;
 		switch(controlName){
