@@ -12,6 +12,7 @@ export interface IPagination{
 	applyPaginationBlockEvents(paginationBlock: HTMLDivElement):void;
 	detectPressedControl(controlName: Controls, pageNumber: number):boolean;
 	preparePaginationBlock<T>(dataArr: T[], pagePortion: number):void;
+	getPortionData<T>(pageNum: number):T[];
 }
 
 export type getClassInstance = ()=>IPagination;
