@@ -26,7 +26,7 @@ class Pagination implements IPagination{
 					if((attrValue === 'cell-1') || (attrValue === 'cell-2') || (attrValue === 'cell-3')){
 						//Getting a page number from the cell value
 						if(elementControl?.firstChild?.nodeValue !== undefined){
-							pageNumber = <number>(elementControl?.firstChild?.nodeValue as unknown);
+							pageNumber = Number(elementControl?.firstChild?.nodeValue);
 						}
 					}
 				}
@@ -47,19 +47,100 @@ class Pagination implements IPagination{
 		//No logic should be used if the length of the list is zero
 		if(this.listLength === 0) return false;
 		switch(controlName){
-			case Controls.start : console.log("Clicked on Start");
+			case Controls.start :
+				this.cells.cell1.className = "current";
+				this.cells.cell2.className = "";
+				this.cells.cell3.className = "";
+				//Rewrite cell numbers for the right edge
+				this.cells.cell1.textContent = String(1);
+				this.cells.cell2.textContent = String(2);
+				this.cells.cell3.textContent = String(3);
+				this.getPortionData<Object>(1);
 				break;
-			case 'end' : console.log("Clicked on End");
+			case 'end' :
+				if(this.totalPages === 1){
+					//Set the last cell as active
+					this.cells.cell1.className = "current";
+					//Rewrite cell numbers for the right edge
+					this.cells.cell1.textContent = String(this.totalPages);
+				}else if(this.totalPages === 2){
+					//Set the last cell as active
+					this.cells.cell1.className = "";
+					this.cells.cell2.className = "current";
+					//Rewrite cell numbers for the right edge
+					this.cells.cell1.textContent = String(this.totalPages - 1);
+					this.cells.cell2.textContent = String(this.totalPages);
+				}else{
+					//Set the last cell as active
+					this.cells.cell1.className = "";
+					this.cells.cell2.className = "";
+					this.cells.cell3.className = "current";
+					//Rewrite cell numbers for the right edge
+					this.cells.cell1.textContent = String(this.totalPages - 2);
+					this.cells.cell2.textContent = String(this.totalPages - 1);
+					this.cells.cell3.textContent = String(this.totalPages);
+				}
+				this.getPortionData<Object>(this.totalPages);
 				break;
-			case Controls.arrowLeft : console.log("Clicked on Arrow-Left");
+			case Controls.arrowLeft : 
+				if(this.currentPage > 1){
+					//Rewrite number in cells
+					if((Number(this.cells.cell1.textContent) + 2) > 3){//1 + 2 The sum of a page number
+						this.cells.cell1.textContent = String(Number(this.cells.cell1.textContent) - 1);
+						this.cells.cell2.textContent = String(Number(this.cells.cell2.textContent) - 1);
+						this.cells.cell3.textContent = String(Number(this.cells.cell3.textContent) - 1);
+					}else{//Move active cell to the left edge
+						if(this.cells.cell3.className === 'current'){
+							this.cells.cell3.className = '';
+							this.cells.cell2.className = 'current';
+						}else if(this.cells.cell2.className === 'current'){
+							this.cells.cell2.className = '';
+							this.cells.cell1.className = 'current';
+						}
+					}
+					//Calculate previous page
+					const previousPage = this.currentPage - 1;
+					this.getPortionData<Object>(previousPage);
+				}
 				break;
-			case 'arrow-right' : console.log("Clicked on Arrow-Right");
+			case 'arrow-right' : 
+				if(this.currentPage < this.totalPages){
+					//Rewrite number in cells
+					if((Number(this.cells.cell3.textContent) + 1) <= this.totalPages){
+						this.cells.cell1.textContent = String(Number(this.cells.cell1.textContent) + 1);
+						this.cells.cell2.textContent = String(Number(this.cells.cell2.textContent) + 1);
+						this.cells.cell3.textContent = String(Number(this.cells.cell3.textContent) + 1);
+					}else{//Move active cell to the right edge
+						if(this.cells.cell1.className === 'current'){
+							this.cells.cell1.className = '';
+							this.cells.cell2.className = 'current';
+						}else if(this.cells.cell2.className === 'current'){
+							this.cells.cell2.className = '';
+							this.cells.cell3.className = 'current';
+						}
+					}
+					//Calculate next page
+					const nextPage = this.currentPage + 1;
+					this.getPortionData<Object>(nextPage);
+				}
 				break;
-			case 'cell-1' : console.log("Clicked on Cell 1");
+			case 'cell-1' :
+					this.getPortionData<Object>(pageNumber);
+					this.cells.cell1.className = "current";
+					this.cells.cell2.className = "";
+					this.cells.cell3.className = "";
 				break;
-			case 'cell-2' : console.log("Clicked on Cell 2");
+			case 'cell-2' :
+					this.getPortionData<Object>(pageNumber);
+					this.cells.cell1.className = "";
+					this.cells.cell2.className = "current";
+					this.cells.cell3.className = "";
 				break;
-			case Controls.cell3 : console.log("Clicked on Cell 3");
+			case Controls.cell3 :
+					this.getPortionData<Object>(pageNumber);
+					this.cells.cell1.className = "";
+					this.cells.cell2.className = "";
+					this.cells.cell3.className = "current";
 				break;
 		}
 		return true;
@@ -96,7 +177,7 @@ class Pagination implements IPagination{
 				this.cells['cell2'] = cell2;
 				this.cells['cell3'] = cell3;
 				//Show cells corresponding to the amount of data
-				if(this.listLength >= this.pagePortion && this.listLength <= (this.pagePortion * 2)){//Show second cell
+				if(this.listLength > this.pagePortion && this.listLength <= (this.pagePortion * 2)){//Show second cell
 					cell2.style.display = "block";
 				}else if(this.listLength > (this.pagePortion * 2)){//Show second and third cell
 					cell2.style.display = "block";
@@ -104,6 +185,28 @@ class Pagination implements IPagination{
 				}
 			}
 		}
+	}
+	//Get a portion of data according to the chosen page
+	public getPortionData<T>(pageNum:number):T[]{
+		let portion:T[] = [];
+		//if(pageNum === this.currentPage) return portion;
+		if(this.pagePortion !== 0){
+			//Get a portion of data for the first page
+			if(pageNum === 1){
+				portion = this.data.slice(0, this.pagePortion);
+			}else if(pageNum === this.totalPages){//Get a portion of data for the last page
+				let endPos = (this.totalPages * this.pagePortion);
+				let startPos = endPos - this.pagePortion;
+				portion = this.data.slice(startPos, endPos);
+			}else{//Get a portion of data for all the middle pages
+				let startPos = (pageNum * this.pagePortion) - this.pagePortion;
+				let endPos = (pageNum * this.pagePortion);
+				portion = this.data.slice(startPos, endPos);
+			}
+		}
+		//Rewrite the current page when a control is clicked
+		this.currentPage = pageNum;
+		return portion;
 	}
 };
 //Returns an instance of a class from this module
