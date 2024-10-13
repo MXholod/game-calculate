@@ -60,10 +60,11 @@ export const resultOnInit:resultOnInitData = (panelResult:HTMLElement):boolean=>
 		resultBlock.style.display = "block";
 		//Sorting by 'date' by default
 		stateLevels = sortingLogic(stateLevels, 'date');
-		//Preparation of the pagination block
+		//Preparation of the pagination block. Passing data and a number of the list items
 		getInstance().preparePaginationBlock<ILevelsPackData>(stateLevels, 10);
+		const pagePortion:ILevelsPackData[] = getInstance().displayFirstPageData<ILevelsPackData>(stateLevels);
 		//Displaying data of the games
-		displayGamesWithLevels(stateLevels);
+		displayGamesWithLevels(pagePortion);
 		return true;
 	}
 }
@@ -376,8 +377,10 @@ export const sortButtons:IButtons = function(this:HTMLDivElement, e:MouseEvent):
 			break;
 		default: stateLevels = sortingLogic(stateLevels, 'date'); //"The sort word is unknown"
 	}
+	//Passing the newly sorted data to the pagination function to get a chunk of the data
+	const pagePortion:ILevelsPackData[] = getInstance().displayFirstPageData<ILevelsPackData>(stateLevels);
 	//Rewrite sorted data in HTML
-	displayGamesWithLevels(stateLevels);
+	displayGamesWithLevels(pagePortion);
 }
 //Performing sorting
 export const sortingLogic:sortingLogicData = (data:stateLevelsData, sortBy:string):stateLevelsData=>{
