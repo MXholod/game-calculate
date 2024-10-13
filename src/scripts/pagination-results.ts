@@ -183,13 +183,15 @@ class Pagination implements IPagination{
 					cell2.style.display = "block";
 					cell3.style.display = "block";
 				}
+				//Load data at startup
+				if(this.listLength > 0) this.displayFirstPageData<T>(dataArr);
 			}
 		}
 	}
 	//Get a portion of data according to the chosen page
 	public getPortionData<T>(pageNum:number):T[]{
 		let portion:T[] = [];
-		//if(pageNum === this.currentPage) return portion;
+		//If the portion is greater than 0
 		if(this.pagePortion !== 0){
 			//Get a portion of data for the first page
 			if(pageNum === 1){
@@ -207,6 +209,27 @@ class Pagination implements IPagination{
 		//Rewrite the current page when a control is clicked
 		this.currentPage = pageNum;
 		return portion;
+	}
+	//Display the first page at the beginning
+	public displayFirstPageData<T>(dataArr:T[]):T[]{
+		let portion:T[] = [];
+		if(this.pagePortion !== 0){
+			//Update current data if it was sorted
+			this.data = dataArr;
+			//Set the current page as the first
+			this.currentPage = 1;
+			//Get a portion of data for the first page
+			portion = this.data.slice(0, this.pagePortion);
+			//Set controls and cells by default
+			this.cells.cell1.className = "current";
+			this.cells.cell2.className = "";
+			this.cells.cell3.className = "";
+			//Rewrite cell numbers for the right edge
+			this.cells.cell1.textContent = String(1);
+			this.cells.cell2.textContent = String(2);
+			this.cells.cell3.textContent = String(3);
+		}
+		return portion; 
 	}
 };
 //Returns an instance of a class from this module
