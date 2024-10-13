@@ -13,6 +13,7 @@ export interface IPagination{
 	detectPressedControl(controlName: Controls, pageNumber: number):boolean;
 	preparePaginationBlock<T>(dataArr: T[], pagePortion: number):void;
 	getPortionData<T>(pageNum: number):T[];
+	displayFirstPageData<T>(dataArr: T[]):T[];
 }
 
 export type getClassInstance = ()=>IPagination;
