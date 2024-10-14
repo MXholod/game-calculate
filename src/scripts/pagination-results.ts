@@ -10,6 +10,7 @@ class Pagination implements IPagination{
 	private totalPages: number = 0;
 	private currentPage: number = 1;
 	private cells:{ [key:string]: HTMLSpanElement } = {};
+	private dataIntoHTML: ((data: any[])=>void) | null = null;
 	private constructor(){}
 	//Add 'click' event to the parent element to delegate this event to its children
 	public applyPaginationBlockEvents(paginationBlock: HTMLDivElement):void{
@@ -55,7 +56,10 @@ class Pagination implements IPagination{
 				this.cells.cell1.textContent = String(1);
 				this.cells.cell2.textContent = String(2);
 				this.cells.cell3.textContent = String(3);
-				this.getPortionData<Object>(1);
+				//Write data into template when button 'to the start' is pressed
+				if(this.dataIntoHTML !== null){
+					this.dataIntoHTML( this.getPortionData<ILevelsPackData>(1) );
+				}
 				break;
 			case 'end' :
 				if(this.totalPages === 1){
@@ -80,7 +84,10 @@ class Pagination implements IPagination{
 					this.cells.cell2.textContent = String(this.totalPages - 1);
 					this.cells.cell3.textContent = String(this.totalPages);
 				}
-				this.getPortionData<Object>(this.totalPages);
+				//Write data into template when button 'to the end' is pressed
+				if(this.dataIntoHTML !== null){
+					this.dataIntoHTML( this.getPortionData<ILevelsPackData>(this.totalPages) );
+				}
 				break;
 			case Controls.arrowLeft : 
 				if(this.currentPage > 1){
@@ -100,7 +107,10 @@ class Pagination implements IPagination{
 					}
 					//Calculate previous page
 					const previousPage = this.currentPage - 1;
-					this.getPortionData<Object>(previousPage);
+					//Write data into template when button 'Previous' is pressed
+					if(this.dataIntoHTML !== null){
+						this.dataIntoHTML( this.getPortionData<ILevelsPackData>(previousPage) );
+					}
 				}
 				break;
 			case 'arrow-right' : 
@@ -121,33 +131,47 @@ class Pagination implements IPagination{
 					}
 					//Calculate next page
 					const nextPage = this.currentPage + 1;
-					this.getPortionData<Object>(nextPage);
+					//Write data into template when button 'Next' is pressed
+					if(this.dataIntoHTML !== null){
+						this.dataIntoHTML( this.getPortionData<ILevelsPackData>(nextPage) );
+					}
 				}
 				break;
 			case 'cell-1' :
-					this.getPortionData<Object>(pageNumber);
 					this.cells.cell1.className = "current";
 					this.cells.cell2.className = "";
 					this.cells.cell3.className = "";
+					//Write data into template when button 'Page number' is pressed
+					if(this.dataIntoHTML !== null){
+						this.dataIntoHTML( this.getPortionData<ILevelsPackData>(pageNumber) );
+					}
 				break;
 			case 'cell-2' :
-					this.getPortionData<Object>(pageNumber);
 					this.cells.cell1.className = "";
 					this.cells.cell2.className = "current";
 					this.cells.cell3.className = "";
+					//Write data into template when button 'Page number' is pressed
+					if(this.dataIntoHTML !== null){
+						this.dataIntoHTML( this.getPortionData<ILevelsPackData>(pageNumber) );
+					}
 				break;
 			case Controls.cell3 :
-					this.getPortionData<Object>(pageNumber);
 					this.cells.cell1.className = "";
 					this.cells.cell2.className = "";
 					this.cells.cell3.className = "current";
+					//Write data into template when button 'Page number' is pressed
+					if(this.dataIntoHTML !== null){
+						this.dataIntoHTML( this.getPortionData<ILevelsPackData>(pageNumber) );
+					}
 				break;
 		}
 		return true;
 	}
 	//Show cells hidden by default if there is more data, assign some basic properties
-	public preparePaginationBlock<T>(dataArr: T[], pagePortion: number):void{
+	public preparePaginationBlock<T>(dataArr: T[], pagePortion: number, dataIntoHTML: (data: T[])=>void):T[]{
 		if(!!dataArr.length){
+			//Storing the function, which writes data into HTML
+			this.dataIntoHTML = dataIntoHTML;
 			//Find cells 2 and 3 in the block controls of the pagination
 			if(this.paginationHtmlBlock !== null && pagePortion !== 0){
 				//Save the data length, page portion and data itself into the class properties
@@ -183,10 +207,10 @@ class Pagination implements IPagination{
 					cell2.style.display = "block";
 					cell3.style.display = "block";
 				}
-				//Load data at startup
-				if(this.listLength > 0) this.displayFirstPageData<T>(dataArr);
 			}
 		}
+		//Return an empty data or not empty at startup
+		return this.displayFirstPageData<T>(dataArr);
 	}
 	//Get a portion of data according to the chosen page
 	public getPortionData<T>(pageNum:number):T[]{
