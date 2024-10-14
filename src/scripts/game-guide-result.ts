@@ -61,8 +61,7 @@ export const resultOnInit:resultOnInitData = (panelResult:HTMLElement):boolean=>
 		//Sorting by 'date' by default
 		stateLevels = sortingLogic(stateLevels, 'date');
 		//Preparation of the pagination block. Passing data and a number of the list items
-		getInstance().preparePaginationBlock<ILevelsPackData>(stateLevels, 10);
-		const pagePortion:ILevelsPackData[] = getInstance().displayFirstPageData<ILevelsPackData>(stateLevels);
+		const pagePortion:ILevelsPackData[] = getInstance().preparePaginationBlock<ILevelsPackData>(stateLevels, 10, displayGamesWithLevels);
 		//Displaying data of the games
 		displayGamesWithLevels(pagePortion);
 		return true;
