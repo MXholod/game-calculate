@@ -1,3 +1,5 @@
+//import { ILevelsPackData } from './types/game-guide-result';
+
 export enum Controls{
 	start = 'start',
 	end = 'end',
@@ -11,7 +13,7 @@ export enum Controls{
 export interface IPagination{
 	applyPaginationBlockEvents(paginationBlock: HTMLDivElement):void;
 	detectPressedControl(controlName: Controls, pageNumber: number):boolean;
-	preparePaginationBlock<T>(dataArr: T[], pagePortion: number):void;
+	preparePaginationBlock<T>(dataArr: T[], pagePortion: number, dataIntoHTML: (data: T[])=>void):T[];
 	getPortionData<T>(pageNum: number):T[];
 	displayFirstPageData<T>(dataArr: T[]):T[];
 }
