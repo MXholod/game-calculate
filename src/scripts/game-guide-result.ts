@@ -367,21 +367,23 @@ export const sortButtons:IButtons = function(this:HTMLDivElement, e:MouseEvent):
 	}
 	const lastSpaceInd = labelValue.lastIndexOf(' ');
 	const sortWord = labelValue.slice((lastSpaceInd + 1)); //'date' | 'success' | 'time' 
-	switch(sortWord){
-		case 'date': stateLevels = sortingLogic(stateLevels, sortWord); 
-			break;
-		case 'success': stateLevels = sortingLogic(stateLevels, sortWord); 
-			break;
-		case 'time': stateLevels = sortingLogic(stateLevels, sortWord); 
-			break;
-		default: if((elem instanceof HTMLLabelElement) || (elem instanceof HTMLInputElement)){
-			stateLevels = sortingLogic(stateLevels, 'date'); //"The sort word is unknown"
+	//Execute sort logic only when sort buttons are clicked
+	if((elem instanceof HTMLLabelElement) || (elem instanceof HTMLInputElement)){
+		switch(sortWord){
+			case 'date': stateLevels = sortingLogic(stateLevels, sortWord); 
+				break;
+			case 'success': stateLevels = sortingLogic(stateLevels, sortWord); 
+				break;
+			case 'time': stateLevels = sortingLogic(stateLevels, sortWord); 
+				break;
+			default: 
+				stateLevels = sortingLogic(stateLevels, 'date'); //"The sort word is unknown"
 		}
+		//Passing the newly sorted data to the pagination function to get a chunk of the data
+		const pagePortion:ILevelsPackData[] = getInstance().displayFirstPageData<ILevelsPackData>(stateLevels);
+		//Rewrite sorted data in HTML
+		displayGamesWithLevels(pagePortion);
 	}
-	//Passing the newly sorted data to the pagination function to get a chunk of the data
-	const pagePortion:ILevelsPackData[] = getInstance().displayFirstPageData<ILevelsPackData>(stateLevels);
-	//Rewrite sorted data in HTML
-	displayGamesWithLevels(pagePortion);
 }
 //Performing sorting
 export const sortingLogic:sortingLogicData = (data:stateLevelsData, sortBy:string):stateLevelsData=>{
