@@ -23,9 +23,9 @@ function run():void{
 			chooseRadio(e);
 		});
 	}
-	if(startNumsBlock && (startNumsBlock.lastChild instanceof HTMLDivElement)){
-		const rangeBlock = (startNumsBlock.lastChild as HTMLDivElement).children[0];
-		const randomRangeBlock = (startNumsBlock.lastChild as HTMLDivElement).children[1];
+	if(startNumsBlock && (startNumsBlock.children[1] instanceof HTMLDivElement)){
+		const rangeBlock = (startNumsBlock.children[1] as HTMLDivElement).children[0];
+		const randomRangeBlock = (startNumsBlock.children[1] as HTMLDivElement).children[1];
 		if(rangeBlock instanceof HTMLDivElement){
 			//Show numbers while dragging the sliders
 			rangeBlock.children[1].addEventListener('input', function(this:HTMLInputElement, e: Event){
