@@ -144,8 +144,14 @@ html, body{
 						label{
 							color: #1c1313;
 							width:20%;
+							&:hover, &:active{
+								cursor: pointer;
+							}
 							input[type='radio']{
 								margin:2% 0 0 10%;
+								&:hover, &:active{
+									cursor: pointer;
+								}
 							}
 						}
 					}
