@@ -8,7 +8,6 @@ div(class='widget-game-initial-numbers')
 			+start-radio-nums('Odd', 'init_nums', false)
 			+start-radio-nums('Even', 'init_nums', false)
 			+start-radio-nums('Mixed', 'init_nums', true)
-		include ./../shared/start-numbers-signs.pug
 	div(class='widget-game-initial-numbers__range')
 		+start-numbers-range(-50, 0, 0, 0, 50, 0)
 		div(class='widget-game-initial-numbers__random')
@@ -19,3 +18,4 @@ div(class='widget-game-initial-numbers')
 				span to:
 				input(type='number' value='0' min='0' max='50' readonly size='5')
 				input(type='button' value='Random numbers')
+	include ./../shared/start-numbers-signs.pug
