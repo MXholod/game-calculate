@@ -20,15 +20,24 @@ interface IRandomNums{
 	rightInp: HTMLInputElement | null;
 }
 
-interface IStartNumbersBlock<BtnMode, RangeNums>{
+interface ISignNums{
+	plus: HTMLInputElement | null;
+	mines: HTMLInputElement | null;
+	division: HTMLInputElement | null;
+	multiplication: HTMLInputElement | null;
+	all: HTMLInputElement | null;
+}
+
+interface IStartNumbersBlock<BtnMode, RangeNums, SignNums>{
 	radioBtnElems: IRadiosElems;
 	buttonMode: Array<BtnMode>;
 	rangeNumbers: RangeNums;
 	sliderBlockNodes: ISliderBlockNodes;
 	randomInputs: IRandomNums;
+	signs: SignNums
 }
 
-export type StartNumsBlock = IStartNumbersBlock<ButtonNumberMode, RangeNumbers>;
+export type StartNumsBlock = IStartNumbersBlock<ButtonNumberMode, RangeNumbers, ISignNums>;
 
 export type chooseRadioMode = (event: Event)=>void;
 
@@ -57,3 +66,9 @@ export type randRangeValues = (randomInputBtn:HTMLInputElement)=>void;
 export type cacheRadButtons = (gameInitalNumbers:HTMLDivElement)=>void;
 
 export type resetCacheRadButtons = ()=>void;
+
+export type saveSignSelection = (signSelectionEleme:HTMLDivElement)=>void;
+
+export type signSelection = (this:HTMLDivElement, e:MouseEvent)=>void;
+
+export type  checkedToAllSigns = ()=>boolean;
