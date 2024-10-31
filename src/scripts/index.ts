@@ -1,6 +1,6 @@
 //The entry point
 import { UserInteraction } from './user-Interaction';
-import { chooseRadio, displayRangeNums, recalculateToMode, displayRangeNumsKeyboard, randomRangeValues } from './start-numbers';
+import { chooseRadio, displayRangeNums, recalculateToMode, displayRangeNumsKeyboard, randomRangeValues, saveSignSelectionElems, signSelectionHandler } from './start-numbers';
 import { handleUserInput, handleButton } from './user-cpu-amount';
 import { setStatsBtnNode, changeStatsBtnActivity, getCurrentLevelNode, handleStatsButton, subscribesOnData } from './game-statistics';
 import { getLevelInfoInstance } from './game-core';
@@ -26,6 +26,7 @@ function run():void{
 	if(startNumsBlock && (startNumsBlock.children[1] instanceof HTMLDivElement)){
 		const rangeBlock = (startNumsBlock.children[1] as HTMLDivElement).children[0];
 		const randomRangeBlock = (startNumsBlock.children[1] as HTMLDivElement).children[1];
+		const signSelectionBlock = (startNumsBlock.children[2] as HTMLDivElement);
 		if(rangeBlock instanceof HTMLDivElement){
 			//Show numbers while dragging the sliders
 			rangeBlock.children[1].addEventListener('input', function(this:HTMLInputElement, e: Event){
@@ -81,6 +82,12 @@ function run():void{
 					playButtonActivity();
 				}
 			});
+		}
+		if(signSelectionBlock instanceof HTMLDivElement){
+			//Save input nodes in to the object, which are children of that parent element
+			saveSignSelectionElems(signSelectionBlock);
+			//Event delegation, from parent to children elements
+			signSelectionBlock.addEventListener('click', signSelectionHandler, false);
 		}
 	}
 	//User and CPU amount
