@@ -14,7 +14,10 @@ import {
 	resetValsOnEndLevel,
 	randRangeValues,
 	cacheRadButtons,
-	resetCacheRadButtons
+	resetCacheRadButtons,
+	saveSignSelection,
+	signSelection,
+	checkedToAllSigns
 } from "./types/game-start-numbers";
 import { ILimitLevel, ILimitLevelValues } from "./types/user-interaction";
 import { UserInteraction } from "./user-Interaction";
@@ -34,6 +37,13 @@ export const startNumbers:StartNumsBlock = {
 	randomInputs: {
 		leftInp: null,
 		rightInp: null
+	},
+	signs:{
+		plus: null,
+		mines: null,
+		division: null,
+		multiplication: null,
+		all: null
 	}
 };
 //Switch between modes (radio buttons) 'Odd' | 'Even' | 'Mixed'
@@ -336,6 +346,94 @@ export const resetCacheRadioButtons:resetCacheRadButtons = function():void{
 	startNumbers.radioBtnElems.odd!.checked = false;
 	startNumbers.radioBtnElems.even!.checked = false;
 	startNumbers.radioBtnElems.mixed!.checked = true;
+}
+export const saveSignSelectionElems = (signSelectionEleme:HTMLDivElement):void=>{
+	let areAllNull:boolean = true;
+	Object.values(startNumbers.signs).forEach((signEl)=>{
+		if(signEl !== null){
+			areAllNull = false;
+		}
+	});
+	//Caching all the checkbox elements to 'signs' object
+	if(areAllNull){
+		startNumbers.signs.plus = (signSelectionEleme.children[1].lastChild as HTMLInputElement);
+		startNumbers.signs.mines = (signSelectionEleme.children[2].lastChild as HTMLInputElement);
+		startNumbers.signs.division = (signSelectionEleme.children[3].lastChild as HTMLInputElement);
+		startNumbers.signs.multiplication = (signSelectionEleme.children[4].lastChild as HTMLInputElement);
+		startNumbers.signs.all = (signSelectionEleme.children[5].lastChild as HTMLInputElement);
+		//Checking all the fields by default
+		if(startNumbers.signs.plus !== null) startNumbers.signs.plus.checked = true;
+		if(startNumbers.signs.mines !== null) startNumbers.signs.mines.checked = true;
+		if(startNumbers.signs.division !== null) startNumbers.signs.division.checked = true;
+		if(startNumbers.signs.multiplication !== null) startNumbers.signs.multiplication.checked = true;
+	}
+}
+export const signSelectionHandler:signSelection = function(this:HTMLDivElement, e:MouseEvent):void{
+	if(e.target instanceof HTMLInputElement){
+		const currentSignElem:HTMLInputElement = <HTMLInputElement>(e.target);
+		//Determining a marked checkbox
+		switch(currentSignElem.name){
+			case 'plus' : if(currentSignElem.checked){ } console.log("Test ",checkedToAll());
+				break;
+			case 'mines' : if(currentSignElem.checked){ } console.log("Test ",checkedToAll());
+				break;
+			case 'division' : if(currentSignElem.checked){ } console.log("Test ",checkedToAll());
+				break;
+			case 'multiplying' : if(currentSignElem.checked){ } console.log("Test ",checkedToAll());
+				break;
+			case 'all' : 
+				if(currentSignElem.checked){
+					if(startNumbers.signs.plus !== null) startNumbers.signs.plus.checked = true;
+					if(startNumbers.signs.mines !== null) startNumbers.signs.mines.checked = true;
+					if(startNumbers.signs.division !== null) startNumbers.signs.division.checked = true;
+					if(startNumbers.signs.multiplication !== null) startNumbers.signs.multiplication.checked = true;
+					if(startNumbers.signs.all !== null) startNumbers.signs.all.checked = true;
+				}else{
+					if(startNumbers.signs.plus !== null) startNumbers.signs.plus.checked = false;
+					if(startNumbers.signs.mines !== null) startNumbers.signs.mines.checked = false;
+					if(startNumbers.signs.division !== null) startNumbers.signs.division.checked = false;
+					if(startNumbers.signs.multiplication !== null) startNumbers.signs.multiplication.checked = false;
+					if(startNumbers.signs.all !== null) startNumbers.signs.all.checked = false;
+				}
+		}
+	}
+}
+export const checkedToAll:checkedToAllSigns = ():boolean=>{
+	//Statuses of marked elements
+	let isChecked:boolean[] = [false, false, false, false];
+	const signs = Object.values(startNumbers.signs);
+	//Extracting the last element, which is 'all'
+	const allSigns = signs.pop();
+	//Searching for the marked element and saving its status in the corresponding array
+	signs.forEach((signEl)=>{
+		if(signEl !== null && signEl.name !== "all"){
+			if(signEl.name === "plus"){
+				isChecked[0] = signEl.checked === true ? false : true;
+			}
+			if(signEl.name === "mines"){
+				isChecked[1] = signEl.checked === true ? false : true;
+			}
+			if(signEl.name === "division"){
+				isChecked[2] = signEl.checked === true ? false : true;
+			}
+			if(signEl.name === "multiplying"){
+				isChecked[3] = signEl.checked === true ? false : true;
+			}
+		}
+	});
+	//Change state of the 'all' element, which depends on from the other marked elements - 'isChecked'
+	if(isChecked.includes(true) === true){//If there is at least one 'true' in the array
+		allSigns.checked = false;
+		const marked = isChecked.reduce((acc, marked)=>{
+			if(marked){ return acc += 1;}
+			else{ return acc; }
+		},0);
+		if(marked === isChecked.length){ return false; }//All checkboxes are unchecked
+		else{ return true; }
+	}else{ 
+		allSigns.checked = true;
+		return true;
+	}
 }
 export {
 	processRange as testProcessRange,
