@@ -1,5 +1,5 @@
 import { ButtonsState, setBtnState, changeBtnActivity, playBtnActivity } from './types/start-stop-retry';
-import { startNumbers } from './start-numbers';
+import { startNumbers, selectedSignsByUser } from './start-numbers';
 import { UserInteraction } from './user-Interaction';
 
 export const buttonState:ButtonsState = {
@@ -55,7 +55,8 @@ export const changeButtonActivity:changeBtnActivity = (btnName:string, activity:
 export const playButtonActivity:playBtnActivity = ():boolean=>{
 	const [leftNum, rightNum] = startNumbers.rangeNumbers;
 	if(!leftNum || !rightNum) return false;
-	if(UserInteraction.checkLevelInitialNumbers(leftNum, rightNum)){
+	const selSigns:boolean = !!selectedSignsByUser.length;
+	if(UserInteraction.checkLevelInitialNumbers(leftNum, rightNum) && selSigns){
 		changeButtonActivity('play', true);
 	}else{
 		changeButtonActivity('play', false);

@@ -1,6 +1,6 @@
 import { IUserInteraction, ILimitLevel, ILimitLevelValues } from './types/user-interaction';
 import { startTimer, timerSuspend, writeLevelToHtml } from './timer';
-import { rememberRangeNodes, updateRangeNodes, turnOnOffStartNumbers, resetValuesOnEndLevel, startNumbers, resetCacheRadioButtons } from './start-numbers';
+import { rememberRangeNodes, updateRangeNodes, turnOnOffStartNumbers, resetValuesOnEndLevel, startNumbers, resetCacheRadioButtons, selectedSignsByUser } from './start-numbers';
 import { toggleLevelBoard } from './level-board';
 import { startCubeAnimation, clearNumsOfCube, allowClickOnCubeCells, backCubeAnimation } from './main-cube';
 import { calculateCubesAmount, updateMainCubeWithElems, getLevelInfoInstance } from './game-core';
@@ -47,7 +47,7 @@ export const UserInteraction:IUserInteraction = {
 	},
 	startGame: function(timer:HTMLDivElement):boolean{
 		const [leftNum, rightNum] = startNumbers.rangeNumbers;
-		if(!this!.levelTimeIsUp && this.checkLevelInitialNumbers(leftNum, rightNum) && this!.gameInProgress){
+		if(!this!.levelTimeIsUp && this.checkLevelInitialNumbers(leftNum, rightNum) && this!.gameInProgress && !!selectedSignsByUser.length){
 			this!.levelTimeIsUp = true;
 			//Hide level-board
 			toggleLevelBoard(timer, true);

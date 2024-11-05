@@ -23,6 +23,7 @@ import { ILimitLevel, ILimitLevelValues } from "./types/user-interaction";
 import { UserInteraction } from "./user-Interaction";
 import { storeSelectedSigns } from "./game-core";
 import { selectedSigns } from "./types/game-core";
+import { playButtonActivity } from './start-stop-retry';
 
 //Object of the modes
 export const startNumbers:StartNumsBlock = {
@@ -394,7 +395,8 @@ export const signSelectionHandler:signSelection = function(this:HTMLDivElement, 
 						//Remove the 'plus' because it's unchecked
 						selectedSignsByUser = selectedSignsByUser.filter(sign=>{ return (sign !== 'plus' && sign !== 'all');});
 					}
-					if(!checkedToAll()){ selectedSignsByUser = []; }//All checkboxes are unchecked
+					if(!checkedToAll()){ selectedSignsByUser = []; } //All checkboxes are unchecked
+					playButtonActivity();
 					storeSelectedSigns(selectedSignsByUser);					
 				break;
 			case 'mines' : if(currentSignElem.checked){
@@ -406,7 +408,8 @@ export const signSelectionHandler:signSelection = function(this:HTMLDivElement, 
 						//Remove the 'mines' because it's unchecked
 						selectedSignsByUser = selectedSignsByUser.filter(sign=>{ return (sign !== 'mines' && sign !== 'all');});
 					}
-					if(!checkedToAll()){ selectedSignsByUser = []; }//All checkboxes are unchecked
+					if(!checkedToAll()){ selectedSignsByUser = []; } //All checkboxes are unchecked
+					playButtonActivity();
 					storeSelectedSigns(selectedSignsByUser);
 				break;
 			case 'division' : if(currentSignElem.checked){ 
@@ -418,7 +421,8 @@ export const signSelectionHandler:signSelection = function(this:HTMLDivElement, 
 						//Remove the 'divide' because it's unchecked
 						selectedSignsByUser = selectedSignsByUser.filter(sign=>{ return (sign !== 'divide' && sign !== 'all');});
 					}
-					if(!checkedToAll()){ selectedSignsByUser = []; }//All checkboxes are unchecked
+					if(!checkedToAll()){ selectedSignsByUser = []; } //All checkboxes are unchecked
+					playButtonActivity();
 					storeSelectedSigns(selectedSignsByUser);
 				break;
 			case 'multiplying' : if(currentSignElem.checked){ 
@@ -430,7 +434,8 @@ export const signSelectionHandler:signSelection = function(this:HTMLDivElement, 
 						//Remove the 'multiply' because it's unchecked
 						selectedSignsByUser = selectedSignsByUser.filter(sign=>{ return (sign !== 'multiply' && sign !== 'all');});
 					}
-					if(!checkedToAll()){ selectedSignsByUser = []; }//All checkboxes are unchecked
+					if(!checkedToAll()){ selectedSignsByUser = []; } //All checkboxes are unchecked
+					playButtonActivity();
 					storeSelectedSigns(selectedSignsByUser);
 				break;
 			case 'all' : 
@@ -442,6 +447,7 @@ export const signSelectionHandler:signSelection = function(this:HTMLDivElement, 
 					if(startNumbers.signs.all !== null) startNumbers.signs.all.checked = true;
 					//All the boxes are checked
 					selectedSignsByUser = ['plus','mines','divide','multiply','all'];
+					playButtonActivity();
 					storeSelectedSigns(selectedSignsByUser);
 				}else{
 					if(startNumbers.signs.plus !== null) startNumbers.signs.plus.checked = false;
@@ -451,6 +457,7 @@ export const signSelectionHandler:signSelection = function(this:HTMLDivElement, 
 					if(startNumbers.signs.all !== null) startNumbers.signs.all.checked = false;
 					//All checkboxes are unchecked
 					selectedSignsByUser = [];
+					playButtonActivity();
 					storeSelectedSigns(selectedSignsByUser);
 				}
 		}
