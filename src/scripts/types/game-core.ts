@@ -12,6 +12,10 @@ export interface ISigns {
 	multiply: multiply;
 };
 
+export type selectedSigns = Array<keyof ISigns | 'all'>;
+
+export type storeSelSigns = (signs:selectedSigns)=>void;
+
 export type calcCubesAmount = (currentLevel: number)=>(void | never);
 
 export type genCells = ()=>Array<HTMLDivElement>;
