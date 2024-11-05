@@ -1,4 +1,4 @@
-import { ISigns, calcCubesAmount, genCells, numsSigns, randNumsFromRange, updMainCubeWithElems, ILevelInformation, IPreparedLevelData, preparedData, makeTF } from './types/game-core';
+import { ISigns, selectedSigns, storeSelSigns, calcCubesAmount, genCells, numsSigns, randNumsFromRange, updMainCubeWithElems, ILevelInformation, IPreparedLevelData, preparedData, makeTF } from './types/game-core';
 import { ICell } from './types/main-cube';
 import { UserInteraction } from './user-Interaction';
 import { startNumbers } from './start-numbers';
@@ -10,6 +10,9 @@ const signs:ISigns = {
 	divide: '/',
 	multiply: '*'
 };
+
+//Selected signs by the user
+let selSigns:selectedSigns = [];  
 
 //Calculating an amount of cells for each level
 export const calculateCubesAmount:calcCubesAmount = function(currentLevel: number):(void | never){
@@ -25,6 +28,11 @@ const generateCells:genCells = ():Array<HTMLDivElement>=>{
 	}
 	return cells;
 }
+//This function is being called in 'start-numbers' when the user selects a sign
+export const storeSelectedSigns:storeSelSigns = (signs:selectedSigns):void=>{
+	selSigns = signs;
+	console.log("Selected signs ",selSigns);
+} 
 //Creating random numbers in range of the level
 const numsWithSigns:numsSigns = ():Array<string>=>{
 	//Make an array of signs 
