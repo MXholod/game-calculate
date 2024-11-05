@@ -107,7 +107,6 @@ export const handleButton:onApproveBtn = function(this:HTMLButtonElement, e: Eve
 		const asideElem:HTMLElement = UserCpuBlock?.userLabel?.parentNode?.parentNode?.parentNode as HTMLElement;
 		const timer:HTMLDivElement = asideElem?.firstChild as HTMLDivElement;
 		timer!.children[1]!.children[1]!.textContent = "00:00";
-		
 		//Prepare level data. Save to the Observer
 		PreparedLevelData.levelElapsedTime = UserInteraction.totalLevelSeconds;
 		//Create 'id' from the time stamp for all levels of the game
@@ -142,11 +141,11 @@ export const handleButton:onApproveBtn = function(this:HTMLButtonElement, e: Eve
 				//Until now, the level number has become 1
 				writeLevelToHtml(timer!);
 			});
-			console.log("The game is over");//The game is over
+			//console.log("The game is over");//The game is over
 		}else{
 			//Reset level values. Go the animation back.
 			UserInteraction.resultApprovedGoNextLevel(timer);
-			console.log("The game continues");//The game continues
+			//console.log("The game continues");//The game continues
 		}
 	}
 }
