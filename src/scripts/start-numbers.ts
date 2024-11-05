@@ -285,6 +285,14 @@ export const turnOnOffStartNumbers:turnOnOffStartNums = (onOrOff:boolean):boolea
 	//Random button
 	const randomBtn = <HTMLInputElement>(mainSliderBlock!.parentNode!.children[1]!.children[1]!.lastChild);
 	randomBtn.disabled = onOrOff;
+	//Selected signs
+	if((startNumbers.signs.plus !== null) && (startNumbers.signs.mines !== null) && (startNumbers.signs.division !== null) && (startNumbers.signs.multiplication !== null) && (startNumbers.signs.all !== null)){
+		startNumbers.signs.plus.disabled = onOrOff;
+		startNumbers.signs.mines.disabled = onOrOff;
+		startNumbers.signs.division.disabled = onOrOff;
+		startNumbers.signs.multiplication.disabled = onOrOff;
+		startNumbers.signs.all.disabled = onOrOff;
+	}
 	if(mainSliderBlock && radioBtns && leftSlider && rightSlider && randomBtn){
 		return true;
 	}
