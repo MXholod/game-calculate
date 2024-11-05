@@ -21,6 +21,8 @@ import {
 } from "./types/game-start-numbers";
 import { ILimitLevel, ILimitLevelValues } from "./types/user-interaction";
 import { UserInteraction } from "./user-Interaction";
+import { storeSelectedSigns } from "./game-core";
+import { selectedSigns } from "./types/game-core";
 
 //Object of the modes
 export const startNumbers:StartNumsBlock = {
@@ -46,6 +48,8 @@ export const startNumbers:StartNumsBlock = {
 		all: null
 	}
 };
+//Selected signs of numbers by the user
+export let selectedSignsByUser:selectedSigns = ['plus','mines','divide','multiply','all'];
 //Switch between modes (radio buttons) 'Odd' | 'Even' | 'Mixed'
 export const chooseRadio:chooseRadioMode = function(event: Event):void{
 	const currentEl:HTMLElement = event.target! as HTMLElement;
@@ -373,13 +377,53 @@ export const signSelectionHandler:signSelection = function(this:HTMLDivElement, 
 		const currentSignElem:HTMLInputElement = <HTMLInputElement>(e.target);
 		//Determining a marked checkbox
 		switch(currentSignElem.name){
-			case 'plus' : if(currentSignElem.checked){ } console.log("Test ",checkedToAll());
+			case 'plus' : if(currentSignElem.checked){ 
+						//Remove the 'plus' before inserting if it already exists
+						selectedSignsByUser = selectedSignsByUser.filter(sign=>sign !== 'plus');
+						selectedSignsByUser.push('plus'); 
+						if(selectedSignsByUser.length === 4) selectedSignsByUser.push('all');
+					}else{
+						//Remove the 'plus' because it's unchecked
+						selectedSignsByUser = selectedSignsByUser.filter(sign=>{ return (sign !== 'plus' && sign !== 'all');});
+					}
+					if(!checkedToAll()){ selectedSignsByUser = []; }//All checkboxes are unchecked
+					storeSelectedSigns(selectedSignsByUser);					
 				break;
-			case 'mines' : if(currentSignElem.checked){ } console.log("Test ",checkedToAll());
+			case 'mines' : if(currentSignElem.checked){
+						//Remove the 'mines' before inserting if it already exists
+						selectedSignsByUser = selectedSignsByUser.filter(sign=>sign !== 'mines');
+						selectedSignsByUser.push('mines');
+						if(selectedSignsByUser.length === 4) selectedSignsByUser.push('all');
+					}else{
+						//Remove the 'mines' because it's unchecked
+						selectedSignsByUser = selectedSignsByUser.filter(sign=>{ return (sign !== 'mines' && sign !== 'all');});
+					}
+					if(!checkedToAll()){ selectedSignsByUser = []; }//All checkboxes are unchecked
+					storeSelectedSigns(selectedSignsByUser);
 				break;
-			case 'division' : if(currentSignElem.checked){ } console.log("Test ",checkedToAll());
+			case 'division' : if(currentSignElem.checked){ 
+						//Remove the 'divide' before inserting if it already exists
+						selectedSignsByUser = selectedSignsByUser.filter(sign=>sign !== 'divide');
+						selectedSignsByUser.push('divide');
+						if(selectedSignsByUser.length === 4) selectedSignsByUser.push('all');
+					}else{
+						//Remove the 'divide' because it's unchecked
+						selectedSignsByUser = selectedSignsByUser.filter(sign=>{ return (sign !== 'divide' && sign !== 'all');});
+					}
+					if(!checkedToAll()){ selectedSignsByUser = []; }//All checkboxes are unchecked
+					storeSelectedSigns(selectedSignsByUser);
 				break;
-			case 'multiplying' : if(currentSignElem.checked){ } console.log("Test ",checkedToAll());
+			case 'multiplying' : if(currentSignElem.checked){ 
+					//Remove the 'multiply' before inserting if it already exists
+						selectedSignsByUser = selectedSignsByUser.filter(sign=>sign !== 'multiply');
+						selectedSignsByUser.push('multiply');
+						if(selectedSignsByUser.length === 4) selectedSignsByUser.push('all');
+					}else{
+						//Remove the 'multiply' because it's unchecked
+						selectedSignsByUser = selectedSignsByUser.filter(sign=>{ return (sign !== 'multiply' && sign !== 'all');});
+					}
+					if(!checkedToAll()){ selectedSignsByUser = []; }//All checkboxes are unchecked
+					storeSelectedSigns(selectedSignsByUser);
 				break;
 			case 'all' : 
 				if(currentSignElem.checked){
@@ -388,12 +432,18 @@ export const signSelectionHandler:signSelection = function(this:HTMLDivElement, 
 					if(startNumbers.signs.division !== null) startNumbers.signs.division.checked = true;
 					if(startNumbers.signs.multiplication !== null) startNumbers.signs.multiplication.checked = true;
 					if(startNumbers.signs.all !== null) startNumbers.signs.all.checked = true;
+					//All the boxes are checked
+					selectedSignsByUser = ['plus','mines','divide','multiply','all'];
+					storeSelectedSigns(selectedSignsByUser);
 				}else{
 					if(startNumbers.signs.plus !== null) startNumbers.signs.plus.checked = false;
 					if(startNumbers.signs.mines !== null) startNumbers.signs.mines.checked = false;
 					if(startNumbers.signs.division !== null) startNumbers.signs.division.checked = false;
 					if(startNumbers.signs.multiplication !== null) startNumbers.signs.multiplication.checked = false;
 					if(startNumbers.signs.all !== null) startNumbers.signs.all.checked = false;
+					//All checkboxes are unchecked
+					selectedSignsByUser = [];
+					storeSelectedSigns(selectedSignsByUser);
 				}
 		}
 	}
