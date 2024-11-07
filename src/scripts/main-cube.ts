@@ -192,6 +192,6 @@ export const calculateCorrectResult:ICalculateCorrectResult = (allCells: cubeCel
 	if(Number.isInteger(sum)){
 		return sum;
 	}else{
-		return Number(sum.toFixed(3));
+		return Number(sum.toFixed(1));
 	}
 }
