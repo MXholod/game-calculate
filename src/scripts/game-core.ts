@@ -1,4 +1,4 @@
-import { ISigns, selectedSigns, storeSelSigns, calcCubesAmount, genCells, numsSigns, randNumsFromRange, updMainCubeWithElems, ILevelInformation, IPreparedLevelData, preparedData, makeTF } from './types/game-core';
+import { ISigns, signValues, selectedSigns, storeSelSigns, calcCubesAmount, genCells, numsSigns, randNumsFromRange, updMainCubeWithElems, ILevelInformation, IPreparedLevelData, preparedData, makeTF } from './types/game-core';
 import { ICell } from './types/main-cube';
 import { UserInteraction } from './user-Interaction';
 import { startNumbers } from './start-numbers';
@@ -31,19 +31,45 @@ const generateCells:genCells = ():Array<HTMLDivElement>=>{
 //This function is being called in 'start-numbers' when the user selects a sign
 export const storeSelectedSigns:storeSelSigns = (signs:selectedSigns):void=>{
 	selSigns = signs;
-	console.log("Selected signs ",selSigns);
 } 
 //Creating random numbers in range of the level
 const numsWithSigns:numsSigns = ():Array<string>=>{
-	//Make an array of signs 
-	const arrSigns = Object.keys(signs).map(sign => {
-		return signs[sign as keyof ISigns];
-	});
-	//Attaching signs to random numbers
-	return randomNumbersFromRange().map((num)=>{
-		const randomSign = arrSigns[ (Math.round(Math.random() * (arrSigns.length - 1))) ];
-		return `(${randomSign}) ${num}`;
-	});
+	//Empty array or an array, which contains 'all' 
+	if(!selSigns.length || selSigns.includes('all')){
+		//Make an array of signs 
+		const arrSigns = Object.keys(signs).map(sign => {
+			return signs[sign as keyof ISigns];
+		});
+		//Attaching signs to random numbers
+		return randomNumbersFromRange().map((num)=>{
+			const randomSign = arrSigns[ (Math.round(Math.random() * (arrSigns.length - 1))) ];
+			return `(${randomSign}) ${num}`;
+		});
+	}else{//One or more signs but not all
+		const comparedSigns: Array<signValues> = [];
+		//If only one sign is selected
+		if(selSigns.length === 1){
+			for(let key in signs){
+				if(key === selSigns[0]){
+					comparedSigns[0] = signs[key as keyof ISigns];
+				}
+			}
+			//Attaching sign to random numbers
+			return randomNumbersFromRange().map((num)=>{
+				return `(${comparedSigns[0]}) ${num}`;
+			});
+		}else{
+			//If more than one sign
+			for(let i = 0; selSigns.length > i; i++){
+				comparedSigns[i] = signs[selSigns[i] as keyof ISigns];
+			}
+			//Attaching sign to random numbers
+			return randomNumbersFromRange().map((num)=>{
+				const randomSign = comparedSigns[ (Math.round(Math.random() * (comparedSigns.length - 1))) ];
+				return `(${randomSign}) ${num}`;
+			});
+		}
+	}
 }
 //Create random numbers from range
 const randomNumbersFromRange:randNumsFromRange = ():Array<number>=>{
