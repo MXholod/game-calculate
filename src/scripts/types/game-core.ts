@@ -12,6 +12,8 @@ export interface ISigns {
 	multiply: multiply;
 };
 
+export type signValues = ISigns[keyof ISigns];
+
 export type selectedSigns = Array<keyof ISigns | 'all'>;
 
 export type storeSelSigns = (signs:selectedSigns)=>void;
