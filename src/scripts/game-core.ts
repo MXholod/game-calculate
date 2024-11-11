@@ -74,6 +74,14 @@ const numsWithSigns:numsSigns = ():Array<string>=>{
 //Create random numbers from range
 const randomNumbersFromRange:randNumsFromRange = ():Array<number>=>{
 	const arrNums:number[] = [];
+	//Detecting what was selected 'even' | 'odd' | 'mixed'
+	let numberType:string = ''; //Save selected type of number 'even' | 'odd' | 'mixed'
+	for(let i = 0; startNumbers.buttonMode.length > i; i++){
+		if(startNumbers.buttonMode[i][1] === true){
+			numberType = startNumbers.buttonMode[i][0];
+			numberType = numberType.toLowerCase(); 
+		}
+	}
 	//Number of edges
 	let leftNum = parseInt(startNumbers.rangeNumbers[0]);
 	let rightNum = parseInt(startNumbers.rangeNumbers[1]);
@@ -84,10 +92,14 @@ const randomNumbersFromRange:randNumsFromRange = ():Array<number>=>{
 			if(leftOrRight === 0){//0 - Left side
 				let leftRand = Math.round(Math.random() * leftNum);
 				if(Math.abs(leftRand) === 0) continue;
+				if(numberType === 'even' && (Math.abs(leftRand) % 2) !== 0) continue;
+				if(numberType === 'odd' && (Math.abs(leftRand) % 2) === 0) continue;
 				arrNums.push(leftRand);
 			}else{//1 - Right side
 				let rightRand = Math.round(Math.random() * rightNum);
 				if(Math.abs(rightRand) === 0) continue;
+				if(numberType === 'even' && (Math.abs(rightRand) % 2) !== 0) continue;
+				if(numberType === 'odd' && (Math.abs(rightRand) % 2) === 0) continue;
 				arrNums.push(rightRand);
 			}
 		}
@@ -96,6 +108,8 @@ const randomNumbersFromRange:randNumsFromRange = ():Array<number>=>{
 		while(arrNums.length < UserInteraction.cubesAmount){
 			let leftRand = Math.round(Math.random() * leftNum);
 			if(Math.abs(leftRand) === 0) continue;
+			if(numberType === 'even' && (Math.abs(leftRand) % 2) !== 0) continue;
+			if(numberType === 'odd' && (Math.abs(leftRand) % 2) === 0) continue;
 			arrNums.push(leftRand);
 		}
 	}
@@ -103,6 +117,8 @@ const randomNumbersFromRange:randNumsFromRange = ():Array<number>=>{
 		while(arrNums.length < UserInteraction.cubesAmount){
 			let rightRand = Math.round(Math.random() * rightNum);
 			if(Math.abs(rightRand) === 0) continue;
+			if(numberType === 'even' && (Math.abs(rightRand) % 2) !== 0) continue;
+			if(numberType === 'odd' && (Math.abs(rightRand) % 2) === 0) continue;
 			arrNums.push(rightRand);
 		}
 	}
