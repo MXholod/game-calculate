@@ -20,6 +20,13 @@ const startNumbers:StartNumsBlock = {
 	randomInputs: {
 		leftInp: null,
 		rightInp: null
+	},
+	signs:{
+		plus: null,
+		mines: null,
+		division: null,
+		multiplication: null,
+		all: null
 	}
 }; 
 
