@@ -17,7 +17,8 @@ import {
 	resetCacheRadButtons,
 	saveSignSelection,
 	signSelection,
-	checkedToAllSigns
+	checkedToAllSigns,
+	setSignsSel
 } from "./types/game-start-numbers";
 import { ILimitLevel, ILimitLevelValues } from "./types/user-interaction";
 import { UserInteraction } from "./user-Interaction";
@@ -498,6 +499,16 @@ export const checkedToAll:checkedToAllSigns = ():boolean=>{
 	}else{ 
 		allSigns.checked = true;
 		return true;
+	}
+}
+export const setSignsSelection:setSignsSel = (toggle:boolean):void=>{
+	//Checking flags for 'null'
+	if((startNumbers.signs.plus !== null) && (startNumbers.signs.mines !== null) && (startNumbers.signs.division !== null) && (startNumbers.signs.multiplication !== null) && (startNumbers.signs.all !== null)){
+		startNumbers.signs.plus.checked = toggle;
+		startNumbers.signs.mines.checked = toggle;
+		startNumbers.signs.division.checked = toggle;
+		startNumbers.signs.multiplication.checked = toggle;
+		startNumbers.signs.all.checked = toggle;
 	}
 }
 export {
