@@ -1,6 +1,6 @@
 import { IUserInteraction, ILimitLevel, ILimitLevelValues } from './types/user-interaction';
 import { startTimer, timerSuspend, writeLevelToHtml } from './timer';
-import { rememberRangeNodes, updateRangeNodes, turnOnOffStartNumbers, resetValuesOnEndLevel, startNumbers, resetCacheRadioButtons, selectedSignsByUser } from './start-numbers';
+import { rememberRangeNodes, updateRangeNodes, turnOnOffStartNumbers, resetValuesOnEndLevel, startNumbers, resetCacheRadioButtons, selectedSignsByUser, setSignsSelection } from './start-numbers';
 import { toggleLevelBoard } from './level-board';
 import { startCubeAnimation, clearNumsOfCube, allowClickOnCubeCells, backCubeAnimation } from './main-cube';
 import { calculateCubesAmount, updateMainCubeWithElems, getLevelInfoInstance } from './game-core';
@@ -83,6 +83,8 @@ export const UserInteraction:IUserInteraction = {
 					//Clear the main cube
 					clearNumsOfCube();
 					updateRangeNodes(0);
+					//Marking all the checkboxes of the 'Selection signs'
+					setSignsSelection(true);
 					//Disable user's buttons
 					this?.turnOnOffUserInteraction(false);
 					//Setting the 'retry' button as active, to allow a new game to be restarted 
@@ -230,6 +232,8 @@ export const UserInteraction:IUserInteraction = {
 		if(this.gameLevel === lastLevel){
 			//Set game data to default
 			this.resetGameDataByDefault();
+			//Marking all the checkboxes of the 'Selection signs'
+			setSignsSelection(true);
 			//Displaying an information panel with a text about the completion of the game  
 			this.showHideGamePanel(timer, text);
 			//Subscribers for data levels
