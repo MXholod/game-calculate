@@ -71,4 +71,6 @@ export type saveSignSelection = (signSelectionEleme:HTMLDivElement)=>void;
 
 export type signSelection = (this:HTMLDivElement, e:MouseEvent)=>void;
 
-export type  checkedToAllSigns = ()=>boolean;
+export type checkedToAllSigns = ()=>boolean;
+
+export type setSignsSel = (toggle:boolean)=>void;
