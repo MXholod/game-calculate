@@ -22,21 +22,17 @@ export const startTimer:sT = (widgetTimer:HTMLDivElement):void=>{
 
 const initTimer:iT = ():string=>{
 	const addSec = UserInteraction.additionalSecToLevel;
-	if(UserInteraction.gameLevel <= 2){
-		UserInteraction.totalLevelSeconds = (UserInteraction.gameLevel * addSec) + addSec;
-		return timeCounter();
-	}else if((UserInteraction.gameLevel >= 3) && (UserInteraction.gameLevel <= 5)){
-		UserInteraction.totalLevelSeconds = (UserInteraction.gameLevel * addSec) + (addSec * 3);
-		return timeCounter();
-	}else if((UserInteraction.gameLevel >= 6) && (UserInteraction.gameLevel <= 8)){
-		UserInteraction.totalLevelSeconds = (UserInteraction.gameLevel * addSec) + (addSec * 4);
-		return timeCounter();
-	}else if((UserInteraction.gameLevel === 9) || (UserInteraction.gameLevel === 10)){
-		UserInteraction.totalLevelSeconds = (UserInteraction.gameLevel * addSec) + (addSec * 5);
-		return timeCounter();
+	const multiplyByLevel = (UserInteraction.gameLevel * addSec) * 3;
+	if(UserInteraction.gameLevel === 1){
+		UserInteraction.totalLevelSeconds = multiplyByLevel + addSec;//40
+	}else if(UserInteraction.gameLevel >= 2 || UserInteraction.gameLevel <= 10){
+		//60 + 30 = 90, 90 + 60 = 150, 120 + 90 = 210, 150 + 120 = 270, 180 + 150 = 330, ...
+		UserInteraction.totalLevelSeconds = multiplyByLevel + ((UserInteraction.gameLevel - 1) * 30);
 	}else{
 		return "00:00";
 	}
+	UserInteraction.totalLevelSeconds += 1;
+	return timeCounter();
 }
 
 const timeCounter:tC = ():string=>{
