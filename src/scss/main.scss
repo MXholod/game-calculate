@@ -500,7 +500,7 @@ html, body{
 			position:relative;
 			overflow:hidden;
 			width: 1200px;
-			height:70vh;
+			height: 70vh;
 			.content__result{
 				position:absolute;
 				background-color: #FFB22C;
@@ -819,6 +819,431 @@ html, body{
 				bottom:0;
 				z-index:0;
 				padding: 1vw;
+				display: grid;
+				grid-template-columns: repeat(2, 1fr);
+				grid-template-rows: 50px 1fr;
+				grid-gap: 5px;
+				&-title{
+					font-size: .9em;
+					font-weight: bold;
+				}
+				& > div:first-child{
+					grid-column-start: 1;
+					grid-column-end: 3;
+					h4{
+						font-size: .9em;
+					}
+					p{
+						font: .8em/18px Verdana, Helvetics, sans-serif;
+					}
+				}
+				&_rules{
+					background-color:#fbd288;
+					padding: calc(1vw / 2);
+					font-size: .8rem;
+					overflow-y: scroll;
+					& h3:first-child{
+						text-align: center;
+						font-size: .9rem;
+						text-transform: uppercase; 
+						background-color: darken(#fbd288, 10%);
+					}
+					.block-cover{
+						padding-bottom: .5rem;
+						border-bottom: 1px solid darken(#D4BDAC, 20%); 
+						&__desc{
+							font-size: .8em;
+						}
+						&__widget{
+							max-width: 60%;
+							position: relative;
+							&::before{
+								content:'';
+								display: block;
+								position: absolute;
+								top:0;
+								left:0;
+								right:0;
+								bottom:0;
+								z-index:1000;
+							}
+							/*Timer*/
+							%widget-part{
+								padding: 5px;
+								border: 3px solid #7da6f3;
+								margin: 2%;
+								background-image: linear-gradient(to left bottom, #a3a3e5, #e1a9b2);
+							}
+							.widget-game-timer{
+								@extend %widget-part;
+								background-image: linear-gradient(#7c7c9d, #add9e3);
+								display: flex;
+								flex-direction: column;
+								align-items: center;
+								h2{
+									color: darken(#4e4e7e, 10%);
+									font-size: 1em;
+								}
+								.widget-game-timer__info{
+									display: flex;
+									justify-content: space-between;
+									width:100%;
+									box-sizing: border-box;
+									padding: 0 10% 0 10%;
+								}
+							}
+							/*Managing numbers*/
+							.widget-game-initial-numbers{
+								@extend %widget-part;
+								&__title{
+									color:#fff;
+									font-size: .6em;
+									margin-bottom:1%;
+									span:not(span:first-child){
+										margin-left:1%;
+									}
+									.widget-game-initial-numbers__radios{
+										display:flex;
+										justify-content:space-around;
+										margin-bottom:2%;
+										label{
+											color: #1c1313;
+											width:20%;
+											&:hover, &:active{
+												cursor: pointer;
+											}
+											input[type='radio']{
+												margin:2% 0 0 10%;
+												&:hover, &:active{
+													cursor: pointer;
+												}
+											}
+										}
+									}
+								}
+								&__range{
+									color:#fff;
+									font-size: .6em;
+									span{
+										display: block;
+									}
+									& > span:first-child{
+										display:block;
+									}
+									@include mixins.input-range-slider(".widget-game-initial-numbers__sliders");
+									.widget-game-initial-numbers__random{
+										margin-top: 5px;
+										border-top: 3px solid #d5d5d5;
+										& > span{
+											font-weight: bold;
+										}
+										& > div{
+											display: flex;
+											justify-content: space-between;
+											& > input[type='number']{
+												padding-left: 3px;
+												&:focus{
+													outline:none;
+												}
+											}
+											& > input[type='button']{
+												border-radius:3px;
+												padding: 2px 4px;
+												background-image: linear-gradient(180deg, var(--game-cube-bg-top), var(--game-cube-bg-bottom));
+												&:hover, &:active{
+													cursor:pointer;
+													background-image: linear-gradient(180deg, var(--game-cube-bg-bottom), var(--game-cube-bg-top));
+													box-shadow: 0px 0px 2px #000;
+												}
+											}
+										}
+									}
+								}
+								.widget-game-initial-numbers__signs{
+									background: linear-gradient(0deg, var(--user-inter-bg), #9e93d3);
+									max-height: 60px;
+									color: #fff;
+									display: grid;
+									margin-top: .4em;
+									grid-template-columns: repeat(5, 1fr);
+									grid-template-rows: repeat(2, 1fr);
+									& > p{
+										grid-column-start: 1;
+										grid-column-end: 6;
+										display: flex;
+										flex-direction: column;
+									}
+									& > p span:first-child{
+										align-self: center;
+										font-size: .6em;
+										font-weight: bold;
+										letter-spacing: .15em;
+										text-shadow: 0 0 3px #000;
+									}
+									& > p span:last-child{
+										font-size: .47em;
+										margin-left: .4em;
+									}
+									& > label{
+										&:hover, &:active{
+											cursor: pointer;
+										}
+										padding-left: 1.5em;
+										font-weight: bold;
+										font-size: .5em;
+										text-shadow: 0 0 3px #000;
+									}
+									& > label input{
+										margin-left: .5em;
+										&:hover, &:active{
+											cursor: pointer;
+										}
+									}
+								}
+							}
+							/*User CPU amount*/
+							.widget-game-current-amount{
+								@extend %widget-part;
+								display: flex;
+								color:#fff;
+								&__user-res, &__cpu-res{
+									font-size: .8em;
+									display: flex;
+									flex-direction: column;
+								}
+								&__user-res{
+									flex-basis: 60%;
+									span:first-child{
+										font-size:.8em;
+										padding-bottom:4px;
+									}
+									label{
+										width:60%;
+										padding-left:5%;
+										margin-left:5%;
+										background-color:#efefef;
+										position:relative;
+										&:before{
+											content: "Enter your result";
+											display:var(--userAmount, none);
+											position:absolute;
+											top:-25px;
+											left:0;
+											width:100%;
+											height:25px;
+											background-color:purple;
+											font-size:.7em;
+											text-align:center;
+										}
+										input{
+											height:20px;
+											display:block;
+											border:none;
+											outline:none;
+											background-color:#efefef;
+										}
+									}
+									.widget-game-current-amount__approve{
+										background-color:#fff;
+										align-self: flex-start;
+										flex-basis:30%;
+										font-size:.6em;
+										padding: 2px 4px;
+										margin: 1% 0 0 16%;
+										border: 1px solid #000;
+										transition: background-color 1s linear 0s;
+										&:hover, &:active{
+											background-color:#d385ed;
+											cursor:pointer;
+										}
+									}
+								}
+								&__vs{
+									align-self:center;
+									margin-left:-25px;
+									font-size: .8em;
+								}
+								&__cpu-res{
+									flex-basis: 40%;
+									margin-left:30px;
+									span:first-child{
+										font-size:.8em;
+										padding-bottom:4px;
+									}
+									label{
+										width:85%;
+										padding-left:10%;
+										background-color:#efefef;
+										input{
+											display:block;
+											height:20px;
+											border:none;
+											outline:none;
+										}
+									}
+								}
+								.highlight-user{
+									box-shadow: 0px 0px 6px #000;
+									border: 1px solid #000;
+								}
+								.highlight-cpu{
+									box-shadow: 0px 0px 6px #000;
+									border: 1px solid #000;
+								}
+							}
+							/*Statistics*/
+							.widget-game-statistics{
+								@extend %widget-part;
+								color:#fff;
+								&__title{
+									font-size: .8em;
+									display: flex;
+									justify-content: space-between;
+									& div:last-child{
+										margin-right:5%;
+										span{
+											font-size: .8em;
+											padding-right: 10px;
+										}
+										input{
+											text-align: center;
+										}
+									}
+								}
+								button#openStatistics{
+									border-radius:3px;
+									padding: 2px 4px;
+									background-image: linear-gradient(90deg, var(--game-cube-bg-top), var(--game-cube-bg-bottom));
+									&:focus{
+										outline:none;
+									}
+									&:hover, &:active{
+										cursor:pointer;
+										background-image: linear-gradient(270deg, var(--game-cube-bg-top), var(--game-cube-bg-bottom));
+										box-shadow: 0px 0px 2px #000;
+									}
+									&:disabled{
+										color: #747171;
+										cursor:not-allowed;
+										box-shadow: none;
+									}
+								}
+								&__block{
+									font-size: .6em;
+									& span:first-child{
+										padding-bottom: 3px;
+										display: inline-block;
+									}
+									.widget-game-statistics__table{
+										font-size: .9em;
+										.widget-game-statistics__table-header{
+											display: flex;
+											flex-direction: row;
+											justify-content: space-between;
+											background-color: darken(#939185, 10%);
+											text-align: center;
+											span:nth-child(1){
+												width: 10%;
+												border-left: 1px solid #fff;
+												border-right: 1px solid #fff;
+											}
+											span:nth-child(2){
+												width: 20%;
+												border-right: 1px solid #fff;
+											}
+											span:nth-child(3){
+												width: 28%;
+												border-right: 1px solid #fff;
+											}
+											span:nth-child(4){
+												width: 28%;
+												border-right: 1px solid #fff;
+											}
+											span:nth-child(5){
+												width: 14%;
+												border-right: 1px solid #fff;
+											}
+										}
+										.widget-game-statistics__row{
+											display: flex;
+											flex-direction: row;
+											justify-content: space-between;
+											border-bottom: 1px solid #fff;
+											background-color: #B7B597;
+											text-align: center;
+											.widget-game-statistics__level{
+												width: 10%;
+												border-left: 1px solid #fff;
+												border-right: 1px solid #fff;
+											}
+											.widget-game-statistics__level-time{
+												width: 20%;
+												border-right: 1px solid #fff;
+											}
+											.widget-game-statistics__user-res{
+												width: 28%;
+												border-right: 1px solid #fff;
+											}
+											.widget-game-statistics__cpu-res{
+												width: 28%;
+												border-right: 1px solid #fff;
+											}
+											.widget-game-statistics__is-success{
+												width: 14%;
+												border-right: 1px solid #fff;
+											}
+										}
+									}
+								}
+							}
+							/*Start or stop the game*/
+							.widget-game-on-off{
+								@extend %widget-part;
+								display: flex;
+								flex-direction: column;
+								&__title{
+									color:#fff;
+									font-size: .8em;
+								}
+								&__buttons{
+									display: flex;
+									justify-content: space-between;
+									margin-top: 2%;
+									#play{
+										@include mixins.game-button(var(--game-start), var(--game-start-end));
+									}
+									#stop{
+										@include mixins.game-button(var(--game-stop), var(--game-stop-end));
+									}
+									#retry{
+										@include mixins.game-button(var(--game-retry), var(--game-retry-end));
+									}
+									& button{
+										width: 30%;
+										font-size: .6em;
+									}
+								}
+							}
+						}
+					}
+				}
+				&_author{
+					background-color:#D4BDAC;
+					padding: calc(1vw / 2);
+					font-size: .8rem;
+					& h3:first-child{
+						text-align: center;
+						font-size: .9rem;
+						text-transform: uppercase;
+						background-color: darken(#D4BDAC, 10%);
+					}
+					dt{
+						font-weight: bold;
+					}
+					dd::first-line {
+						font-size: .9em;
+					}
+				}
 			}
 			.content__preloader{
 				position:absolute;
