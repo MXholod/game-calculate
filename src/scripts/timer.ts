@@ -48,7 +48,7 @@ const timeCounter:tC = ():string=>{
 			//The 'Result' button was not pressed - "Game over"
 			if(isResBtnClicked()){
 				//Displaying the 'Game over' panel
-				UserInteraction.showHideGamePanel(timer!, "Time is up! Game over.");
+				UserInteraction.showHideGamePanel(timer!, "Time is up! Game over.", false);
 				//Set values by default in User-Interaction
 				UserInteraction.resetGameDataByDefault();
 				//Delete all cells in main cube
