@@ -35,7 +35,7 @@ export interface IUserInteraction {
 	turnOnOffUserInteraction: (onOff:boolean)=>void;
 	checkLevelInitialNumbers: (leftN:string, rightN:string)=>boolean;
 	resetGameDataByDefault: ()=>boolean;
-	showHideGamePanel: (timer:HTMLDivElement, text:string)=>boolean;
+	showHideGamePanel: (timer:HTMLDivElement, text:string, isSuccess:boolean)=>boolean;
 	lastLevelCompletion: (timer:HTMLDivElement, text:string, lastLevel:number)=>boolean;
 }
 
