@@ -202,7 +202,7 @@ export const UserInteraction:IUserInteraction = {
 		return false;
 	},
 	//Display panel 'Game over' or 'Win the game'
-	showHideGamePanel: function(timer: HTMLDivElement, text: string):boolean{
+	showHideGamePanel: function(timer: HTMLDivElement, text: string, isSuccess:boolean):boolean{
 		//Find an element to display it 
 		const content:HTMLElement = timer?.parentNode?.parentNode as HTMLElement;
 		if(!content) return false;
@@ -218,13 +218,18 @@ export const UserInteraction:IUserInteraction = {
 			}
 		}
 		//Add CSS rule by found index before
-		let rule = `.wrapper .content::before { content: \"${text}\"; text-align: center; padding-top: 5%; display: var(--game-message,none); width: 40%; height: 20%; position: absolute; top: 0px; left: 30%; background-color: pink; border: 1px solid rgb(0, 0, 0); z-index: 2; }`;
+		let rule = '';
+		if(isSuccess){
+			rule = `.wrapper .content::before { content: \"${text}\"; text-align: center; padding-top: 5%; display: var(--game-message,none); width: 40%; height: 20%; position: absolute; top: 0px; left: 30%; background: radial-gradient(#f0e9ad, var(--game-cube-bg-top)); border: 3px solid rgb(0, 0, 0); z-index: 2; animation: gamecomplete-text 2.5s linear infinite alternate; }`;
+		}else{
+			rule = `.wrapper .content::before { content: \"${text}\"; text-align: center; padding-top: 5%; display: var(--game-message,none); width: 40%; height: 20%; position: absolute; top: 0px; left: 30%; background: radial-gradient(#f0e9ad, var(--game-cube-bg-top)); border: 3px solid rgb(0, 0, 0); z-index: 2; animation: gameover-text 2s linear infinite alternate; }`;
+		}
 		document.styleSheets[0].insertRule(rule, Number(index));
 			content.style.setProperty('--game-message', 'block');
 		setTimeout(()=>{
 			//Find an element to hide it
 			content.style.setProperty('--game-message', 'none');
-		},3000);
+		},7000);
 		return true;
 	},
 	//Completion of the last level
@@ -235,7 +240,7 @@ export const UserInteraction:IUserInteraction = {
 			//Marking all the checkboxes of the 'Selection signs'
 			setSignsSelection(true);
 			//Displaying an information panel with a text about the completion of the game  
-			this.showHideGamePanel(timer, text);
+			this.showHideGamePanel(timer, text, true);
 			//Subscribers for data levels
 			getLevelInfoInstance().subscribe(subscribesOnData);
 			getLevelInfoInstance().subscribe(subscribesOnDataResult);
