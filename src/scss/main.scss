@@ -50,6 +50,20 @@ html, body{
 		display: flex;
 		position: relative;
 		overflow: hidden;
+		@keyframes gameover-text{
+			0%{ color: #fa6d42; font-size: .8rem;}
+			25%{ color: #f36d49; font-size: 1rem;}
+			50%{ color: #ed5d4f; font-size: 1.2rem;}
+			75%{ color: #e7557b; font-size: 1.4rem;}
+			100%{ color: #d96386; font-size: 1.6rem;}
+		}
+		@keyframes gamecomplete-text{
+			0%{ color: #7ac281; font-size: .6rem;}
+			25%{ color: #5be1ac; font-size: .7rem;}
+			50%{ color: #0aa81f; font-size: .8rem;}
+			75%{ color: #19992f; font-size: .9rem;}
+			100%{ color: #288a36; font-size: 1rem;}
+		}
 		&::before{
 			content: "Game over";
 			text-align: center;
@@ -60,9 +74,11 @@ html, body{
 			position: absolute;
 			top: 0%;
 			left: 30%;
-			background-color: pink;
-			border: 1px solid #000;
+			background: radial-gradient(#f0e9ad, var(--game-cube-bg-top));
+			border: 3px solid darken(#A888B5, 40%);
 			z-index: 2;
+			font-weight: bold;
+			animation: gameover-text 2s linear 2s infinite alternate;
 		}
 		.content__game{
 			background-color: var(--game-bg);
