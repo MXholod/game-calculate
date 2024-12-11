@@ -478,6 +478,18 @@ html, body{
 			}
 		}
 	}
+	@media screen and (min-width: 640px) and (max-width: 800px){
+		.content{
+			max-width: 800px;
+			flex-direction: column;
+		}
+	}
+	@media screen and (min-width: 480px) and (max-width: 640px){
+		.content{
+			max-width: 640px;
+			flex-direction: column;
+		}
+	}
 	/* Page of the game guide and result */
 	.guide-result{
 		background: url("./../assets/images/result-guide-navigation.jpg") top left/cover no-repeat;
@@ -1311,6 +1323,38 @@ html, body{
 						animation: preloader 1s linear .7s infinite normal none;
 					}
 				}
+			}
+		}
+	}
+	@media screen and (min-width: 640px) and (max-width: 800px){
+		.guide-result .content__panels{
+			height: 70vh;
+			max-width: 800px;
+			.content__guide{
+				display: flex;
+				flex-direction: column;
+				& div:nth-child(2){
+					order: 1;
+				}
+			}
+			.content__result .block-results .block-results_sorting label {
+				flex-basis: 65px;
+			}
+		}
+	}
+	@media screen and (min-width: 480px) and (max-width: 640px){
+		.guide-result .content__panels{
+			height: 70vh;
+			max-width: 640px;
+			.content__guide{
+				display: flex;
+				flex-direction: column;
+				& div:nth-child(2){
+					order: 1;
+				}
+			}
+			.content__result .block-results .block-results_sorting label {
+				flex-basis: 65px;
 			}
 		}
 	}
