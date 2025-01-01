@@ -1,5 +1,5 @@
 /node_modules/
-/dist
+# /dist
 /src/index.html
 /src/fonts/*
 !/src/fonts/.gitkeep
